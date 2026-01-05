@@ -1,0 +1,24 @@
+from datetime import datetime
+from sqlalchemy import (
+    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
+    ForeignKey, Text
+)
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+# IMPORT BASE CHUNG (QUAN TRỌNG)
+from infrastructure.databases.base import Base
+
+class File(Base):
+    __tablename__ = 'files'
+    
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    uploader_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
+    file_name = Column(String(255), nullable=False)
+    file_path = Column(String(500), nullable=False)
+    file_size = Column(BigInteger)
+    mime_type = Column(String(100))
+    created_at = Column(DateTime, default=func.now())
+    
+    # Relationships
+    # Cập nhật trỏ về UserModel thay vì User
+    uploader = relationship("UserModel")
