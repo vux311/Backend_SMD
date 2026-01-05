@@ -8,7 +8,7 @@ from sqlalchemy.sql import func
 # IMPORT BASE CHUNG (QUAN TRỌNG)
 from infrastructure.databases.base import Base
 
-class UserModel(Base):
+class User(Base):
     __tablename__ = 'users'
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
@@ -27,6 +27,7 @@ class UserModel(Base):
     
     # Lưu ý: Cập nhật tên relationship nếu file_model dùng tên class là File
     avatar_file = relationship("File", foreign_keys=[avatar_file_id])
+    uploaded_files = relationship("File", back_populates="uploader", foreign_keys="[File.uploader_id]")
     
     roles = relationship("UserRole", back_populates="user")
     syllabuses = relationship("Syllabus", back_populates="lecturer")

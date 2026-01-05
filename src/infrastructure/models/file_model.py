@@ -20,5 +20,4 @@ class File(Base):
     created_at = Column(DateTime, default=func.now())
     
     # Relationships
-    # Cập nhật trỏ về UserModel thay vì User
-    uploader = relationship("UserModel")
+    uploader = relationship("User", back_populates="uploaded_files", foreign_keys=[uploader_id])
