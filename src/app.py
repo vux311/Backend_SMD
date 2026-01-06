@@ -14,6 +14,8 @@ from dependency_container import Container
 from api.controllers.subject_controller import subject_bp
 from api.controllers.faculty_controller import faculty_bp
 from api.controllers.department_controller import department_bp
+from api.controllers.role_controller import role_bp
+from api.controllers.user_controller import user_bp
 
 
 def create_app():
@@ -37,6 +39,8 @@ def create_app():
     app.register_blueprint(subject_bp)
     app.register_blueprint(faculty_bp)
     app.register_blueprint(department_bp)
+    app.register_blueprint(role_bp)
+    app.register_blueprint(user_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
