@@ -23,6 +23,8 @@ from infrastructure.repositories.syllabus_clo_repository import SyllabusCloRepos
 from services.syllabus_clo_service import SyllabusCloService
 from infrastructure.repositories.syllabus_material_repository import SyllabusMaterialRepository
 from services.syllabus_material_service import SyllabusMaterialService
+from infrastructure.repositories.teaching_plan_repository import TeachingPlanRepository
+from services.teaching_plan_service import TeachingPlanService
 
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
@@ -38,6 +40,7 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.syllabus_controller",
         "api.controllers.syllabus_clo_controller",
         "api.controllers.syllabus_material_controller",
+        "api.controllers.teaching_plan_controller",
     ])
 
     # Provide a session object (singleton)
@@ -119,6 +122,11 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    teaching_plan_repository = providers.Factory(
+        TeachingPlanRepository,
+        session=db_session
+    )
+
     academic_year_service = providers.Factory(
         AcademicYearService,
         repository=academic_year_repository
@@ -147,6 +155,12 @@ class Container(containers.DeclarativeContainer):
     syllabus_material_service = providers.Factory(
         SyllabusMaterialService,
         repository=syllabus_material_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    teaching_plan_service = providers.Factory(
+        TeachingPlanService,
+        repository=teaching_plan_repository,
         syllabus_repository=syllabus_repository
     )
 

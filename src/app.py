@@ -21,6 +21,7 @@ from api.controllers.program_controller import program_bp
 from api.controllers.syllabus_controller import syllabus_bp
 from api.controllers.syllabus_clo_controller import syllabus_clo_bp
 from api.controllers.syllabus_material_controller import syllabus_material_bp
+from api.controllers.teaching_plan_controller import teaching_plan_bp
 
 
 def create_app():
