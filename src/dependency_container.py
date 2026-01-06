@@ -54,6 +54,7 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.assessment_component_controller",
         "api.controllers.rubric_controller",
         "api.controllers.assessment_clo_controller",
+        "api.controllers.auth_controller",
     ])
 
     # Provide a session object (singleton)

@@ -18,6 +18,9 @@ def add_custom_headers(response):
     response.headers['X-Custom-Header'] = 'Value'
     return response
 
+from functools import wraps
+
+
 def middleware(app):
     @app.before_request
     def before_request():
@@ -34,3 +37,20 @@ def middleware(app):
     @app.route('/options', methods=['OPTIONS'])
     def options_route():
         return handle_options_request()
+
+
+# Simple token decorator for demo purposes
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        from flask import request
+        auth = request.headers.get('Authorization', '')
+        if not auth or not auth.startswith('Bearer '):
+            return jsonify({'message': 'Authorization token is missing'}), 401
+        token = auth.split(' ', 1)[1]
+        # Very simple token check for demo
+        if not token.startswith('fake-jwt-token'):
+            return jsonify({'message': 'Invalid token'}), 401
+        return f(*args, **kwargs)
+
+    return decorated

@@ -23,6 +23,7 @@ from api.controllers.assessment_scheme_controller import assessment_scheme_bp
 from api.controllers.assessment_component_controller import assessment_component_bp
 from api.controllers.rubric_controller import rubric_bp
 from api.controllers.assessment_clo_controller import assessment_clo_bp
+from api.controllers.auth_controller import auth_bp
 
 
 def create_app():
@@ -49,6 +50,7 @@ def create_app():
             "api.controllers.assessment_component_controller",
             "api.controllers.rubric_controller",
             "api.controllers.assessment_clo_controller",
+            "api.controllers.auth_controller",
         ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
@@ -70,6 +72,7 @@ def create_app():
     app.register_blueprint(assessment_component_bp)
     app.register_blueprint(rubric_bp)
     app.register_blueprint(assessment_clo_bp)
+    app.register_blueprint(auth_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
