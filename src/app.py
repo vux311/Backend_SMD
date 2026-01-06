@@ -24,6 +24,8 @@ from api.controllers.syllabus_material_controller import syllabus_material_bp
 from api.controllers.teaching_plan_controller import teaching_plan_bp
 from api.controllers.assessment_scheme_controller import assessment_scheme_bp
 from api.controllers.assessment_component_controller import assessment_component_bp
+from api.controllers.rubric_controller import rubric_bp
+from api.controllers.assessment_clo_controller import assessment_clo_bp
 
 
 def create_app():

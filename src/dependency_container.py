@@ -47,6 +47,8 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.teaching_plan_controller",
         "api.controllers.assessment_scheme_controller",
         "api.controllers.assessment_component_controller",
+        "api.controllers.rubric_controller",
+        "api.controllers.assessment_clo_controller",
     ])
 
     # Provide a session object (singleton)
@@ -143,6 +145,16 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    rubric_repository = providers.Factory(
+        RubricRepository,
+        session=db_session
+    )
+
+    assessment_clo_repository = providers.Factory(
+        AssessmentCloRepository,
+        session=db_session
+    )
+
     academic_year_service = providers.Factory(
         AcademicYearService,
         repository=academic_year_repository
@@ -190,6 +202,19 @@ class Container(containers.DeclarativeContainer):
         AssessmentComponentService,
         repository=assessment_component_repository,
         scheme_repository=assessment_scheme_repository
+    )
+
+    rubric_service = providers.Factory(
+        RubricService,
+        repository=rubric_repository,
+        component_repository=assessment_component_repository
+    )
+
+    assessment_clo_service = providers.Factory(
+        AssessmentCloService,
+        repository=assessment_clo_repository,
+        component_repository=assessment_component_repository,
+        syllabus_clo_repository=__import__('infrastructure.repositories.syllabus_clo_repository', fromlist=['SyllabusCloRepository']).SyllabusCloRepository
     )
 
     role_service = providers.Factory(
