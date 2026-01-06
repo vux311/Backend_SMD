@@ -9,10 +9,26 @@ from config import SwaggerConfig
 from flask_swagger_ui import get_swaggerui_blueprint
 from cors import CORS
 
+# Dependency injection
+from dependency_container import Container
+from api.controllers.subject_controller import subject_bp
+
 
 def create_app():
     app = Flask(__name__)
     Swagger(app)
+
+    # Initialize DI container and wire controllers
+    container = Container()
+    # Wire the container explicitly for controllers
+    try:
+        container.wire(modules=["api.controllers.subject_controller"])
+    except Exception:
+        # best-effort wiring; if it fails here the app can still start
+        pass
+
+    # Register Subject blueprint
+    app.register_blueprint(subject_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'

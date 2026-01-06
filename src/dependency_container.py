@@ -10,7 +10,7 @@ class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
 
     wiring_config = containers.WiringConfiguration(modules=[
-        "src.api.controllers.subject_controller",
+        "api.controllers.subject_controller",
     ])
 
     # Provide a session object (singleton)

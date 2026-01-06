@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from dependency_injector.wiring import inject, Provide
-from src.dependency_container import Container
+from dependency_container import Container
 from services.subject_service import SubjectService
 from api.schemas.subject_schema import SubjectSchema
 
