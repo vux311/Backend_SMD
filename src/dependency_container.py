@@ -17,6 +17,12 @@ from infrastructure.repositories.academic_year_repository import AcademicYearRep
 from services.academic_year_service import AcademicYearService
 from infrastructure.repositories.program_repository import ProgramRepository
 from services.program_service import ProgramService
+from infrastructure.repositories.syllabus_repository import SyllabusRepository
+from services.syllabus_service import SyllabusService
+from infrastructure.repositories.syllabus_clo_repository import SyllabusCloRepository
+from services.syllabus_clo_service import SyllabusCloService
+from infrastructure.repositories.syllabus_material_repository import SyllabusMaterialRepository
+from services.syllabus_material_service import SyllabusMaterialService
 
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
@@ -30,6 +36,8 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.academic_year_controller",
         "api.controllers.program_controller",
         "api.controllers.syllabus_controller",
+        "api.controllers.syllabus_clo_controller",
+        "api.controllers.syllabus_material_controller",
     ])
 
     # Provide a session object (singleton)
@@ -97,7 +105,17 @@ class Container(containers.DeclarativeContainer):
     )
 
     syllabus_repository = providers.Factory(
-        __import__('infrastructure.repositories.syllabus_repository', fromlist=['SyllabusRepository']).SyllabusRepository,
+        SyllabusRepository,
+        session=db_session
+    )
+
+    syllabus_clo_repository = providers.Factory(
+        SyllabusCloRepository,
+        session=db_session
+    )
+
+    syllabus_material_repository = providers.Factory(
+        SyllabusMaterialRepository,
         session=db_session
     )
 
@@ -112,12 +130,24 @@ class Container(containers.DeclarativeContainer):
     )
 
     syllabus_service = providers.Factory(
-        __import__('services.syllabus_service', fromlist=['SyllabusService']).SyllabusService,
+        SyllabusService,
         repository=syllabus_repository,
         subject_repository=subject_repository,
         program_repository=program_repository,
         academic_year_repository=academic_year_repository,
         user_repository=user_repository
+    )
+
+    syllabus_clo_service = providers.Factory(
+        SyllabusCloService,
+        repository=syllabus_clo_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    syllabus_material_service = providers.Factory(
+        SyllabusMaterialService,
+        repository=syllabus_material_repository,
+        syllabus_repository=syllabus_repository
     )
 
     role_service = providers.Factory(
