@@ -12,6 +12,8 @@ from cors import CORS
 # Dependency injection
 from dependency_container import Container
 from api.controllers.subject_controller import subject_bp
+from api.controllers.faculty_controller import faculty_bp
+from api.controllers.department_controller import department_bp
 
 
 def create_app():
@@ -22,13 +24,19 @@ def create_app():
     container = Container()
     # Wire the container explicitly for controllers
     try:
-        container.wire(modules=["api.controllers.subject_controller"])
+        container.wire(modules=[
+            "api.controllers.subject_controller",
+            "api.controllers.faculty_controller",
+            "api.controllers.department_controller",
+        ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
         pass
 
-    # Register Subject blueprint
+    # Register blueprints
     app.register_blueprint(subject_bp)
+    app.register_blueprint(faculty_bp)
+    app.register_blueprint(department_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
