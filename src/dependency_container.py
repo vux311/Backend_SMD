@@ -1,14 +1,29 @@
 # Dependency Injection Container
 
 from dependency_injector import containers, providers
+from infrastructure.databases.mssql import session
 
-# Import your services and repositories here
-# from infrastructure.repositories import SomeRepository
-# from infrastructure.services import SomeService
+from infrastructure.repositories.subject_repository import SubjectRepository
+from services.subject_service import SubjectService
 
 class Container(containers.DeclarativeContainer):
-    # Define your providers here
-    # some_repository = providers.Factory(SomeRepository)
-    # some_service = providers.Factory(SomeService, repository=some_repository)
+    """Dependency Injection Container for SMD services."""
 
-    pass  # This file is intentionally left blank for now.
+    wiring_config = containers.WiringConfiguration(modules=[
+        "src.api.controllers.subject_controller",
+    ])
+
+    # Provide a session object (singleton)
+    db_session = providers.Object(session)
+
+    # Repositories
+    subject_repository = providers.Factory(
+        SubjectRepository,
+        session=db_session
+    )
+
+    # Services
+    subject_service = providers.Factory(
+        SubjectService,
+        repository=subject_repository
+    )
