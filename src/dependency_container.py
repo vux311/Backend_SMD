@@ -25,6 +25,10 @@ from infrastructure.repositories.syllabus_material_repository import SyllabusMat
 from services.syllabus_material_service import SyllabusMaterialService
 from infrastructure.repositories.teaching_plan_repository import TeachingPlanRepository
 from services.teaching_plan_service import TeachingPlanService
+from infrastructure.repositories.assessment_scheme_repository import AssessmentSchemeRepository
+from services.assessment_scheme_service import AssessmentSchemeService
+from infrastructure.repositories.assessment_component_repository import AssessmentComponentRepository
+from services.assessment_component_service import AssessmentComponentService
 
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
@@ -41,6 +45,8 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.syllabus_clo_controller",
         "api.controllers.syllabus_material_controller",
         "api.controllers.teaching_plan_controller",
+        "api.controllers.assessment_scheme_controller",
+        "api.controllers.assessment_component_controller",
     ])
 
     # Provide a session object (singleton)
@@ -127,6 +133,16 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    assessment_scheme_repository = providers.Factory(
+        AssessmentSchemeRepository,
+        session=db_session
+    )
+
+    assessment_component_repository = providers.Factory(
+        AssessmentComponentRepository,
+        session=db_session
+    )
+
     academic_year_service = providers.Factory(
         AcademicYearService,
         repository=academic_year_repository
@@ -162,6 +178,18 @@ class Container(containers.DeclarativeContainer):
         TeachingPlanService,
         repository=teaching_plan_repository,
         syllabus_repository=syllabus_repository
+    )
+
+    assessment_scheme_service = providers.Factory(
+        AssessmentSchemeService,
+        repository=assessment_scheme_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    assessment_component_service = providers.Factory(
+        AssessmentComponentService,
+        repository=assessment_component_repository,
+        scheme_repository=assessment_scheme_repository
     )
 
     role_service = providers.Factory(

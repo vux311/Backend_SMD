@@ -22,6 +22,8 @@ from api.controllers.syllabus_controller import syllabus_bp
 from api.controllers.syllabus_clo_controller import syllabus_clo_bp
 from api.controllers.syllabus_material_controller import syllabus_material_bp
 from api.controllers.teaching_plan_controller import teaching_plan_bp
+from api.controllers.assessment_scheme_controller import assessment_scheme_bp
+from api.controllers.assessment_component_controller import assessment_component_bp
 
 
 def create_app():
@@ -40,6 +42,12 @@ def create_app():
             "api.controllers.user_controller",
             "api.controllers.academic_year_controller",
             "api.controllers.program_controller",
+            "api.controllers.syllabus_controller",
+            "api.controllers.syllabus_clo_controller",
+            "api.controllers.syllabus_material_controller",
+            "api.controllers.teaching_plan_controller",
+            "api.controllers.assessment_scheme_controller",
+            "api.controllers.assessment_component_controller",
         ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
@@ -56,6 +64,9 @@ def create_app():
     app.register_blueprint(syllabus_bp)
     app.register_blueprint(syllabus_clo_bp)
     app.register_blueprint(syllabus_material_bp)
+    app.register_blueprint(teaching_plan_bp)
+    app.register_blueprint(assessment_scheme_bp)
+    app.register_blueprint(assessment_component_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
