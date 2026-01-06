@@ -144,6 +144,1004 @@ src/swagger_config.json
 <files>
 This section contains the contents of the repository's files.
 
+<file path=".gitignore">
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# UV
+#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#uv.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+#poetry.toml
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
+#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
+#pdm.lock
+#pdm.toml
+.pdm-python
+.pdm-build/
+
+# pixi
+#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
+#pixi.lock
+#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
+#   in the .venv directory. It is recommended not to include this directory in version control.
+.pixi
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# Abstra
+# Abstra is an AI-powered process automation framework.
+# Ignore directories containing user credentials, local state, and settings.
+# Learn more at https://abstra.io/docs
+.abstra/
+
+# Visual Studio Code
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
+#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  you could uncomment the following to ignore the entire vscode folder
+# .vscode/
+
+# Ruff stuff:
+.ruff_cache/
+
+# PyPI configuration file
+.pypirc
+
+# Cursor
+#  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
+#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
+#  refer to https://docs.cursor.com/context/ignore-files
+.cursorignore
+.cursorindexingignore
+
+# Marimo
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+</file>
+
+<file path="docs/flask-clean-architecture.md">
+# Architecture
+
+```bash
+    ├── migrations
+    ├── scripts
+    │   └── run_postgres.sh
+    ├── src
+    │   ├── api
+    │   │   ├── controllers
+    │   │   │   └── ...  # controllers for the api
+    │   │   ├── schemas
+    │   │   │   └── ...  # Marshmallow schemas
+    │   │   ├── middleware.py
+    │   │   ├── responses.py
+    │   │   └── requests.py
+    │   ├── infrastructure
+    │   │   ├── services
+    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
+    │   │   ├── databases
+    │   │   │   └── ...  # Database adapaters and initialization
+    │   │   ├── repositories
+    │   │   │   └── ...  # Repositories for interacting with the databases
+    │   │   └── models
+    │   │   │   └── ...  # Database models
+    │   ├── domain
+    │   │   ├── constants.py
+    │   │   ├── exceptions.py
+    │   │   ├── models
+    │   │   │   └── ...  # Business logic models
+    │   ├── services
+    │   │    └── ...  # Services for interacting with the domain (business logic)
+    │   ├── app.py
+    │   ├── config.py
+    │   ├── cors.py
+    │   ├── create_app.py
+    │   ├── dependency_container.py
+    │   ├── error_handler.py
+    │   └── logging.py
+```
+
+## Domain Layer
+
+## Services Layer
+
+## Infrastructure Layer
+
+## ORM Đã được triển khai trong Flask python 
+Ánh xạ các class python --> Table CSDL
+</file>
+
+<file path="README.md">
+# Architecture
+
+```bash
+    ├── migrations
+    ├── scripts
+    │   └── run_postgres.sh
+    ├── src
+    │   ├── api
+    │   │   ├── controllers
+    │   │   │   └── ...  # controllers for the api
+    │   │   ├── schemas
+    │   │   │   └── ...  # Marshmallow schemas
+    │   │   ├── middleware.py
+    │   │   ├── responses.py
+    │   │   └── requests.py
+    │   ├── infrastructure
+    │   │   ├── services
+    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
+    │   │   ├── databases
+    │   │   │   └── ...  # Database adapaters and initialization
+    │   │   ├── repositories
+    │   │   │   └── ...  # Repositories for interacting with the databases
+    │   │   └── models
+    │   │   │   └── ...  # Database models
+    │   ├── domain
+    │   │   ├── constants.py
+    │   │   ├── exceptions.py
+    │   │   ├── models
+    │   │   │   └── ...  # Business logic models
+    │   ├── services
+    │   │    └── ...  # Services for interacting with the domain (business logic)
+    │   ├── app.py
+    │   ├── config.py
+    │   ├── cors.py
+    │   ├── create_app.py
+    │   ├── dependency_container.py
+    │   ├── error_handler.py
+    │   └── logging.py
+```
+
+## Domain Layer
+
+## Services Layer
+
+## Infrastructure Layer
+
+## Download source code (CMD)
+    git clone https://github.com/ChienNguyensrdn/Flask-CleanArchitecture.git
+## Kiểm tra đã cài python đã cài đặt trên máy chưa
+    python --version
+## Run app
+
+ - Bước 1: Tạo môi trường ảo co Python (phiên bản 3.x)
+     ## Windows:
+     		py -m venv .venv
+     ## Unix/MacOS:
+     		python3 -m venv .venv
+   - Bước 2: Kích hoạt môi trường:
+     ## Windows:
+     		.venv\Scripts\activate.ps1
+     ### Nếu xảy ra lỗi active .venv trên winos run powershell -->Administrator
+         Set-ExecutionPolicy RemoteSigned -Force
+     ## Unix/MacOS:
+     		source .venv/bin/activate
+     
+   - Bước 3: Cài đặt các thư viện cần thiết
+     ## Install:
+     		pip install -r requirements.txt
+   - Bước 4: Chạy mã xử lý dữ liệu
+     ## Run:
+    		python app.py
+
+
+     Truy câp http://localhost:6868/docs
+     Truy câp http://localhost:9999/docs
+
+
+
+## Create file .env in folder /src/.env
+    
+    # Flask settings
+    FLASK_ENV=development
+    SECRET_KEY=your_secret_key
+    
+    # SQL Server settings
+    DB_USER=sa
+    DB_PASSWORD=Aa@123456
+    DB_HOST=127.0.0.1
+    DB_PORT=1433
+    DB_NAME=FlaskApiDB
+    
+    
+    DATABASE_URI = "mssql+pymssql://sa:Aa%40123456@127.0.0.1:1433/FlaskApiDB"
+
+## pull image MS SQL server 
+    
+    ```bash
+    docker pull mcr.microsoft.com/mssql/server:2025-latest
+    ```
+## Install MS SQL server in docker 
+    ```bash
+    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa123456" -p 1433:1433 --name sql1 --hostname sql1 -d  mcr.microsoft.com/mssql/server:2025-latest
+    ```
+## Test connect SQL server 
+
+## ORM Flask (from sqlalchemy.orm )
+Object Relational Mapping
+
+Ánh xạ 1 class (OOP)  model src/infrastructure/models --> Table in database 
+Ánh xạ các mối quan hệ (Relational) -- Khoá ngoại CSDL 
+(n-n): many to many 
+
+@startuml
+' Diagram Title
+title Clean Architecture Sequence Diagram
+
+' Define participants in order of appearance
+actor Actor
+participant "Web App"
+participant "Controller"
+participant "Services"
+participant "Domain"
+participant "infrastructure"
+database "Database"
+
+' --- Message Flow ---
+
+' 1. Initial Request
+Actor -> "Web App": Request
+activate "Web App"
+
+' 2. Forwarding to Controller
+"Web App" -> "Controller"
+activate "Controller"
+
+' 3. Calling the Service Layer
+"Controller" -> "Services"
+activate "Services"
+
+' 4. Interacting with the Domain Layer
+"Services" -> "Domain"
+activate "Domain"
+note over Domain: Interfaces
+
+' 5. Interacting with Infrastructure
+"Domain" -> "infrastructure"
+activate "infrastructure"
+note over infrastructure: Class implement
+
+' 6. Database Query
+"infrastructure" -> "Database"
+activate "Database"
+
+' --- Response Flow (Return Messages) ---
+
+' 7. Database returns data
+"Database" --> "infrastructure"
+deactivate "Database"
+
+' 8. Infrastructure returns to Domain
+"infrastructure" --> "Domain"
+deactivate "infrastructure"
+
+' 9. Domain returns to Services
+"Domain" --> "Services"
+deactivate "Domain"
+
+' 10. Services returns to Controller
+"Services" --> "Controller"
+deactivate "Services"
+
+' 11. Controller returns to Web App
+"Controller" --> "Web App"
+deactivate "Controller"
+
+' 12. Final data rendering to Actor
+"Web App" --> Actor
+note left of "Web App"
+  Render data
+end note
+deactivate "Web App"
+
+@enduml
+=======
+</file>
+
+<file path="src/api/controllers/auth_controller.py">
+import jwt
+from flask import Blueprint, request, jsonify, current_app
+from datetime import datetime, timedelta
+from infrastructure.models.user_model import UserModel
+from infrastructure.databases.mssql import session
+from api.schemas.auth import RigisterUserRequestSchema,RigisterUserResponseSchema
+from services.auth_service import AuthService
+from infrastructure.repositories.auth_repository import AuthRepository
+
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+auth_service = AuthService(AuthRepository(session))
+register_request = RigisterUserRequestSchema()
+register_response = RigisterUserResponseSchema()
+@auth_bp.route('/check_router', methods=['GET'])
+def check_router():
+    """
+    Check router
+    ---
+    get:
+      summary: Check router health
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Router is working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    return jsonify({'message': 'Router is working!'}), 200
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    """
+    Login user
+    ---
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginUserResponse'
+        401:
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    """
+    data = request.get_json()
+    user = session.query(UserModel).filter_by(
+        user_name=data['user_name'],
+        password=data['password']
+    ).first()
+    if not user:
+        return jsonify({'error': 'Invalid credentials'}), 401
+
+    payload = {
+        'user_id': user.id,
+        'exp': datetime.utcnow() + timedelta(hours=2)
+    }
+    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+    return jsonify({'token': token})
+
+
+@auth_bp.route('/signup', methods=['POST'])
+def register():
+    """
+    Register a new user
+    ---
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RigisterUserRequest'
+      tags:
+        - Auth
+      responses:
+        201:
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RigisterUserResponse'
+        400:
+          description: Invalid input or user exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    data = request.get_json()
+    errors = register_request.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    # Lay thong tin tu nguoi dung truyen vao
+    
+    
+    if request.method == 'POST':
+        user_name = request.form['user_name']
+        password = request.form['password']
+        password_confirm = request.form['password_confirm']
+
+
+        if auth_service.check_exist(user_name):
+            return jsonify({'message': 'User already exists. Please login.'}), 400
+
+    #     hashed_password = generate_password_hash(password)
+    #     new_user = User(public_id=str(uuid.uuid4()), name=name, email=email, password=hashed_password)
+
+    #     db.session.add(new_user)
+    #     db.session.commit()
+
+    #     return redirect(url_for('login'))
+
+    # return render_template('register.html')
+</file>
+
+<file path="src/api/controllers/course_controller.py">
+from flask import Blueprint, request, jsonify
+from services.todo_service import TodoService
+from infrastructure.repositories.todo_repository import TodoRepository
+from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
+from datetime import datetime
+
+bp = Blueprint('course', __name__, url_prefix='/courses')
+
+# Khởi tạo service và repository (dùng memory, chưa kết nối DB thật)
+todo_service = TodoService(TodoRepository())
+
+request_schema = TodoRequestSchema()
+response_schema = TodoResponseSchema()
+
+@bp.route('/', methods=['GET'])
+def list_todos():
+    """
+    Get all todos
+    ---
+    get:
+      summary: Get all todos
+      tags:
+        - Todos
+      responses:
+        200:
+          description: List of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoResponse'
+    """
+    todos = todo_service.list_todos()
+    return jsonify(response_schema.dump(todos, many=True)), 200
+
+@bp.route('/<int:todo_id>', methods=['GET'])
+def get_todo(todo_id):
+    todo = todo_service.get_todo(todo_id)
+    if not todo:
+        return jsonify({'message': 'Todo not found'}), 404
+    return jsonify(response_schema.dump(todo)), 200
+
+@bp.route('/', methods=['POST'])
+def create_todo():
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    now = datetime.utcnow()
+    todo = todo_service.create_todo(
+        title=data['title'],
+        description=data['description'],
+        status=data['status'],
+        created_at=now,
+        updated_at=now
+    )
+    return jsonify(response_schema.dump(todo)), 201
+
+@bp.route('/<int:todo_id>', methods=['PUT'])
+def update_todo(todo_id):
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    todo = todo_service.update_todo(
+        todo_id=todo_id,
+        title=data['title'],
+        description=data['description'],
+        status=data['status'],
+        created_at=datetime.utcnow(),  # Có thể lấy từ DB nếu cần
+        updated_at=datetime.utcnow()
+    )
+    return jsonify(response_schema.dump(todo)), 200
+
+@bp.route('/<int:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    todo_service.delete_todo(todo_id)
+    return '', 204
+</file>
+
+<file path="src/api/controllers/todo_controller.py">
+from flask import Blueprint, request, jsonify
+from services.todo_service import TodoService
+from infrastructure.repositories.todo_repository import TodoRepository
+from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
+from datetime import datetime
+from infrastructure.databases.mssql import session
+bp = Blueprint('todo', __name__, url_prefix='/todos')
+
+todo_service = TodoService(TodoRepository(session))
+
+request_schema = TodoRequestSchema()
+response_schema = TodoResponseSchema()
+
+@bp.route('/', methods=['GET'])
+def list_todos():
+    """
+    Get all todos
+    ---
+    get:
+      summary: Get all todos
+      tags:
+        - Todos
+      responses:
+        200:
+          description: List of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoResponse'
+    """
+    todos = todo_service.list_todos()
+    return jsonify(response_schema.dump(todos, many=True)), 200
+
+@bp.route('/<int:todo_id>', methods=['GET'])
+def get_todo(todo_id):
+    """
+    Get todo by id
+    ---
+    get:
+      summary: Get todo by id
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của todo cần lấy
+      tags:
+        - Todos
+      responses:
+        200:
+          description: object of todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoResponse'
+        404:
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    todo = todo_service.get_todo(todo_id)
+    if not todo:
+        return jsonify({'message': 'Todo not found'}), 404
+    return jsonify(response_schema.dump(todo)), 200
+
+
+@bp.route('/', methods=['POST'])
+def create_todo():
+    """
+    Create a new todo
+    ---
+    post:
+      summary: Create a new todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      tags:
+        - Todos
+      responses:
+        201:
+          description: Todo created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoResponse'
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    """
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    now = datetime.utcnow()
+    todo = todo_service.create_todo(
+        title=data['title'],
+        description=data['description'],
+        status=data['status'],
+        created_at=now,
+        updated_at=now
+    )
+    return jsonify(response_schema.dump(todo)), 201  
+
+@bp.route('/<int:todo_id>', methods=['PUT'])
+def update_todo(todo_id):
+    """
+    Update a todo by id
+    ---
+    put:
+      summary: Update a todo by id
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của todo cần cập nhật
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      tags:
+        - Todos
+      responses:
+        200:
+          description: Todo updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoResponse'
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        404:
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    data = request.get_json()
+    errors = request_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    todo = todo_service.update_todo(
+        todo_id=todo_id,
+        title=data['title'],
+        description=data['description'],
+        status=data['status'],
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
+    )
+    return jsonify(response_schema.dump(todo)), 200
+
+@bp.route('/<int:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    """
+    Delete a todo by id
+    ---
+    delete:
+      summary: Delete a todo by id
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID của todo cần xóa
+      tags:
+        - Todos
+      responses:
+        204:
+          description: Todo deleted successfully
+        404:
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    """
+    todo_service.delete_todo(todo_id)
+    return '', 204
+</file>
+
+<file path="src/api/middleware.py">
+# Middleware functions for processing requests and responses
+
+from flask import  request, jsonify
+
+def log_request_info(app):
+    app.logger.debug('Headers: %s', request.headers)
+    app.logger.debug('Body: %s', request.get_data())
+
+def handle_options_request():
+    return jsonify({'message': 'CORS preflight response'}), 200
+
+def error_handling_middleware(error):
+    response = jsonify({'error': str(error)})
+    response.status_code = 500
+    return response
+
+def add_custom_headers(response):
+    response.headers['X-Custom-Header'] = 'Value'
+    return response
+
+def middleware(app):
+    @app.before_request
+    def before_request():
+        log_request_info(app)
+
+    @app.after_request
+    def after_request(response):
+        return add_custom_headers(response)
+
+    @app.errorhandler(Exception)
+    def handle_exception(error):
+        return error_handling_middleware(error)
+
+    @app.route('/options', methods=['OPTIONS'])
+    def options_route():
+        return handle_options_request()
+</file>
+
+<file path="src/api/requests.py">
+# requests.py
+
+from flask import request, jsonify
+
+def get_request_data():
+    """Extracts and returns JSON data from the request."""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    return data
+
+def validate_request_schema(schema):
+    """Validates the incoming request data against the provided schema."""
+    data = get_request_data()
+    errors = schema.validate(data)
+    if errors:
+        return jsonify({"errors": errors}), 400
+    return data
+
+def handle_get_request():
+    """Handles GET requests."""
+    # Logic for handling GET requests goes here
+    pass
+
+def handle_post_request():
+    """Handles POST requests."""
+    # Logic for handling POST requests goes here
+    pass
+
+def handle_put_request():
+    """Handles PUT requests."""
+    # Logic for handling PUT requests goes here
+    pass
+
+def handle_delete_request():
+    """Handles DELETE requests."""
+    # Logic for handling DELETE requests goes here
+    pass
+</file>
+
+<file path="src/api/responses.py">
+# src/api/responses.py
+
+from flask import jsonify
+
+def success_response(data, message="Success"):
+    return jsonify({"message": message, "data": data}), 200
+
+def error_response(message="An error occurred", status_code=400):
+    return jsonify({"message": message}), status_code
+
+def not_found_response(message="Resource not found"):
+    return jsonify({"message": message}), 404
+
+def validation_error_response(errors):
+    return jsonify({"message": "Validation errors", "errors": errors}), 422
+</file>
+
+<file path="src/api/routes.py">
+from src.api.controllers.todo_controller import bp as todo_bp
+
+def register_routes(app):
+    app.register_blueprint(todo_bp)
+</file>
+
+<file path="src/api/schemas/...  # Marshmallow schemas">
+# This file is intentionally left blank.
+</file>
+
 <file path="src/api/schemas/auth.py">
 from marshmallow import Schema, fields
 
@@ -166,6 +1164,302 @@ class LoginUserResponseSchema(Schema):
     token = fields.Str(required=True)
 </file>
 
+<file path="src/api/schemas/todo.py">
+from marshmallow import Schema, fields
+
+class TodoRequestSchema(Schema):
+    title = fields.Str(required=True)
+    description = fields.Str(required=True)
+    status = fields.Str(required=True)
+
+class TodoResponseSchema(Schema):
+    id = fields.Int(required=True)
+    title = fields.Str(required=True)
+    description = fields.Str(required=True)
+    status = fields.Str(required=True)
+    created_at = fields.Raw(required=True)
+    updated_at = fields.Raw(required=True)
+</file>
+
+<file path="src/api/schemas/user.py">
+
+</file>
+
+<file path="src/api/swagger.py">
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from apispec_webframeworks.flask import FlaskPlugin
+from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
+
+spec = APISpec(
+    title="Todo API",
+    version="1.0.0",
+    openapi_version="3.0.2",
+    plugins=[FlaskPlugin(), MarshmallowPlugin()],
+)
+
+# Đăng ký schema để tự động sinh model
+spec.components.schema("TodoRequest", schema=TodoRequestSchema)
+spec.components.schema("TodoResponse", schema=TodoResponseSchema)
+</file>
+
+<file path="src/app_logging.py">
+import logging
+
+def setup_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler("app.log"),
+            logging.StreamHandler()
+        ]
+    )
+
+setup_logging()
+</file>
+
+<file path="src/app.py">
+from flask import Flask, jsonify
+from api.swagger import spec
+from api.controllers.todo_controller import bp as todo_bp
+from api.middleware import middleware
+from api.responses import success_response
+from infrastructure.databases import init_db
+from config import Config
+from flasgger import Swagger
+from config import SwaggerConfig
+from flask_swagger_ui import get_swaggerui_blueprint
+from cors import CORS
+
+
+def create_app():
+    app = Flask(__name__)
+    Swagger(app)
+    # Đăng ký blueprint trước
+    app.register_blueprint(todo_bp)
+
+     # Thêm Swagger UI blueprint
+    SWAGGER_URL = '/docs'
+    API_URL = '/swagger.json'
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={'app_name': "Todo API"}
+    )
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+    try:
+        init_db(app)
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+
+    # Register middleware
+    middleware(app)
+
+    # Register routes
+    with app.test_request_context():
+        for rule in app.url_map.iter_rules():
+            # Thêm các endpoint khác nếu cần
+            if rule.endpoint.startswith(('todo.', 'course.', 'user.')):
+                view_func = app.view_functions[rule.endpoint]
+                print(f"Adding path: {rule.rule} -> {view_func}")
+                spec.path(view=view_func)
+
+    @app.route("/swagger.json")
+    def swagger_json():
+        return jsonify(spec.to_dict())
+
+    return app
+# Run the application
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(host='0.0.0.0', port=9999, debug=True)
+</file>
+
+<file path="src/config.py">
+# Configuration settings for the Flask application
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+class Config:
+    """Base configuration."""
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a_default_secret_key'
+    DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
+    TESTING = os.environ.get('TESTING', 'False').lower() in ['true', '1']
+    
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+    CORS_HEADERS = 'Content-Type'
+
+class DevelopmentConfig(Config):
+    """Development configuration."""
+    DEBUG = True
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+
+
+class TestingConfig(Config):
+    """Testing configuration."""
+    TESTING = True
+    DATABASE_URI = os.environ.get('DATABASE_URI')
+
+
+class ProductionConfig(Config):
+    """Production configuration."""
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+
+    
+template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "Todo API",
+        "description": "API for managing todos",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ]
+}
+class SwaggerConfig:
+    """Swagger configuration."""
+    template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Todo API",
+            "description": "API for managing todos",
+            "version": "1.0.0"
+        },
+        "basePath": "/",
+        "schemes": [
+            "http",
+            "https"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ]
+    }
+
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec',
+                "route": '/apispec.json',
+                "rule_filter": lambda rule: True,
+                "model_filter": lambda tag: True,
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/docs"
+    }
+</file>
+
+<file path="src/cors.py">
+from flask_cors import CORS
+
+def init_cors(app):
+    CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for CORS
+    return app
+</file>
+
+<file path="src/create_app.py">
+from flask import Flask
+from .config import Config
+from .api.middleware import setup_middleware
+from .api.routes import register_routes
+from .infrastructure.databases import init_db
+from .app_logging import setup_logging
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    setup_logging(app)
+    init_db(app)
+    setup_middleware(app)
+    register_routes(app)
+
+    return app
+</file>
+
+<file path="src/dependency_container.py">
+# Dependency Injection Container
+
+from dependency_injector import containers, providers
+
+# Import your services and repositories here
+# from infrastructure.repositories import SomeRepository
+# from infrastructure.services import SomeService
+
+class Container(containers.DeclarativeContainer):
+    # Define your providers here
+    # some_repository = providers.Factory(SomeRepository)
+    # some_service = providers.Factory(SomeService, repository=some_repository)
+
+    pass  # This file is intentionally left blank for now.
+</file>
+
+<file path="src/domain/constants.py">
+# Constants
+
+# Define any constants used throughout the application here. 
+# For example, you might define API version, error messages, or configuration keys.
+
+API_VERSION = "v1"
+DEFAULT_PAGE_SIZE = 20
+MAX_PAGE_SIZE = 100
+
+# Add more constants as needed for your application.
+</file>
+
+<file path="src/domain/exceptions.py">
+class CustomException(Exception):
+    """Base class for all custom exceptions in the application."""
+    pass
+
+class NotFoundException(CustomException):
+    """Exception raised when a resource is not found."""
+    def __init__(self, message="Resource not found"):
+        self.message = message
+        super().__init__(self.message)
+
+class ValidationException(CustomException):
+    """Exception raised for validation errors."""
+    def __init__(self, message="Validation error"):
+        self.message = message
+        super().__init__(self.message)
+
+class UnauthorizedException(CustomException):
+    """Exception raised for unauthorized access."""
+    def __init__(self, message="Unauthorized access"):
+        self.message = message
+        super().__init__(self.message)
+
+class ConflictException(CustomException):
+    """Exception raised for conflicts in the application."""
+    def __init__(self, message="Conflict occurred"):
+        self.message = message
+        super().__init__(self.message)
+</file>
+
+<file path="src/domain/models/...  # Business logic models">
+# This file is intentionally left blank.
+</file>
+
 <file path="src/domain/models/auth.py">
 from datetime import date
 
@@ -175,6 +1469,22 @@ class Auth:
         self.user_name = user_name
         self.password = password
         self.password_comfirm = password_comfirm
+</file>
+
+<file path="src/domain/models/course.py">
+from datetime import date
+
+
+class Course:
+    def __init__(self, id: int, course_name: str, description: str, status: str,start_date :date ,end_date:date,created_at, updated_at):
+        self.id = id
+        self.course_name = course_name
+        self.description = description
+        self.status = status
+        self.start_date = start_date
+        self.end_date = end_date
+        self.created_at = created_at
+        self.updated_at = updated_at
 </file>
 
 <file path="src/domain/models/iauth_repository.py">
@@ -204,6 +1514,217 @@ class IAuthRepository(ABC):
     @abstractmethod
     def check_exist(self, user_name: str) -> bool:
         pass
+</file>
+
+<file path="src/domain/models/icourse_repository.py">
+from abc import ABC, abstractmethod
+from typing import List, Optional
+from .course import Course
+class ICourseRepository(ABC):
+    @abstractmethod
+    def add(self, course: Course) -> Course:
+        pass
+
+    @abstractmethod
+    def get_by_id(self, course_id: int) -> Optional[Course]:
+        pass
+
+    @abstractmethod
+    def list(self) -> List[Course]:
+        pass
+
+    @abstractmethod
+    def update(self, course: Course) -> Course:
+        pass
+
+    @abstractmethod
+    def delete(self, course_id: int) -> None:
+        pass
+</file>
+
+<file path="src/domain/models/itodo_repository.py">
+from abc import ABC, abstractmethod
+from .todo import Todo
+from typing import List, Optional
+
+class ITodoRepository(ABC):
+    @abstractmethod
+    def add(self, todo: Todo) -> Todo:
+        pass
+
+    @abstractmethod
+    def get_by_id(self, todo_id: int) -> Optional[Todo]:
+        pass
+
+    @abstractmethod
+    def list(self) -> List[Todo]:
+        pass
+
+    @abstractmethod
+    def update(self, todo: Todo) -> Todo:
+        pass
+
+    @abstractmethod
+    def delete(self, todo_id: int) -> None:
+        pass
+</file>
+
+<file path="src/domain/models/todo.py">
+class Todo:
+    def __init__(self, id: int, title: str, description: str, status: str, created_at, updated_at):
+        self.id = id
+        self.title = title
+        self.description = description
+        self.status = status
+        self.created_at = created_at
+        self.updated_at = updated_at
+</file>
+
+<file path="src/domain/models/user.py">
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from infrastructure.databases.base import Base
+
+class User:
+    
+    def __innit__(self, user_name: str, password: str, description: str = None, status: bool = True):
+        self.user_name = user_name
+        self.password = password
+        self.description = description
+        self.status = status
+        self.created_at = None
+        self.updated_at = None
+</file>
+
+<file path="src/error_handler.py">
+# Error handling logic for the Flask application
+
+from flask import jsonify
+
+class CustomError(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None):
+        super().__init__(message)
+        if status_code is not None:
+            self.status_code = status_code
+        self.message = message
+
+    def to_dict(self):
+        return {'message': self.message}
+
+def handle_error(error):
+    if isinstance(error, CustomError):
+        response = jsonify(error.to_dict())
+        response.status_code = error.status_code
+        return response
+
+    response = jsonify({'message': 'An unexpected error occurred.'})
+    response.status_code = 500
+    return response
+
+def register_error_handlers(app):
+    app.register_error_handler(Exception, handle_error)
+</file>
+
+<file path="src/infrastructure/databases/__init__.py">
+from infrastructure.databases.mssql import init_mssql
+from infrastructure.models import (
+    course_register_model, 
+    todo_model, 
+    user_model, 
+    course_model, 
+    consultant_model, 
+    appointment_model, 
+    program_model, 
+    feedback_model,
+    survey_model,
+    academic_year_model,
+    ai_auditlog_model,
+    appointment_model,
+    assessment_clo_model,
+    assessment_component_model,
+    assessment_scheme_model,
+    clo_plo_mapping_model,
+    consultant_model,
+    course_model,
+    course_register_model,
+    department_model,
+    faculty_model,
+    feedback_model,
+    file_model,
+    notification_model,
+    notification_template_model,
+    program_model,
+    program_outcome_model,
+    role_model,
+    rubric_model,
+    student_report_model,
+    student_subscription_model,
+    subject_model,
+    subject_relationship_model,
+    survey_model,
+    syllabus_clo_model,
+    syllabus_comment_model,
+    syllabus_current_workflow,
+    syllabus_material_model,
+    syllabus_model,
+    system_auditlog_model,
+    system_setting_model,
+    teaching_plan_model,
+    todo_model,
+    user_model,
+    user_role_model,
+    workflow_log_model,
+    workflow_state_model,
+    workflow_transition_model
+    
+
+)
+from infrastructure.models.auth import auth_user_model, auth_role_model,auth_funtion_model
+from infrastructure.models.sell import sell_customer_model, sell_product_model, sell_invoice_model
+from infrastructure.models.pay import pay_tran_model
+
+def init_db(app):
+    init_mssql(app)
+    
+# Migration Entities -> tables
+from infrastructure.databases.mssql import Base
+</file>
+
+<file path="src/infrastructure/databases/base.py">
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+
+# ORM: object relational mapping base class
+# OOP : object oriented programming
+
+# ERD --> class relational
+# Lập trinhf hướng đối tượng (logic) mapping class -> table (database)
+</file>
+
+<file path="src/infrastructure/databases/mssql.py">
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from config import Config
+from infrastructure.databases.base import Base
+
+# Database configuration
+DATABASE_URI = Config.DATABASE_URI
+engine = create_engine(DATABASE_URI)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session = SessionLocal()
+def init_mssql(app):
+    Base.metadata.create_all(bind=engine)
+</file>
+
+<file path="src/infrastructure/databases/mysql.py">
+
+</file>
+
+<file path="src/infrastructure/models/__init__.py">
+
 </file>
 
 <file path="src/infrastructure/models/academic_year_model.py">
@@ -252,6 +1773,30 @@ class AiAuditLog(Base):
     
     # Relationships
     syllabus = relationship("Syllabus", back_populates="ai_audit_logs")
+</file>
+
+<file path="src/infrastructure/models/appointment_model.py">
+# Thêm BigInteger vào dòng import
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
+from infrastructure.databases.base import Base
+
+class AppointmentModel(Base):
+    __tablename__ = 'appointments'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+    consultant_id = Column(Integer, ForeignKey('consultants.id'))
+    
+    # SỬA: Dùng BigInteger
+    user_id = Column(BigInteger,  ForeignKey('users.id'))
+    
+    description = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False)
+    start_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, nullable=False)
+    url_online = Column(String(255), nullable=True)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 </file>
 
 <file path="src/infrastructure/models/assessment_clo_model.py">
@@ -325,6 +1870,67 @@ class AssessmentScheme(Base):
     components = relationship("AssessmentComponent", back_populates="scheme", cascade="all, delete-orphan")
 </file>
 
+<file path="src/infrastructure/models/auth/auth_funtion_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from infrastructure.databases.base import Base
+class AuthFuntionModel(Base):
+    __tablename__ = 'auth_functions'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), unique=True, nullable=False)
+    url = Column(String(255), unique=True, nullable=False)
+    description = Column(String(255))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    
+    
+class AuthRoleFunctionModel(Base):
+    __tablename__ = 'auth_role_functions'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
+    function_id = Column(Integer, ForeignKey('auth_functions.id'), nullable=False)
+
+    def __repr__(self):
+        return f"<AuthRoleFunctionModel(role_id='{self.role_id}', function_id='{self.function_id}')>"
+</file>
+
+<file path="src/infrastructure/models/auth/auth_role_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from infrastructure.databases.base import Base
+class AuthRoleModel(Base):
+    __tablename__ = 'auth_roles'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), unique=True, nullable=False)
+    description = Column(String(255))
+    
+class AuthUserRoleModel(Base):
+    __tablename__ = 'auth_user_roles'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('auth_users.id'), nullable=False)
+    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
+
+    def __repr__(self):
+        return f"<AuthUserRoleModel(user_id='{self.user_id}', role_id='{self.role_id}')>"
+</file>
+
+<file path="src/infrastructure/models/auth/auth_user_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from infrastructure.databases.base import Base
+class AuthUserModel(Base):
+    __tablename__ = 'auth_users'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), unique=True, nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    password_hash = Column(String(128), nullable=False)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime) 
+
+    def __repr__(self):
+        return f"<AuthUserModel(username='{self.username}', email='{self.email}')>"
+</file>
+
 <file path="src/infrastructure/models/clo_plo_mapping_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -351,6 +1957,61 @@ class CloPloMapping(Base):
     # Relationships
     syllabus_clo = relationship("SyllabusClo", back_populates="plo_mappings")
     program_plo = relationship("ProgramOutcome", back_populates="clo_mappings")
+</file>
+
+<file path="src/infrastructure/models/consultant_model.py">
+from sqlalchemy import Column, Integer, String, DateTime
+from infrastructure.databases.base import Base
+
+class ConsultantModel(Base):
+    __tablename__ = 'consultants'
+    __table_args__ = {'extend_existing': True}  # Thêm dòng này
+
+    id = Column(Integer, primary_key=True)
+    consultant_name = Column(String(255), nullable=False)
+    description = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False)
+    gender = Column(String(10), nullable=False)
+    age = Column (Integer, nullable=False)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+</file>
+
+<file path="src/infrastructure/models/course_model.py">
+from sqlalchemy import Column, Integer, String, DateTime
+# QUAN TRỌNG: Import Base từ file cấu hình chung, KHÔNG dùng declarative_base()
+from infrastructure.databases.base import Base
+
+class CourseModel(Base):
+    __tablename__ = 'courses'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+    course_name = Column(String(255), nullable=False)
+    description = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False)
+    start_date = Column(DateTime, nullable=False)
+    end_date = Column(DateTime, nullable=False)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+</file>
+
+<file path="src/infrastructure/models/course_register_model.py">
+# Thêm BigInteger vào dòng import
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
+from infrastructure.databases.base import Base
+
+class CourseRegisterModel(Base):
+    __tablename__ = 'course_register'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+    
+    # SỬA: Dùng BigInteger để khớp với users.id
+    user_id = Column(BigInteger, ForeignKey('users.id')) 
+    
+    # Giữ nguyên Integer cho course_id vì bảng courses dùng Integer (trừ khi bạn đã sửa bảng courses thành BigInteger)
+    course_id = Column(Integer, ForeignKey('courses.id'))
 </file>
 
 <file path="src/infrastructure/models/department_model.py">
@@ -403,31 +2064,25 @@ class Faculty(Base):
     departments = relationship("Department", back_populates="faculty")
 </file>
 
-<file path="src/infrastructure/models/file_model.py">
-from datetime import datetime
-from sqlalchemy import (
-    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text
-)
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-# IMPORT BASE CHUNG (QUAN TRỌNG)
+<file path="src/infrastructure/models/feedback_model.py">
+# Thêm BigInteger vào dòng import
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, BigInteger
 from infrastructure.databases.base import Base
 
-class File(Base):
-    __tablename__ = 'files'
+class FeedbackModel(Base):
+    __tablename__ = 'feedbacks'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+
+    feedback_text = Column(String(255))
+    evaluation = Column(Float)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime) 
+    course_id = Column(Integer, ForeignKey('courses.id'))
     
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    uploader_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
-    file_name = Column(String(255), nullable=False)
-    file_path = Column(String(500), nullable=False)
-    file_size = Column(BigInteger)
-    mime_type = Column(String(100))
-    created_at = Column(DateTime, default=func.now())
-    
-    # Relationships
-    # Cập nhật trỏ về UserModel thay vì User
-    uploader = relationship("UserModel")
+    # SỬA: Dùng BigInteger
+    user_id = Column(BigInteger, ForeignKey('users.id'))
 </file>
 
 <file path="src/infrastructure/models/notification_model.py">
@@ -475,6 +2130,80 @@ class NotificationTemplate(Base):
     title_template = Column(String(255), nullable=False)
     body_template = Column(Text, nullable=False)
     channel = Column(String(20), default='SYSTEM')  # EMAIL, SMS, SYSTEM
+</file>
+
+<file path="src/infrastructure/models/pay/pay_tran_model.py">
+# Pay Transaction Model
+# Chứa các thông tin về giao dịch thanh toán của hoá đơn(invoice)
+from datetime import datetime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
+from infrastructure.databases.base import Base
+from sqlalchemy.orm import relationship
+class PayTranModel(Base):
+    __tablename__ = 'pay_trans'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'), nullable=False)
+    amount = Column(Float, nullable=False)
+    payment_method = Column(String(50), nullable=False)
+    transaction_date = Column(DateTime, default=datetime.utcnow)
+
+    # invoice = relationship("InvoiceModel", back_populates="payments")
+
+    def __init__(self, invoice_id, amount, payment_method):
+        self.invoice_id = invoice_id
+        self.amount = amount
+        self.payment_method = payment_method
+</file>
+
+<file path="src/infrastructure/models/program_model.py">
+from datetime import datetime
+from sqlalchemy import (
+    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
+    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from infrastructure.databases.base import Base
+
+class Program(Base):
+    __tablename__ = 'programs'
+    
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
+    name = Column(String(255), nullable=False)
+    total_credits = Column(Integer)
+    
+    # Relationships
+    department = relationship("Department", back_populates="programs")
+    outcomes = relationship("ProgramOutcome", back_populates="program")
+    syllabuses = relationship("Syllabus", back_populates="program")
+
+
+
+
+
+# from sqlalchemy import Column, Integer, String, DateTime
+# from infrastructure.databases.base import Base
+
+# class ProgramModel(Base):
+#     __tablename__ = 'programs'
+#     __table_args__ = {'extend_existing': True}  # Thêm dòng này
+
+#     id = Column(Integer, primary_key=True)
+
+#     title = Column(String(255), nullable=False)
+#     description = Column(String(255), nullable=True)
+#     status = Column(String(50), nullable=False)
+#     created_at = Column(DateTime)
+#     updated_at = Column(DateTime) 
+    
+    
+    # create table programs(
+    #     id Int primary key,
+    #     title nvarchar(255) not null,....
+    # )
 </file>
 
 <file path="src/infrastructure/models/program_outcome_model.py">
@@ -547,6 +2276,71 @@ class Rubric(Base):
     
     # Relationships
     component = relationship("AssessmentComponent", back_populates="rubrics")
+</file>
+
+<file path="src/infrastructure/models/sell/sell_customer_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
+from infrastructure.databases.base import Base
+class SellCustomerModel(Base):
+    __tablename__ = 'sell_customers'
+
+    id = Column(Integer, primary_key=True)
+    customer_name = Column(String(100))
+    email = Column(String(100), unique=True)
+    phone = Column(String(20))
+    address = Column(String(255))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+</file>
+
+<file path="src/infrastructure/models/sell/sell_invoice_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
+from infrastructure.databases.base import Base
+class SellInvoiceModel(Base):
+    __tablename__ = 'sell_invoices'
+
+    id = Column(Integer, primary_key=True)
+    customer_id = Column(Integer, ForeignKey('sell_customers.id'))
+    invoice_date = Column(DateTime)
+    total_amount = Column(Float)
+    status = Column(String(50))
+    invoice_code = Column(String(12), unique=True)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    blank_amount = Column(Float)
+    paid_amount = Column(Float)
+    # customer = relationship("CustomerModel", back_populates="invoices")
+    # items = relationship("SellInvoiceItemModel", back_populates="invoice")
+    # payments = relationship("PayTranModel", back_populates="invoice")
+    
+class SellInvoiceItemModel(Base):
+    __tablename__ = 'sell_invoice_items'
+
+    id = Column(Integer, primary_key=True)
+    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'))
+    product_id = Column(Integer, ForeignKey('sell_products.id'))
+    quantity = Column(Integer)
+    unit_price = Column(Float)
+    total_price = Column(Float)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    # invoice = relationship("SellInvoiceModel", back_populates="items")
+</file>
+
+<file path="src/infrastructure/models/sell/sell_product_model.py">
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
+from infrastructure.databases.base import Base
+class SellProductModel(Base):
+    __tablename__ = 'sell_products'
+    
+    # Sell Product Model
+    # Chứa các thông tin về sản phẩm bán ra trong hoá đơn(invoice)
+    id = Column(Integer, primary_key=True)
+    product_name = Column(String(100))
+    description = Column(String(255))
+    product_code = Column(String(100), unique=True)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 </file>
 
 <file path="src/infrastructure/models/student_report_model.py">
@@ -657,6 +2451,21 @@ class SubjectRelationship(Base):
     # Relationships
     subject = relationship("Subject", foreign_keys=[subject_id], back_populates="subject_relationships")
     related_subject = relationship("Subject", foreign_keys=[related_subject_id], back_populates="related_subjects")
+</file>
+
+<file path="src/infrastructure/models/survey_model.py">
+from sqlalchemy import Column, Integer, String, DateTime
+from infrastructure.databases.base import Base
+
+class SurveyModel(Base):
+    __tablename__ = 'surveys'
+    __table_args__ = {'extend_existing': True}  # Thêm dòng này
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
+    description = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 </file>
 
 <file path="src/infrastructure/models/syllabus_clo_model.py">
@@ -885,6 +2694,22 @@ class TeachingPlan(Base):
     syllabus = relationship("Syllabus", back_populates="teaching_plans")
 </file>
 
+<file path="src/infrastructure/models/todo_model.py">
+from sqlalchemy import Column, Integer, String, DateTime
+from infrastructure.databases.base import Base
+
+class TodoModel(Base):
+    __tablename__ = 'todos'
+    __table_args__ = {'extend_existing': True}  # Thêm dòng này
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
+    description = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+</file>
+
 <file path="src/infrastructure/models/user_role_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -1040,972 +2865,6 @@ class AuthRepository(IAuthRepository):
         return True
 </file>
 
-<file path="src/services/auth_service.py">
-from typing import List, Optional
-from domain.models.auth import Auth
-from domain.models.iauth_repository import IAuthRepository
-class AuthService:
-    def __init__(self, repository: IAuthRepository):
-        self.repository = repository
-        
-    def register(self, user_name: str, password: str) -> Optional[Auth]:
-        # Check if user already exists
-        if self.repository.check_exist(user_name):
-            return None  # User already exists
-        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
-        return self.repository.register(auth)
-    def login(self, user_name: str, password: str) -> Optional[Auth]:
-        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
-        return self.repository.login(auth)
-    def remember_password(self) -> Optional[Auth]:
-        return self.repository.remember_password()
-    def look_account(self, Id: int) -> bool:
-        return self.repository.look_account(Id)
-    def un_look_account(self, course_id: int) -> None:
-        self.repository.un_look_account(course_id)
-    def check_exist(self, user_name: str) -> bool:
-        return self.repository.check_exist(user_name)
-</file>
-
-<file path=".gitignore">
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[codz]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py.cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
-
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
-#poetry.toml
-
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
-#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
-#pdm.lock
-#pdm.toml
-.pdm-python
-.pdm-build/
-
-# pixi
-#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
-#pixi.lock
-#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
-#   in the .venv directory. It is recommended not to include this directory in version control.
-.pixi
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
-
-# Abstra
-# Abstra is an AI-powered process automation framework.
-# Ignore directories containing user credentials, local state, and settings.
-# Learn more at https://abstra.io/docs
-.abstra/
-
-# Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
-#  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#  you could uncomment the following to ignore the entire vscode folder
-# .vscode/
-
-# Ruff stuff:
-.ruff_cache/
-
-# PyPI configuration file
-.pypirc
-
-# Cursor
-#  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
-#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
-.cursorignore
-.cursorindexingignore
-
-# Marimo
-marimo/_static/
-marimo/_lsp/
-__marimo__/
-</file>
-
-<file path="src/api/controllers/course_controller.py">
-from flask import Blueprint, request, jsonify
-from services.todo_service import TodoService
-from infrastructure.repositories.todo_repository import TodoRepository
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-from datetime import datetime
-
-bp = Blueprint('course', __name__, url_prefix='/courses')
-
-# Khởi tạo service và repository (dùng memory, chưa kết nối DB thật)
-todo_service = TodoService(TodoRepository())
-
-request_schema = TodoRequestSchema()
-response_schema = TodoResponseSchema()
-
-@bp.route('/', methods=['GET'])
-def list_todos():
-    """
-    Get all todos
-    ---
-    get:
-      summary: Get all todos
-      tags:
-        - Todos
-      responses:
-        200:
-          description: List of todos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TodoResponse'
-    """
-    todos = todo_service.list_todos()
-    return jsonify(response_schema.dump(todos, many=True)), 200
-
-@bp.route('/<int:todo_id>', methods=['GET'])
-def get_todo(todo_id):
-    todo = todo_service.get_todo(todo_id)
-    if not todo:
-        return jsonify({'message': 'Todo not found'}), 404
-    return jsonify(response_schema.dump(todo)), 200
-
-@bp.route('/', methods=['POST'])
-def create_todo():
-    data = request.get_json()
-    errors = request_schema.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    now = datetime.utcnow()
-    todo = todo_service.create_todo(
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=now,
-        updated_at=now
-    )
-    return jsonify(response_schema.dump(todo)), 201
-
-@bp.route('/<int:todo_id>', methods=['PUT'])
-def update_todo(todo_id):
-    data = request.get_json()
-    errors = request_schema.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    todo = todo_service.update_todo(
-        todo_id=todo_id,
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=datetime.utcnow(),  # Có thể lấy từ DB nếu cần
-        updated_at=datetime.utcnow()
-    )
-    return jsonify(response_schema.dump(todo)), 200
-
-@bp.route('/<int:todo_id>', methods=['DELETE'])
-def delete_todo(todo_id):
-    todo_service.delete_todo(todo_id)
-    return '', 204
-</file>
-
-<file path="src/api/requests.py">
-# requests.py
-
-from flask import request, jsonify
-
-def get_request_data():
-    """Extracts and returns JSON data from the request."""
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "No data provided"}), 400
-    return data
-
-def validate_request_schema(schema):
-    """Validates the incoming request data against the provided schema."""
-    data = get_request_data()
-    errors = schema.validate(data)
-    if errors:
-        return jsonify({"errors": errors}), 400
-    return data
-
-def handle_get_request():
-    """Handles GET requests."""
-    # Logic for handling GET requests goes here
-    pass
-
-def handle_post_request():
-    """Handles POST requests."""
-    # Logic for handling POST requests goes here
-    pass
-
-def handle_put_request():
-    """Handles PUT requests."""
-    # Logic for handling PUT requests goes here
-    pass
-
-def handle_delete_request():
-    """Handles DELETE requests."""
-    # Logic for handling DELETE requests goes here
-    pass
-</file>
-
-<file path="src/api/responses.py">
-# src/api/responses.py
-
-from flask import jsonify
-
-def success_response(data, message="Success"):
-    return jsonify({"message": message, "data": data}), 200
-
-def error_response(message="An error occurred", status_code=400):
-    return jsonify({"message": message}), status_code
-
-def not_found_response(message="Resource not found"):
-    return jsonify({"message": message}), 404
-
-def validation_error_response(errors):
-    return jsonify({"message": "Validation errors", "errors": errors}), 422
-</file>
-
-<file path="src/api/routes.py">
-from src.api.controllers.todo_controller import bp as todo_bp
-
-def register_routes(app):
-    app.register_blueprint(todo_bp)
-</file>
-
-<file path="src/api/schemas/...  # Marshmallow schemas">
-# This file is intentionally left blank.
-</file>
-
-<file path="src/api/schemas/todo.py">
-from marshmallow import Schema, fields
-
-class TodoRequestSchema(Schema):
-    title = fields.Str(required=True)
-    description = fields.Str(required=True)
-    status = fields.Str(required=True)
-
-class TodoResponseSchema(Schema):
-    id = fields.Int(required=True)
-    title = fields.Str(required=True)
-    description = fields.Str(required=True)
-    status = fields.Str(required=True)
-    created_at = fields.Raw(required=True)
-    updated_at = fields.Raw(required=True)
-</file>
-
-<file path="src/api/schemas/user.py">
-
-</file>
-
-<file path="src/api/swagger.py">
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
-from apispec_webframeworks.flask import FlaskPlugin
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-
-spec = APISpec(
-    title="Todo API",
-    version="1.0.0",
-    openapi_version="3.0.2",
-    plugins=[FlaskPlugin(), MarshmallowPlugin()],
-)
-
-# Đăng ký schema để tự động sinh model
-spec.components.schema("TodoRequest", schema=TodoRequestSchema)
-spec.components.schema("TodoResponse", schema=TodoResponseSchema)
-</file>
-
-<file path="src/app_logging.py">
-import logging
-
-def setup_logging():
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler("app.log"),
-            logging.StreamHandler()
-        ]
-    )
-
-setup_logging()
-</file>
-
-<file path="src/cors.py">
-from flask_cors import CORS
-
-def init_cors(app):
-    CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for CORS
-    return app
-</file>
-
-<file path="src/create_app.py">
-from flask import Flask
-from .config import Config
-from .api.middleware import setup_middleware
-from .api.routes import register_routes
-from .infrastructure.databases import init_db
-from .app_logging import setup_logging
-
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
-
-    setup_logging(app)
-    init_db(app)
-    setup_middleware(app)
-    register_routes(app)
-
-    return app
-</file>
-
-<file path="src/dependency_container.py">
-# Dependency Injection Container
-
-from dependency_injector import containers, providers
-
-# Import your services and repositories here
-# from infrastructure.repositories import SomeRepository
-# from infrastructure.services import SomeService
-
-class Container(containers.DeclarativeContainer):
-    # Define your providers here
-    # some_repository = providers.Factory(SomeRepository)
-    # some_service = providers.Factory(SomeService, repository=some_repository)
-
-    pass  # This file is intentionally left blank for now.
-</file>
-
-<file path="src/domain/constants.py">
-# Constants
-
-# Define any constants used throughout the application here. 
-# For example, you might define API version, error messages, or configuration keys.
-
-API_VERSION = "v1"
-DEFAULT_PAGE_SIZE = 20
-MAX_PAGE_SIZE = 100
-
-# Add more constants as needed for your application.
-</file>
-
-<file path="src/domain/exceptions.py">
-class CustomException(Exception):
-    """Base class for all custom exceptions in the application."""
-    pass
-
-class NotFoundException(CustomException):
-    """Exception raised when a resource is not found."""
-    def __init__(self, message="Resource not found"):
-        self.message = message
-        super().__init__(self.message)
-
-class ValidationException(CustomException):
-    """Exception raised for validation errors."""
-    def __init__(self, message="Validation error"):
-        self.message = message
-        super().__init__(self.message)
-
-class UnauthorizedException(CustomException):
-    """Exception raised for unauthorized access."""
-    def __init__(self, message="Unauthorized access"):
-        self.message = message
-        super().__init__(self.message)
-
-class ConflictException(CustomException):
-    """Exception raised for conflicts in the application."""
-    def __init__(self, message="Conflict occurred"):
-        self.message = message
-        super().__init__(self.message)
-</file>
-
-<file path="src/domain/models/...  # Business logic models">
-# This file is intentionally left blank.
-</file>
-
-<file path="src/domain/models/course.py">
-from datetime import date
-
-
-class Course:
-    def __init__(self, id: int, course_name: str, description: str, status: str,start_date :date ,end_date:date,created_at, updated_at):
-        self.id = id
-        self.course_name = course_name
-        self.description = description
-        self.status = status
-        self.start_date = start_date
-        self.end_date = end_date
-        self.created_at = created_at
-        self.updated_at = updated_at
-</file>
-
-<file path="src/domain/models/icourse_repository.py">
-from abc import ABC, abstractmethod
-from typing import List, Optional
-from .course import Course
-class ICourseRepository(ABC):
-    @abstractmethod
-    def add(self, course: Course) -> Course:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, course_id: int) -> Optional[Course]:
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Course]:
-        pass
-
-    @abstractmethod
-    def update(self, course: Course) -> Course:
-        pass
-
-    @abstractmethod
-    def delete(self, course_id: int) -> None:
-        pass
-</file>
-
-<file path="src/domain/models/itodo_repository.py">
-from abc import ABC, abstractmethod
-from .todo import Todo
-from typing import List, Optional
-
-class ITodoRepository(ABC):
-    @abstractmethod
-    def add(self, todo: Todo) -> Todo:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, todo_id: int) -> Optional[Todo]:
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Todo]:
-        pass
-
-    @abstractmethod
-    def update(self, todo: Todo) -> Todo:
-        pass
-
-    @abstractmethod
-    def delete(self, todo_id: int) -> None:
-        pass
-</file>
-
-<file path="src/domain/models/todo.py">
-class Todo:
-    def __init__(self, id: int, title: str, description: str, status: str, created_at, updated_at):
-        self.id = id
-        self.title = title
-        self.description = description
-        self.status = status
-        self.created_at = created_at
-        self.updated_at = updated_at
-</file>
-
-<file path="src/domain/models/user.py">
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from infrastructure.databases.base import Base
-
-class User:
-    
-    def __innit__(self, user_name: str, password: str, description: str = None, status: bool = True):
-        self.user_name = user_name
-        self.password = password
-        self.description = description
-        self.status = status
-        self.created_at = None
-        self.updated_at = None
-</file>
-
-<file path="src/error_handler.py">
-# Error handling logic for the Flask application
-
-from flask import jsonify
-
-class CustomError(Exception):
-    status_code = 400
-
-    def __init__(self, message, status_code=None):
-        super().__init__(message)
-        if status_code is not None:
-            self.status_code = status_code
-        self.message = message
-
-    def to_dict(self):
-        return {'message': self.message}
-
-def handle_error(error):
-    if isinstance(error, CustomError):
-        response = jsonify(error.to_dict())
-        response.status_code = error.status_code
-        return response
-
-    response = jsonify({'message': 'An unexpected error occurred.'})
-    response.status_code = 500
-    return response
-
-def register_error_handlers(app):
-    app.register_error_handler(Exception, handle_error)
-</file>
-
-<file path="src/infrastructure/databases/mysql.py">
-
-</file>
-
-<file path="src/infrastructure/models/__init__.py">
-
-</file>
-
-<file path="src/infrastructure/models/appointment_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
-from infrastructure.databases.base import Base
-
-class AppointmentModel(Base):
-    __tablename__ = 'appointments'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    consultant_id = Column(Integer, ForeignKey('consultants.id'))
-    
-    # SỬA: Dùng BigInteger
-    user_id = Column(BigInteger,  ForeignKey('users.id'))
-    
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
-    url_online = Column(String(255), nullable=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/auth/auth_funtion_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthFuntionModel(Base):
-    __tablename__ = 'auth_functions'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(100), unique=True, nullable=False)
-    url = Column(String(255), unique=True, nullable=False)
-    description = Column(String(255))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    
-    
-class AuthRoleFunctionModel(Base):
-    __tablename__ = 'auth_role_functions'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
-    function_id = Column(Integer, ForeignKey('auth_functions.id'), nullable=False)
-
-    def __repr__(self):
-        return f"<AuthRoleFunctionModel(role_id='{self.role_id}', function_id='{self.function_id}')>"
-</file>
-
-<file path="src/infrastructure/models/auth/auth_role_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthRoleModel(Base):
-    __tablename__ = 'auth_roles'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(50), unique=True, nullable=False)
-    description = Column(String(255))
-    
-class AuthUserRoleModel(Base):
-    __tablename__ = 'auth_user_roles'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('auth_users.id'), nullable=False)
-    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
-
-    def __repr__(self):
-        return f"<AuthUserRoleModel(user_id='{self.user_id}', role_id='{self.role_id}')>"
-</file>
-
-<file path="src/infrastructure/models/auth/auth_user_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthUserModel(Base):
-    __tablename__ = 'auth_users'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String(50), unique=True, nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    password_hash = Column(String(128), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime) 
-
-    def __repr__(self):
-        return f"<AuthUserModel(username='{self.username}', email='{self.email}')>"
-</file>
-
-<file path="src/infrastructure/models/consultant_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class ConsultantModel(Base):
-    __tablename__ = 'consultants'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-    id = Column(Integer, primary_key=True)
-    consultant_name = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    gender = Column(String(10), nullable=False)
-    age = Column (Integer, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/course_register_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
-from infrastructure.databases.base import Base
-
-class CourseRegisterModel(Base):
-    __tablename__ = 'course_register'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    
-    # SỬA: Dùng BigInteger để khớp với users.id
-    user_id = Column(BigInteger, ForeignKey('users.id')) 
-    
-    # Giữ nguyên Integer cho course_id vì bảng courses dùng Integer (trừ khi bạn đã sửa bảng courses thành BigInteger)
-    course_id = Column(Integer, ForeignKey('courses.id'))
-</file>
-
-<file path="src/infrastructure/models/feedback_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, BigInteger
-from infrastructure.databases.base import Base
-
-class FeedbackModel(Base):
-    __tablename__ = 'feedbacks'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-
-    feedback_text = Column(String(255))
-    evaluation = Column(Float)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime) 
-    course_id = Column(Integer, ForeignKey('courses.id'))
-    
-    # SỬA: Dùng BigInteger
-    user_id = Column(BigInteger, ForeignKey('users.id'))
-</file>
-
-<file path="src/infrastructure/models/pay/pay_tran_model.py">
-# Pay Transaction Model
-# Chứa các thông tin về giao dịch thanh toán của hoá đơn(invoice)
-from datetime import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
-from infrastructure.databases.base import Base
-from sqlalchemy.orm import relationship
-class PayTranModel(Base):
-    __tablename__ = 'pay_trans'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'), nullable=False)
-    amount = Column(Float, nullable=False)
-    payment_method = Column(String(50), nullable=False)
-    transaction_date = Column(DateTime, default=datetime.utcnow)
-
-    # invoice = relationship("InvoiceModel", back_populates="payments")
-
-    def __init__(self, invoice_id, amount, payment_method):
-        self.invoice_id = invoice_id
-        self.amount = amount
-        self.payment_method = payment_method
-</file>
-
-<file path="src/infrastructure/models/program_model.py">
-from datetime import datetime
-from sqlalchemy import (
-    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-from infrastructure.databases.base import Base
-
-class Program(Base):
-    __tablename__ = 'programs'
-    
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
-    name = Column(String(255), nullable=False)
-    total_credits = Column(Integer)
-    
-    # Relationships
-    department = relationship("Department", back_populates="programs")
-    outcomes = relationship("ProgramOutcome", back_populates="program")
-    syllabuses = relationship("Syllabus", back_populates="program")
-
-
-
-
-
-# from sqlalchemy import Column, Integer, String, DateTime
-# from infrastructure.databases.base import Base
-
-# class ProgramModel(Base):
-#     __tablename__ = 'programs'
-#     __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-#     id = Column(Integer, primary_key=True)
-
-#     title = Column(String(255), nullable=False)
-#     description = Column(String(255), nullable=True)
-#     status = Column(String(50), nullable=False)
-#     created_at = Column(DateTime)
-#     updated_at = Column(DateTime) 
-    
-    
-    # create table programs(
-    #     id Int primary key,
-    #     title nvarchar(255) not null,....
-    # )
-</file>
-
-<file path="src/infrastructure/models/sell/sell_customer_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellCustomerModel(Base):
-    __tablename__ = 'sell_customers'
-
-    id = Column(Integer, primary_key=True)
-    customer_name = Column(String(100))
-    email = Column(String(100), unique=True)
-    phone = Column(String(20))
-    address = Column(String(255))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/sell/sell_invoice_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellInvoiceModel(Base):
-    __tablename__ = 'sell_invoices'
-
-    id = Column(Integer, primary_key=True)
-    customer_id = Column(Integer, ForeignKey('sell_customers.id'))
-    invoice_date = Column(DateTime)
-    total_amount = Column(Float)
-    status = Column(String(50))
-    invoice_code = Column(String(12), unique=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    blank_amount = Column(Float)
-    paid_amount = Column(Float)
-    # customer = relationship("CustomerModel", back_populates="invoices")
-    # items = relationship("SellInvoiceItemModel", back_populates="invoice")
-    # payments = relationship("PayTranModel", back_populates="invoice")
-    
-class SellInvoiceItemModel(Base):
-    __tablename__ = 'sell_invoice_items'
-
-    id = Column(Integer, primary_key=True)
-    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'))
-    product_id = Column(Integer, ForeignKey('sell_products.id'))
-    quantity = Column(Integer)
-    unit_price = Column(Float)
-    total_price = Column(Float)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    # invoice = relationship("SellInvoiceModel", back_populates="items")
-</file>
-
-<file path="src/infrastructure/models/sell/sell_product_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellProductModel(Base):
-    __tablename__ = 'sell_products'
-    
-    # Sell Product Model
-    # Chứa các thông tin về sản phẩm bán ra trong hoá đơn(invoice)
-    id = Column(Integer, primary_key=True)
-    product_name = Column(String(100))
-    description = Column(String(255))
-    product_code = Column(String(100), unique=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/survey_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class SurveyModel(Base):
-    __tablename__ = 'surveys'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-    id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
 <file path="src/infrastructure/repositories/course_repository.py">
 from domain.models.icourse_repository import ICourseRepository
 from domain.models.course import Course
@@ -2051,6 +2910,103 @@ class CourseRepository(ICourseRepository):
 
     def delete(self, course_id: int) -> None:
         self._courses = [t for t in self._courses if t.id != course_id]
+</file>
+
+<file path="src/infrastructure/repositories/todo_repository.py">
+from domain.models.itodo_repository import ITodoRepository
+from domain.models.todo import Todo
+from typing import List, Optional
+from dotenv import load_dotenv
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from config import Config
+from sqlalchemy import Column, Integer, String, DateTime
+from infrastructure.databases import Base
+from sqlalchemy.orm import Session
+from infrastructure.models.todo_model import TodoModel
+from infrastructure.databases.mssql import session
+load_dotenv()
+
+class TodoRepository(ITodoRepository):
+    def __init__(self, session: Session = session):
+        self._todos = []
+        self._id_counter = 1
+        self.session = session
+
+    def add(self, todo: Todo) -> TodoModel:
+        try:
+            #Manual mapping from Todo to TodoModel
+            todo = TodoModel(
+                title=todo.title,
+                description=todo.description,
+                status=todo.status,
+                created_at=todo.created_at,
+                updated_at=todo.updated_at
+            )
+            self.session.add(todo)
+            self.session.commit()
+            self.session.refresh(todo)
+            return todo
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Todo not found')
+        finally:
+            self.session.close()
+    
+    # def add(self, todo: Todo) -> Todo:
+    #     todo.id = self._id_counter
+    #     self._id_counter += 1
+    #     self._todos.append(todo)
+    #     return todo
+
+    def get_by_id(self, todo_id: int) -> Optional[TodoModel]:
+        return self.session.query(TodoModel).filter_by(id=todo_id).first()
+
+
+    # def list(self) -> List[Todo]:
+    #     self._todos
+    #     return self._todos
+    def list(self) -> List[TodoModel]:
+        self._todos = session.query(TodoModel).all()
+        # select * from todos
+        return self._todos
+
+
+    def update(self, todo: TodoModel) -> TodoModel:
+        try:
+             #Manual mapping from Todo to TodoModel
+            todo = TodoModel(
+                id = todo.id,
+                title=todo.title,
+                description=todo.description,
+                status=todo.status,
+                created_at=todo.created_at,
+                updated_at=todo.updated_at
+            )
+            self.session.merge(todo)
+            self.session.commit()
+            return todo
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Todo not found')
+        finally:
+            self.session.close()
+
+    def delete(self, todo_id: int) -> None:
+        # self._todos = [t for t in self._todos if t.id != todo_id] 
+        try:
+            todo = self.session.query(TodoModel).filter_by(id=todo_id).first()
+            if todo:
+                self.session.delete(todo)
+                self.session.commit()
+            else:
+                raise ValueError('Todo not found')
+        except Exception as e:
+            self.session.rollback()
+            raise ValueError('Todo not found')
+        finally:
+            self.session.close()
 </file>
 
 <file path="src/infrastructure/repositories/user_repository.py">
@@ -2153,6 +3109,22 @@ To get started with the project, ensure you have the necessary dependencies inst
 Contributions are welcome! Please follow the contribution guidelines outlined in the project documentation.
 </file>
 
+<file path="src/requirements.txt">
+Flask>=2.0
+Flask-Cors>=3.0
+Flask-SQLAlchemy>=2.5
+SQLAlchemy>=1.4
+marshmallow>=3.0
+pymssql>=2.2
+python-dotenv>=0.21 
+Flask-RESTX>=1.1.0 
+flasgger
+fastapi
+apispec
+apispec_webframeworks
+flask-swagger-ui
+</file>
+
 <file path="src/scripts/run_postgres.sh">
 #!/bin/bash
 
@@ -2180,6 +3152,33 @@ fi
 # This file is intentionally left blank.
 </file>
 
+<file path="src/services/auth_service.py">
+from typing import List, Optional
+from domain.models.auth import Auth
+from domain.models.iauth_repository import IAuthRepository
+class AuthService:
+    def __init__(self, repository: IAuthRepository):
+        self.repository = repository
+        
+    def register(self, user_name: str, password: str) -> Optional[Auth]:
+        # Check if user already exists
+        if self.repository.check_exist(user_name):
+            return None  # User already exists
+        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
+        return self.repository.register(auth)
+    def login(self, user_name: str, password: str) -> Optional[Auth]:
+        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
+        return self.repository.login(auth)
+    def remember_password(self) -> Optional[Auth]:
+        return self.repository.remember_password()
+    def look_account(self, Id: int) -> bool:
+        return self.repository.look_account(Id)
+    def un_look_account(self, course_id: int) -> None:
+        self.repository.un_look_account(course_id)
+    def check_exist(self, user_name: str) -> bool:
+        return self.repository.check_exist(user_name)
+</file>
+
 <file path="src/services/course_service.py">
 from typing import List, Optional
 from domain.models.course import Course
@@ -2201,6 +3200,33 @@ class CourseService:
         return self.repository.update(course)
     def delete_course(self, course_id: int) -> None:
         self.repository.delete(course_id)
+</file>
+
+<file path="src/services/todo_service.py">
+from domain.models.todo import Todo
+from domain.models.itodo_repository import ITodoRepository
+from typing import List, Optional
+
+class TodoService:
+    def __init__(self, repository: ITodoRepository):
+        self.repository = repository
+
+    def create_todo(self, title: str, description: str, status: str, created_at, updated_at) -> Todo:
+        todo = Todo(id=None, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
+        return self.repository.add(todo)
+
+    def get_todo(self, todo_id: int) -> Optional[Todo]:
+        return self.repository.get_by_id(todo_id)
+
+    def list_todos(self) -> List[Todo]:
+        return self.repository.list()
+
+    def update_todo(self, todo_id: int, title: str, description: str, status: str, created_at, updated_at) -> Todo:
+        todo = Todo(id=todo_id, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
+        return self.repository.update(todo)
+
+    def delete_todo(self, todo_id: int) -> None:
+        self.repository.delete(todo_id)
 </file>
 
 <file path="src/swagger_config.json">
@@ -2239,142 +3265,30 @@ class CourseService:
 }
 </file>
 
-<file path="docs/flask-clean-architecture.md">
-# Architecture
-
-```bash
-    ├── migrations
-    ├── scripts
-    │   └── run_postgres.sh
-    ├── src
-    │   ├── api
-    │   │   ├── controllers
-    │   │   │   └── ...  # controllers for the api
-    │   │   ├── schemas
-    │   │   │   └── ...  # Marshmallow schemas
-    │   │   ├── middleware.py
-    │   │   ├── responses.py
-    │   │   └── requests.py
-    │   ├── infrastructure
-    │   │   ├── services
-    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
-    │   │   ├── databases
-    │   │   │   └── ...  # Database adapaters and initialization
-    │   │   ├── repositories
-    │   │   │   └── ...  # Repositories for interacting with the databases
-    │   │   └── models
-    │   │   │   └── ...  # Database models
-    │   ├── domain
-    │   │   ├── constants.py
-    │   │   ├── exceptions.py
-    │   │   ├── models
-    │   │   │   └── ...  # Business logic models
-    │   ├── services
-    │   │    └── ...  # Services for interacting with the domain (business logic)
-    │   ├── app.py
-    │   ├── config.py
-    │   ├── cors.py
-    │   ├── create_app.py
-    │   ├── dependency_container.py
-    │   ├── error_handler.py
-    │   └── logging.py
-```
-
-## Domain Layer
-
-## Services Layer
-
-## Infrastructure Layer
-
-## ORM Đã được triển khai trong Flask python 
-Ánh xạ các class python --> Table CSDL
-</file>
-
-<file path="src/api/middleware.py">
-# Middleware functions for processing requests and responses
-
-from flask import  request, jsonify
-
-def log_request_info(app):
-    app.logger.debug('Headers: %s', request.headers)
-    app.logger.debug('Body: %s', request.get_data())
-
-def handle_options_request():
-    return jsonify({'message': 'CORS preflight response'}), 200
-
-def error_handling_middleware(error):
-    response = jsonify({'error': str(error)})
-    response.status_code = 500
-    return response
-
-def add_custom_headers(response):
-    response.headers['X-Custom-Header'] = 'Value'
-    return response
-
-def middleware(app):
-    @app.before_request
-    def before_request():
-        log_request_info(app)
-
-    @app.after_request
-    def after_request(response):
-        return add_custom_headers(response)
-
-    @app.errorhandler(Exception)
-    def handle_exception(error):
-        return error_handling_middleware(error)
-
-    @app.route('/options', methods=['OPTIONS'])
-    def options_route():
-        return handle_options_request()
-</file>
-
-<file path="src/infrastructure/databases/base.py">
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
-
-
-# ORM: object relational mapping base class
-# OOP : object oriented programming
-
-# ERD --> class relational
-# Lập trinhf hướng đối tượng (logic) mapping class -> table (database)
-</file>
-
-<file path="src/infrastructure/models/course_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-# QUAN TRỌNG: Import Base từ file cấu hình chung, KHÔNG dùng declarative_base()
+<file path="src/infrastructure/models/file_model.py">
+from datetime import datetime
+from sqlalchemy import (
+    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
+    ForeignKey, Text
+)
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+# IMPORT BASE CHUNG (QUAN TRỌNG)
 from infrastructure.databases.base import Base
 
-class CourseModel(Base):
-    __tablename__ = 'courses'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    course_name = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    start_date = Column(DateTime, nullable=False)
-    end_date = Column(DateTime, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/todo_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class TodoModel(Base):
-    __tablename__ = 'todos'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+class File(Base):
+    __tablename__ = 'files'
+    
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    uploader_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
+    file_name = Column(String(255), nullable=False)
+    file_path = Column(String(500), nullable=False)
+    file_size = Column(BigInteger)
+    mime_type = Column(String(100))
+    created_at = Column(DateTime, default=func.now())
+    
+    # Relationships
+    uploader = relationship("User", back_populates="uploaded_files", foreign_keys=[uploader_id])
 </file>
 
 <file path="src/infrastructure/models/user_model.py">
@@ -2388,7 +3302,7 @@ from sqlalchemy.sql import func
 # IMPORT BASE CHUNG (QUAN TRỌNG)
 from infrastructure.databases.base import Base
 
-class UserModel(Base):
+class User(Base):
     __tablename__ = 'users'
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
@@ -2407,927 +3321,13 @@ class UserModel(Base):
     
     # Lưu ý: Cập nhật tên relationship nếu file_model dùng tên class là File
     avatar_file = relationship("File", foreign_keys=[avatar_file_id])
+    uploaded_files = relationship("File", back_populates="uploader", foreign_keys="[File.uploader_id]")
     
     roles = relationship("UserRole", back_populates="user")
     syllabuses = relationship("Syllabus", back_populates="lecturer")
     comments = relationship("SyllabusComment", back_populates="user")
     notifications = relationship("Notification", back_populates="user")
     workflow_logs = relationship("WorkflowLog", back_populates="actor")
-</file>
-
-<file path="src/requirements.txt">
-Flask>=2.0
-Flask-Cors>=3.0
-Flask-SQLAlchemy>=2.5
-SQLAlchemy>=1.4
-marshmallow>=3.0
-pymssql>=2.2
-python-dotenv>=0.21 
-Flask-RESTX>=1.1.0 
-flasgger
-fastapi
-apispec
-apispec_webframeworks
-flask-swagger-ui
-</file>
-
-<file path="src/services/todo_service.py">
-from domain.models.todo import Todo
-from domain.models.itodo_repository import ITodoRepository
-from typing import List, Optional
-
-class TodoService:
-    def __init__(self, repository: ITodoRepository):
-        self.repository = repository
-
-    def create_todo(self, title: str, description: str, status: str, created_at, updated_at) -> Todo:
-        todo = Todo(id=None, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
-        return self.repository.add(todo)
-
-    def get_todo(self, todo_id: int) -> Optional[Todo]:
-        return self.repository.get_by_id(todo_id)
-
-    def list_todos(self) -> List[Todo]:
-        return self.repository.list()
-
-    def update_todo(self, todo_id: int, title: str, description: str, status: str, created_at, updated_at) -> Todo:
-        todo = Todo(id=todo_id, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
-        return self.repository.update(todo)
-
-    def delete_todo(self, todo_id: int) -> None:
-        self.repository.delete(todo_id)
-</file>
-
-<file path="src/api/controllers/auth_controller.py">
-import jwt
-from flask import Blueprint, request, jsonify, current_app
-from datetime import datetime, timedelta
-from infrastructure.models.user_model import UserModel
-from infrastructure.databases.mssql import session
-from api.schemas.auth import RigisterUserRequestSchema,RigisterUserResponseSchema
-from services.auth_service import AuthService
-from infrastructure.repositories.auth_repository import AuthRepository
-
-auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-auth_service = AuthService(AuthRepository(session))
-register_request = RigisterUserRequestSchema()
-register_response = RigisterUserResponseSchema()
-@auth_bp.route('/check_router', methods=['GET'])
-def check_router():
-    """
-    Check router
-    ---
-    get:
-      summary: Check router health
-      tags:
-        - Auth
-      responses:
-        200:
-          description: Router is working
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-    """
-    return jsonify({'message': 'Router is working!'}), 200
-
-@auth_bp.route('/login', methods=['POST'])
-def login():
-    """
-    Login user
-    ---
-    post:
-      summary: Login user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginUserRequest'
-      tags:
-        - Auth
-      responses:
-        200:
-          description: Successful login
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginUserResponse'
-        401:
-          description: Invalid credentials
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-    """
-    data = request.get_json()
-    user = session.query(UserModel).filter_by(
-        user_name=data['user_name'],
-        password=data['password']
-    ).first()
-    if not user:
-        return jsonify({'error': 'Invalid credentials'}), 401
-
-    payload = {
-        'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(hours=2)
-    }
-    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
-    return jsonify({'token': token})
-
-
-@auth_bp.route('/signup', methods=['POST'])
-def register():
-    """
-    Register a new user
-    ---
-    post:
-      summary: Register a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RigisterUserRequest'
-      tags:
-        - Auth
-      responses:
-        201:
-          description: User registered successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RigisterUserResponse'
-        400:
-          description: Invalid input or user exists
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-    """
-    data = request.get_json()
-    errors = register_request.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    # Lay thong tin tu nguoi dung truyen vao
-    
-    
-    if request.method == 'POST':
-        user_name = request.form['user_name']
-        password = request.form['password']
-        password_confirm = request.form['password_confirm']
-
-
-        if auth_service.check_exist(user_name):
-            return jsonify({'message': 'User already exists. Please login.'}), 400
-
-    #     hashed_password = generate_password_hash(password)
-    #     new_user = User(public_id=str(uuid.uuid4()), name=name, email=email, password=hashed_password)
-
-    #     db.session.add(new_user)
-    #     db.session.commit()
-
-    #     return redirect(url_for('login'))
-
-    # return render_template('register.html')
-</file>
-
-<file path="src/api/controllers/todo_controller.py">
-from flask import Blueprint, request, jsonify
-from services.todo_service import TodoService
-from infrastructure.repositories.todo_repository import TodoRepository
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-from datetime import datetime
-from infrastructure.databases.mssql import session
-bp = Blueprint('todo', __name__, url_prefix='/todos')
-
-todo_service = TodoService(TodoRepository(session))
-
-request_schema = TodoRequestSchema()
-response_schema = TodoResponseSchema()
-
-@bp.route('/', methods=['GET'])
-def list_todos():
-    """
-    Get all todos
-    ---
-    get:
-      summary: Get all todos
-      tags:
-        - Todos
-      responses:
-        200:
-          description: List of todos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TodoResponse'
-    """
-    todos = todo_service.list_todos()
-    return jsonify(response_schema.dump(todos, many=True)), 200
-
-@bp.route('/<int:todo_id>', methods=['GET'])
-def get_todo(todo_id):
-    """
-    Get todo by id
-    ---
-    get:
-      summary: Get todo by id
-      parameters:
-        - name: todo_id
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: ID của todo cần lấy
-      tags:
-        - Todos
-      responses:
-        200:
-          description: object of todo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
-        404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-    """
-    todo = todo_service.get_todo(todo_id)
-    if not todo:
-        return jsonify({'message': 'Todo not found'}), 404
-    return jsonify(response_schema.dump(todo)), 200
-
-
-@bp.route('/', methods=['POST'])
-def create_todo():
-    """
-    Create a new todo
-    ---
-    post:
-      summary: Create a new todo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TodoRequest'
-      tags:
-        - Todos
-      responses:
-        201:
-          description: Todo created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
-        400:
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-    """
-    data = request.get_json()
-    errors = request_schema.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    now = datetime.utcnow()
-    todo = todo_service.create_todo(
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=now,
-        updated_at=now
-    )
-    return jsonify(response_schema.dump(todo)), 201  
-
-@bp.route('/<int:todo_id>', methods=['PUT'])
-def update_todo(todo_id):
-    """
-    Update a todo by id
-    ---
-    put:
-      summary: Update a todo by id
-      parameters:
-        - name: todo_id
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: ID của todo cần cập nhật
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TodoRequest'
-      tags:
-        - Todos
-      responses:
-        200:
-          description: Todo updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
-        400:
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-        404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-    """
-    data = request.get_json()
-    errors = request_schema.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    todo = todo_service.update_todo(
-        todo_id=todo_id,
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
-    )
-    return jsonify(response_schema.dump(todo)), 200
-
-@bp.route('/<int:todo_id>', methods=['DELETE'])
-def delete_todo(todo_id):
-    """
-    Delete a todo by id
-    ---
-    delete:
-      summary: Delete a todo by id
-      parameters:
-        - name: todo_id
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: ID của todo cần xóa
-      tags:
-        - Todos
-      responses:
-        204:
-          description: Todo deleted successfully
-        404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-    """
-    todo_service.delete_todo(todo_id)
-    return '', 204
-</file>
-
-<file path="src/config.py">
-# Configuration settings for the Flask application
-
-import os
-from dotenv import load_dotenv
-load_dotenv()
-
-class Config:
-    """Base configuration."""
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a_default_secret_key'
-    DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
-    TESTING = os.environ.get('TESTING', 'False').lower() in ['true', '1']
-    
-    DATABASE_URI = os.environ.get('DATABASE_URI') or 'mssql+pymssql://sa:phamNguyen%40@127.0.0.1:1433/DemoFlaskApi'
-    CORS_HEADERS = 'Content-Type'
-
-class DevelopmentConfig(Config):
-    """Development configuration."""
-    DEBUG = True
-    DATABASE_URI = os.environ.get('DATABASE_URI') or 'mssql+pymssql://sa:phamNguyen%40@127.0.0.1:1433/DemoFlaskApi'
-
-
-class TestingConfig(Config):
-    """Testing configuration."""
-    TESTING = True
-    DATABASE_URI = os.environ.get('DATABASE_URI') or 'mssql+pymssql://sa:phamNguyen%40@127.0.0.1:1433/DemoFlaskApi'
-
-
-class ProductionConfig(Config):
-    """Production configuration."""
-    DATABASE_URI = os.environ.get('DATABASE_URI') or 'mssql+pymssql://sa:phamNguyen%40@127.0.0.1:1433/DemoFlaskApi'
-
-    
-template = {
-    "swagger": "2.0",
-    "info": {
-        "title": "Todo API",
-        "description": "API for managing todos",
-        "version": "1.0.0"
-    },
-    "basePath": "/",
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ]
-}
-class SwaggerConfig:
-    """Swagger configuration."""
-    template = {
-        "swagger": "2.0",
-        "info": {
-            "title": "Todo API",
-            "description": "API for managing todos",
-            "version": "1.0.0"
-        },
-        "basePath": "/",
-        "schemes": [
-            "http",
-            "https"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ]
-    }
-
-    swagger_config = {
-        "headers": [],
-        "specs": [
-            {
-                "endpoint": 'apispec',
-                "route": '/apispec.json',
-                "rule_filter": lambda rule: True,
-                "model_filter": lambda tag: True,
-            }
-        ],
-        "static_url_path": "/flasgger_static",
-        "swagger_ui": True,
-        "specs_route": "/docs"
-    }
-</file>
-
-<file path="src/app.py">
-from flask import Flask, jsonify
-from api.swagger import spec
-from api.controllers.todo_controller import bp as todo_bp
-from api.middleware import middleware
-from api.responses import success_response
-from infrastructure.databases import init_db
-from config import Config
-from flasgger import Swagger
-from config import SwaggerConfig
-from flask_swagger_ui import get_swaggerui_blueprint
-from cors import CORS
-
-
-def create_app():
-    app = Flask(__name__)
-    Swagger(app)
-    # Đăng ký blueprint trước
-    app.register_blueprint(todo_bp)
-
-     # Thêm Swagger UI blueprint
-    SWAGGER_URL = '/docs'
-    API_URL = '/swagger.json'
-    swaggerui_blueprint = get_swaggerui_blueprint(
-        SWAGGER_URL,
-        API_URL,
-        config={'app_name': "Todo API"}
-    )
-    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-    try:
-        init_db(app)
-    except Exception as e:
-        print(f"Error initializing database: {e}")
-
-    # Register middleware
-    middleware(app)
-
-    # Register routes
-    with app.test_request_context():
-        for rule in app.url_map.iter_rules():
-            # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.')):
-                view_func = app.view_functions[rule.endpoint]
-                print(f"Adding path: {rule.rule} -> {view_func}")
-                spec.path(view=view_func)
-
-    @app.route("/swagger.json")
-    def swagger_json():
-        return jsonify(spec.to_dict())
-
-    return app
-# Run the application
-
-if __name__ == '__main__':
-    app = create_app()
-    app.run(host='0.0.0.0', port=9999, debug=True)
-</file>
-
-<file path="src/infrastructure/databases/mssql.py">
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from config import Config
-from infrastructure.databases.base import Base
-
-# Database configuration
-DATABASE_URI = Config.DATABASE_URI
-engine = create_engine(DATABASE_URI)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-session = SessionLocal()
-def init_mssql(app):
-    Base.metadata.create_all(bind=engine)
-</file>
-
-<file path="src/infrastructure/repositories/todo_repository.py">
-from domain.models.itodo_repository import ITodoRepository
-from domain.models.todo import Todo
-from typing import List, Optional
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from config import Config
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases import Base
-from sqlalchemy.orm import Session
-from infrastructure.models.todo_model import TodoModel
-from infrastructure.databases.mssql import session
-load_dotenv()
-
-class TodoRepository(ITodoRepository):
-    def __init__(self, session: Session = session):
-        self._todos = []
-        self._id_counter = 1
-        self.session = session
-
-    def add(self, todo: Todo) -> TodoModel:
-        try:
-            #Manual mapping from Todo to TodoModel
-            todo = TodoModel(
-                title=todo.title,
-                description=todo.description,
-                status=todo.status,
-                created_at=todo.created_at,
-                updated_at=todo.updated_at
-            )
-            self.session.add(todo)
-            self.session.commit()
-            self.session.refresh(todo)
-            return todo
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-    
-    # def add(self, todo: Todo) -> Todo:
-    #     todo.id = self._id_counter
-    #     self._id_counter += 1
-    #     self._todos.append(todo)
-    #     return todo
-
-    def get_by_id(self, todo_id: int) -> Optional[TodoModel]:
-        return self.session.query(TodoModel).filter_by(id=todo_id).first()
-
-
-    # def list(self) -> List[Todo]:
-    #     self._todos
-    #     return self._todos
-    def list(self) -> List[TodoModel]:
-        self._todos = session.query(TodoModel).all()
-        # select * from todos
-        return self._todos
-
-
-    def update(self, todo: TodoModel) -> TodoModel:
-        try:
-             #Manual mapping from Todo to TodoModel
-            todo = TodoModel(
-                id = todo.id,
-                title=todo.title,
-                description=todo.description,
-                status=todo.status,
-                created_at=todo.created_at,
-                updated_at=todo.updated_at
-            )
-            self.session.merge(todo)
-            self.session.commit()
-            return todo
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-
-    def delete(self, todo_id: int) -> None:
-        # self._todos = [t for t in self._todos if t.id != todo_id] 
-        try:
-            todo = self.session.query(TodoModel).filter_by(id=todo_id).first()
-            if todo:
-                self.session.delete(todo)
-                self.session.commit()
-            else:
-                raise ValueError('Todo not found')
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-</file>
-
-<file path="src/infrastructure/databases/__init__.py">
-from infrastructure.databases.mssql import init_mssql
-from infrastructure.models import (
-    course_register_model, 
-    todo_model, 
-    user_model, 
-    course_model, 
-    consultant_model, 
-    appointment_model, 
-    program_model, 
-    feedback_model,
-    survey_model,
-    academic_year_model,
-    ai_auditlog_model,
-    appointment_model,
-    assessment_clo_model,
-    assessment_component_model,
-    assessment_scheme_model,
-    clo_plo_mapping_model,
-    consultant_model,
-    course_model,
-    course_register_model,
-    department_model,
-    faculty_model,
-    feedback_model,
-    file_model,
-    notification_model,
-    notification_template_model,
-    program_model,
-    program_outcome_model,
-    role_model,
-    rubric_model,
-    student_report_model,
-    student_subscription_model,
-    subject_model,
-    subject_relationship_model,
-    survey_model,
-    syllabus_clo_model,
-    syllabus_comment_model,
-    syllabus_current_workflow,
-    syllabus_material_model,
-    syllabus_model,
-    system_auditlog_model,
-    system_setting_model,
-    teaching_plan_model,
-    todo_model,
-    user_model,
-    user_role_model,
-    workflow_log_model,
-    workflow_state_model,
-    workflow_transition_model
-    
-
-)
-from infrastructure.models.auth import auth_user_model, auth_role_model,auth_funtion_model
-from infrastructure.models.sell import sell_customer_model, sell_product_model, sell_invoice_model
-from infrastructure.models.pay import pay_tran_model
-
-def init_db(app):
-    init_mssql(app)
-    
-# Migration Entities -> tables
-from infrastructure.databases.mssql import Base
-</file>
-
-<file path="README.md">
-# Architecture
-
-```bash
-    ├── migrations
-    ├── scripts
-    │   └── run_postgres.sh
-    ├── src
-    │   ├── api
-    │   │   ├── controllers
-    │   │   │   └── ...  # controllers for the api
-    │   │   ├── schemas
-    │   │   │   └── ...  # Marshmallow schemas
-    │   │   ├── middleware.py
-    │   │   ├── responses.py
-    │   │   └── requests.py
-    │   ├── infrastructure
-    │   │   ├── services
-    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
-    │   │   ├── databases
-    │   │   │   └── ...  # Database adapaters and initialization
-    │   │   ├── repositories
-    │   │   │   └── ...  # Repositories for interacting with the databases
-    │   │   └── models
-    │   │   │   └── ...  # Database models
-    │   ├── domain
-    │   │   ├── constants.py
-    │   │   ├── exceptions.py
-    │   │   ├── models
-    │   │   │   └── ...  # Business logic models
-    │   ├── services
-    │   │    └── ...  # Services for interacting with the domain (business logic)
-    │   ├── app.py
-    │   ├── config.py
-    │   ├── cors.py
-    │   ├── create_app.py
-    │   ├── dependency_container.py
-    │   ├── error_handler.py
-    │   └── logging.py
-```
-
-## Domain Layer
-
-## Services Layer
-
-## Infrastructure Layer
-
-## Download source code (CMD)
-    git clone https://github.com/ChienNguyensrdn/Flask-CleanArchitecture.git
-## Kiểm tra đã cài python đã cài đặt trên máy chưa
-    python --version
-## Run app
-
- - Bước 1: Tạo môi trường ảo co Python (phiên bản 3.x)
-     ## Windows:
-     		py -m venv .venv
-     ## Unix/MacOS:
-     		python3 -m venv .venv
-   - Bước 2: Kích hoạt môi trường:
-     ## Windows:
-     		.venv\Scripts\activate.ps1
-     ### Nếu xảy ra lỗi active .venv trên winos run powershell -->Administrator
-         Set-ExecutionPolicy RemoteSigned -Force
-     ## Unix/MacOS:
-     		source .venv/bin/activate
-     
-   - Bước 3: Cài đặt các thư viện cần thiết
-     ## Install:
-     		pip install -r requirements.txt
-   - Bước 4: Chạy mã xử lý dữ liệu
-     ## Run:
-    		python app.py
-
-
-     Truy câp http://localhost:6868/docs
-     Truy câp http://localhost:9999/docs
-
-
-
-## Create file .env in folder /src/.env
-    
-    # Flask settings
-    FLASK_ENV=development
-    SECRET_KEY=your_secret_key
-    
-    # SQL Server settings
-    DB_USER=sa
-    DB_PASSWORD=Aa@123456
-    DB_HOST=127.0.0.1
-    DB_PORT=1433
-    DB_NAME=FlaskApiDB
-    
-    
-    DATABASE_URI = "mssql+pymssql://sa:Aa%40123456@127.0.0.1:1433/FlaskApiDB"
-
-## pull image MS SQL server 
-    
-    ```bash
-    docker pull mcr.microsoft.com/mssql/server:2025-latest
-    ```
-## Install MS SQL server in docker 
-    ```bash
-    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa123456" -p 1433:1433 --name sql1 --hostname sql1 -d  mcr.microsoft.com/mssql/server:2025-latest
-    ```
-## Test connect SQL server 
-
-## ORM Flask (from sqlalchemy.orm )
-Object Relational Mapping
-
-Ánh xạ 1 class (OOP)  model src/infrastructure/models --> Table in database 
-Ánh xạ các mối quan hệ (Relational) -- Khoá ngoại CSDL 
-(n-n): many to many 
-
-@startuml
-' Diagram Title
-title Clean Architecture Sequence Diagram
-
-' Define participants in order of appearance
-actor Actor
-participant "Web App"
-participant "Controller"
-participant "Services"
-participant "Domain"
-participant "infrastructure"
-database "Database"
-
-' --- Message Flow ---
-
-' 1. Initial Request
-Actor -> "Web App": Request
-activate "Web App"
-
-' 2. Forwarding to Controller
-"Web App" -> "Controller"
-activate "Controller"
-
-' 3. Calling the Service Layer
-"Controller" -> "Services"
-activate "Services"
-
-' 4. Interacting with the Domain Layer
-"Services" -> "Domain"
-activate "Domain"
-note over Domain: Interfaces
-
-' 5. Interacting with Infrastructure
-"Domain" -> "infrastructure"
-activate "infrastructure"
-note over infrastructure: Class implement
-
-' 6. Database Query
-"infrastructure" -> "Database"
-activate "Database"
-
-' --- Response Flow (Return Messages) ---
-
-' 7. Database returns data
-"Database" --> "infrastructure"
-deactivate "Database"
-
-' 8. Infrastructure returns to Domain
-"infrastructure" --> "Domain"
-deactivate "infrastructure"
-
-' 9. Domain returns to Services
-"Domain" --> "Services"
-deactivate "Domain"
-
-' 10. Services returns to Controller
-"Services" --> "Controller"
-deactivate "Services"
-
-' 11. Controller returns to Web App
-"Controller" --> "Web App"
-deactivate "Controller"
-
-' 12. Final data rendering to Actor
-"Web App" --> Actor
-note left of "Web App"
-  Render data
-end note
-deactivate "Web App"
-
-@enduml
-=======
 </file>
 
 </files>
