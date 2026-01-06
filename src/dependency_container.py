@@ -13,6 +13,10 @@ from infrastructure.repositories.role_repository import RoleRepository
 from services.role_service import RoleService
 from infrastructure.repositories.user_repository import UserRepository
 from services.user_service import UserService
+from infrastructure.repositories.academic_year_repository import AcademicYearRepository
+from services.academic_year_service import AcademicYearService
+from infrastructure.repositories.program_repository import ProgramRepository
+from services.program_service import ProgramService
 
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
@@ -23,6 +27,8 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.department_controller",
         "api.controllers.role_controller",
         "api.controllers.user_controller",
+        "api.controllers.academic_year_controller",
+        "api.controllers.program_controller",
     ])
 
     # Provide a session object (singleton)
@@ -44,6 +50,16 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    academic_year_repository = providers.Factory(
+        AcademicYearRepository,
+        session=db_session
+    )
+
+    program_repository = providers.Factory(
+        ProgramRepository,
+        session=db_session
+    )
+
     role_repository = providers.Factory(
         RoleRepository,
         session=db_session
@@ -53,7 +69,6 @@ class Container(containers.DeclarativeContainer):
         UserRepository,
         session=db_session
     )
-
     # Services
     subject_service = providers.Factory(
         SubjectService,
@@ -68,6 +83,16 @@ class Container(containers.DeclarativeContainer):
     department_service = providers.Factory(
         DepartmentService,
         repository=department_repository
+    )
+
+    academic_year_service = providers.Factory(
+        AcademicYearService,
+        repository=academic_year_repository
+    )
+
+    program_service = providers.Factory(
+        ProgramService,
+        repository=program_repository
     )
 
     role_service = providers.Factory(

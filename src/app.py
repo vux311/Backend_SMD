@@ -16,6 +16,8 @@ from api.controllers.faculty_controller import faculty_bp
 from api.controllers.department_controller import department_bp
 from api.controllers.role_controller import role_bp
 from api.controllers.user_controller import user_bp
+from api.controllers.academic_year_controller import academic_year_bp
+from api.controllers.program_controller import program_bp
 
 
 def create_app():
@@ -30,6 +32,10 @@ def create_app():
             "api.controllers.subject_controller",
             "api.controllers.faculty_controller",
             "api.controllers.department_controller",
+            "api.controllers.role_controller",
+            "api.controllers.user_controller",
+            "api.controllers.academic_year_controller",
+            "api.controllers.program_controller",
         ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
@@ -41,6 +47,8 @@ def create_app():
     app.register_blueprint(department_bp)
     app.register_blueprint(role_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(academic_year_bp)
+    app.register_blueprint(program_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
