@@ -44,17 +44,45 @@ The content is organized as follows:
 default.db
 docs/flask-clean-architecture.md
 README.md
-src/api/controllers/auth_controller.py
-src/api/controllers/course_controller.py
-src/api/controllers/todo_controller.py
+scripts/check_imports.py
+src/api/controllers/academic_year_controller.py
+src/api/controllers/assessment_clo_controller.py
+src/api/controllers/assessment_component_controller.py
+src/api/controllers/assessment_scheme_controller.py
+src/api/controllers/department_controller.py
+src/api/controllers/faculty_controller.py
+src/api/controllers/program_controller.py
+src/api/controllers/role_controller.py
+src/api/controllers/rubric_controller.py
+src/api/controllers/subject_controller.py
+src/api/controllers/syllabus_clo_controller.py
+src/api/controllers/syllabus_controller.py
+src/api/controllers/syllabus_material_controller.py
+src/api/controllers/teaching_plan_controller.py
+src/api/controllers/user_controller.py
 src/api/middleware.py
 src/api/requests.py
 src/api/responses.py
 src/api/routes.py
 src/api/schemas/...  # Marshmallow schemas
-src/api/schemas/auth.py
-src/api/schemas/todo.py
+src/api/schemas/academic_year_schema.py
+src/api/schemas/assessment_clo_mapping_schema.py
+src/api/schemas/assessment_component_schema.py
+src/api/schemas/assessment_scheme_schema.py
+src/api/schemas/department_schema.py
+src/api/schemas/faculty_schema.py
+src/api/schemas/program_schema.py
+src/api/schemas/role_schema.py
+src/api/schemas/rubric_schema.py
+src/api/schemas/subject_schema.py
+src/api/schemas/syllabus_clo_schema.py
+src/api/schemas/syllabus_detail_schema.py
+src/api/schemas/syllabus_material_schema.py
+src/api/schemas/syllabus_schema.py
+src/api/schemas/teaching_plan_schema.py
+src/api/schemas/user_schema.py
 src/api/schemas/user.py
+src/api/schemas/workflow_log_schema.py
 src/api/swagger.py
 src/app_logging.py
 src/app.py
@@ -66,12 +94,6 @@ src/dependency_container.py
 src/domain/constants.py
 src/domain/exceptions.py
 src/domain/models/...  # Business logic models
-src/domain/models/auth.py
-src/domain/models/course.py
-src/domain/models/iauth_repository.py
-src/domain/models/icourse_repository.py
-src/domain/models/itodo_repository.py
-src/domain/models/todo.py
 src/domain/models/user.py
 src/error_handler.py
 src/infrastructure/databases/__init__.py
@@ -81,36 +103,23 @@ src/infrastructure/databases/mysql.py
 src/infrastructure/models/__init__.py
 src/infrastructure/models/academic_year_model.py
 src/infrastructure/models/ai_auditlog_model.py
-src/infrastructure/models/appointment_model.py
 src/infrastructure/models/assessment_clo_model.py
 src/infrastructure/models/assessment_component_model.py
 src/infrastructure/models/assessment_scheme_model.py
-src/infrastructure/models/auth/auth_funtion_model.py
-src/infrastructure/models/auth/auth_role_model.py
-src/infrastructure/models/auth/auth_user_model.py
 src/infrastructure/models/clo_plo_mapping_model.py
-src/infrastructure/models/consultant_model.py
-src/infrastructure/models/course_model.py
-src/infrastructure/models/course_register_model.py
 src/infrastructure/models/department_model.py
 src/infrastructure/models/faculty_model.py
-src/infrastructure/models/feedback_model.py
 src/infrastructure/models/file_model.py
 src/infrastructure/models/notification_model.py
 src/infrastructure/models/notification_template_model.py
-src/infrastructure/models/pay/pay_tran_model.py
 src/infrastructure/models/program_model.py
 src/infrastructure/models/program_outcome_model.py
 src/infrastructure/models/role_model.py
 src/infrastructure/models/rubric_model.py
-src/infrastructure/models/sell/sell_customer_model.py
-src/infrastructure/models/sell/sell_invoice_model.py
-src/infrastructure/models/sell/sell_product_model.py
 src/infrastructure/models/student_report_model.py
 src/infrastructure/models/student_subscription_model.py
 src/infrastructure/models/subject_model.py
 src/infrastructure/models/subject_relationship_model.py
-src/infrastructure/models/survey_model.py
 src/infrastructure/models/syllabus_clo_model.py
 src/infrastructure/models/syllabus_comment_model.py
 src/infrastructure/models/syllabus_current_workflow.py
@@ -119,30 +128,132 @@ src/infrastructure/models/syllabus_model.py
 src/infrastructure/models/system_auditlog_model.py
 src/infrastructure/models/system_setting_model.py
 src/infrastructure/models/teaching_plan_model.py
-src/infrastructure/models/todo_model.py
 src/infrastructure/models/user_model.py
 src/infrastructure/models/user_role_model.py
 src/infrastructure/models/workflow_log_model.py
 src/infrastructure/models/workflow_state_model.py
 src/infrastructure/models/workflow_transition_model.py
-src/infrastructure/repositories/auth_repository.py
-src/infrastructure/repositories/course_repository.py
-src/infrastructure/repositories/todo_repository.py
+src/infrastructure/repositories/academic_year_repository.py
+src/infrastructure/repositories/assessment_clo_repository.py
+src/infrastructure/repositories/assessment_component_repository.py
+src/infrastructure/repositories/assessment_scheme_repository.py
+src/infrastructure/repositories/department_repository.py
+src/infrastructure/repositories/faculty_repository.py
+src/infrastructure/repositories/program_repository.py
+src/infrastructure/repositories/role_repository.py
+src/infrastructure/repositories/rubric_repository.py
+src/infrastructure/repositories/subject_repository.py
+src/infrastructure/repositories/syllabus_clo_repository.py
+src/infrastructure/repositories/syllabus_material_repository.py
+src/infrastructure/repositories/syllabus_repository.py
+src/infrastructure/repositories/teaching_plan_repository.py
 src/infrastructure/repositories/user_repository.py
+src/infrastructure/repositories/workflow_log_repository.py
 src/infrastructure/services/...  # Services that use third party libraries or services (e.g. email service)
 src/migrations
 src/README.md
 src/requirements.txt
 src/scripts/run_postgres.sh
+src/scripts/seed_users.py
 src/services/...  # Services for interacting with the domain (business logic)
-src/services/auth_service.py
-src/services/course_service.py
-src/services/todo_service.py
+src/services/academic_year_service.py
+src/services/assessment_clo_service.py
+src/services/assessment_component_service.py
+src/services/assessment_scheme_service.py
+src/services/department_service.py
+src/services/faculty_service.py
+src/services/program_service.py
+src/services/role_service.py
+src/services/rubric_service.py
+src/services/subject_service.py
+src/services/syllabus_clo_service.py
+src/services/syllabus_material_service.py
+src/services/syllabus_service.py
+src/services/teaching_plan_service.py
+src/services/user_service.py
 src/swagger_config.json
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="scripts/check_imports.py">
+import importlib
+modules = [
+    'src.infrastructure.databases',
+    'src.api.routes',
+    'src.create_app'
+]
+
+for m in modules:
+    try:
+        importlib.import_module(m)
+        print(f'{m}: OK')
+    except Exception as e:
+        print(f'{m}: {type(e).__name__}: {e}')
+</file>
+
+<file path="src/api/schemas/syllabus_detail_schema.py">
+from marshmallow import Schema, fields
+
+class SyllabusDetailSchema(Schema):
+    id = fields.Int(dump_only=True)
+    subject_id = fields.Int(required=True)
+    program_id = fields.Int(required=True)
+    academic_year_id = fields.Int(required=True)
+    lecturer_id = fields.Int(required=True)
+
+    status = fields.Str(dump_only=True)
+    version = fields.Str(dump_default="1.0")
+    time_allocation = fields.Str(load_default=None)
+    prerequisites = fields.Str(load_default=None)
+    publish_date = fields.DateTime(load_default=None)
+
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+
+    clos = fields.List(fields.Nested('SyllabusCloSchema'), dump_only=True)
+    materials = fields.List(fields.Nested('SyllabusMaterialSchema'), dump_only=True)
+    teaching_plans = fields.List(fields.Nested('TeachingPlanSchema'), dump_only=True)
+    assessment_schemes = fields.List(fields.Nested('AssessmentSchemeSchema'), dump_only=True)
+</file>
+
+<file path="src/api/schemas/workflow_log_schema.py">
+from marshmallow import Schema, fields
+
+class WorkflowLogSchema(Schema):
+    id = fields.Int(dump_only=True)
+    syllabus_id = fields.Int(required=True)
+    actor_id = fields.Int(required=True)
+    action = fields.Str(required=True)
+    from_status = fields.Str(load_default=None)
+    to_status = fields.Str(load_default=None)
+    comment = fields.Str(load_default=None)
+    created_at = fields.DateTime(dump_only=True)
+</file>
+
+<file path="src/infrastructure/repositories/workflow_log_repository.py">
+from typing import List
+from infrastructure.models.workflow_log_model import WorkflowLog
+
+class WorkflowLogRepository:
+    def __init__(self, session):
+        self.session = session
+
+    def create(self, data: dict):
+        wl = WorkflowLog(**data)
+        self.session.add(wl)
+        try:
+            self.session.commit()
+            self.session.refresh(wl)
+            return wl
+        except Exception:
+            self.session.rollback()
+            raise
+
+    def get_by_syllabus_id(self, syllabus_id: int) -> List[WorkflowLog]:
+        return self.session.query(WorkflowLog).filter_by(syllabus_id=syllabus_id).order_by(WorkflowLog.created_at.asc()).all()
+</file>
 
 <file path=".gitignore">
 # Byte-compiled / optimized / DLL files
@@ -405,632 +516,1170 @@ __marimo__/
 Ánh xạ các class python --> Table CSDL
 </file>
 
-<file path="README.md">
-# Architecture
+<file path="src/api/controllers/academic_year_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.academic_year_service import AcademicYearService
+from api.schemas.academic_year_schema import AcademicYearSchema
 
-```bash
-    ├── migrations
-    ├── scripts
-    │   └── run_postgres.sh
-    ├── src
-    │   ├── api
-    │   │   ├── controllers
-    │   │   │   └── ...  # controllers for the api
-    │   │   ├── schemas
-    │   │   │   └── ...  # Marshmallow schemas
-    │   │   ├── middleware.py
-    │   │   ├── responses.py
-    │   │   └── requests.py
-    │   ├── infrastructure
-    │   │   ├── services
-    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
-    │   │   ├── databases
-    │   │   │   └── ...  # Database adapaters and initialization
-    │   │   ├── repositories
-    │   │   │   └── ...  # Repositories for interacting with the databases
-    │   │   └── models
-    │   │   │   └── ...  # Database models
-    │   ├── domain
-    │   │   ├── constants.py
-    │   │   ├── exceptions.py
-    │   │   ├── models
-    │   │   │   └── ...  # Business logic models
-    │   ├── services
-    │   │    └── ...  # Services for interacting with the domain (business logic)
-    │   ├── app.py
-    │   ├── config.py
-    │   ├── cors.py
-    │   ├── create_app.py
-    │   ├── dependency_container.py
-    │   ├── error_handler.py
-    │   └── logging.py
-```
+academic_year_bp = Blueprint('academic_year', __name__, url_prefix='/academic-years')
 
-## Domain Layer
+schema = AcademicYearSchema()
 
-## Services Layer
-
-## Infrastructure Layer
-
-## Download source code (CMD)
-    git clone https://github.com/ChienNguyensrdn/Flask-CleanArchitecture.git
-## Kiểm tra đã cài python đã cài đặt trên máy chưa
-    python --version
-## Run app
-
- - Bước 1: Tạo môi trường ảo co Python (phiên bản 3.x)
-     ## Windows:
-     		py -m venv .venv
-     ## Unix/MacOS:
-     		python3 -m venv .venv
-   - Bước 2: Kích hoạt môi trường:
-     ## Windows:
-     		.venv\Scripts\activate.ps1
-     ### Nếu xảy ra lỗi active .venv trên winos run powershell -->Administrator
-         Set-ExecutionPolicy RemoteSigned -Force
-     ## Unix/MacOS:
-     		source .venv/bin/activate
-     
-   - Bước 3: Cài đặt các thư viện cần thiết
-     ## Install:
-     		pip install -r requirements.txt
-   - Bước 4: Chạy mã xử lý dữ liệu
-     ## Run:
-    		python app.py
-
-
-     Truy câp http://localhost:6868/docs
-     Truy câp http://localhost:9999/docs
-
-
-
-## Create file .env in folder /src/.env
-    
-    # Flask settings
-    FLASK_ENV=development
-    SECRET_KEY=your_secret_key
-    
-    # SQL Server settings
-    DB_USER=sa
-    DB_PASSWORD=Aa@123456
-    DB_HOST=127.0.0.1
-    DB_PORT=1433
-    DB_NAME=FlaskApiDB
-    
-    
-    DATABASE_URI = "mssql+pymssql://sa:Aa%40123456@127.0.0.1:1433/FlaskApiDB"
-
-## pull image MS SQL server 
-    
-    ```bash
-    docker pull mcr.microsoft.com/mssql/server:2025-latest
-    ```
-## Install MS SQL server in docker 
-    ```bash
-    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa123456" -p 1433:1433 --name sql1 --hostname sql1 -d  mcr.microsoft.com/mssql/server:2025-latest
-    ```
-## Test connect SQL server 
-
-## ORM Flask (from sqlalchemy.orm )
-Object Relational Mapping
-
-Ánh xạ 1 class (OOP)  model src/infrastructure/models --> Table in database 
-Ánh xạ các mối quan hệ (Relational) -- Khoá ngoại CSDL 
-(n-n): many to many 
-
-@startuml
-' Diagram Title
-title Clean Architecture Sequence Diagram
-
-' Define participants in order of appearance
-actor Actor
-participant "Web App"
-participant "Controller"
-participant "Services"
-participant "Domain"
-participant "infrastructure"
-database "Database"
-
-' --- Message Flow ---
-
-' 1. Initial Request
-Actor -> "Web App": Request
-activate "Web App"
-
-' 2. Forwarding to Controller
-"Web App" -> "Controller"
-activate "Controller"
-
-' 3. Calling the Service Layer
-"Controller" -> "Services"
-activate "Services"
-
-' 4. Interacting with the Domain Layer
-"Services" -> "Domain"
-activate "Domain"
-note over Domain: Interfaces
-
-' 5. Interacting with Infrastructure
-"Domain" -> "infrastructure"
-activate "infrastructure"
-note over infrastructure: Class implement
-
-' 6. Database Query
-"infrastructure" -> "Database"
-activate "Database"
-
-' --- Response Flow (Return Messages) ---
-
-' 7. Database returns data
-"Database" --> "infrastructure"
-deactivate "Database"
-
-' 8. Infrastructure returns to Domain
-"infrastructure" --> "Domain"
-deactivate "infrastructure"
-
-' 9. Domain returns to Services
-"Domain" --> "Services"
-deactivate "Domain"
-
-' 10. Services returns to Controller
-"Services" --> "Controller"
-deactivate "Services"
-
-' 11. Controller returns to Web App
-"Controller" --> "Web App"
-deactivate "Controller"
-
-' 12. Final data rendering to Actor
-"Web App" --> Actor
-note left of "Web App"
-  Render data
-end note
-deactivate "Web App"
-
-@enduml
-=======
-</file>
-
-<file path="src/api/controllers/auth_controller.py">
-import jwt
-from flask import Blueprint, request, jsonify, current_app
-from datetime import datetime, timedelta
-from infrastructure.models.user_model import UserModel
-from infrastructure.databases.mssql import session
-from api.schemas.auth import RigisterUserRequestSchema,RigisterUserResponseSchema
-from services.auth_service import AuthService
-from infrastructure.repositories.auth_repository import AuthRepository
-
-auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-auth_service = AuthService(AuthRepository(session))
-register_request = RigisterUserRequestSchema()
-register_response = RigisterUserResponseSchema()
-@auth_bp.route('/check_router', methods=['GET'])
-def check_router():
-    """
-    Check router
+@academic_year_bp.route('/', methods=['GET'])
+@inject
+def list_academic_years(academic_year_service: AcademicYearService = Provide[Container.academic_year_service]):
+    """Get all academic years
     ---
     get:
-      summary: Check router health
+      summary: Get all academic years
       tags:
-        - Auth
+        - AcademicYears
       responses:
         200:
-          description: Router is working
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          description: List of academic years
     """
-    return jsonify({'message': 'Router is working!'}), 200
+    items = academic_year_service.list_academic_years()
+    return jsonify(schema.dump(items, many=True)), 200
 
-@auth_bp.route('/login', methods=['POST'])
-def login():
-    """
-    Login user
+@academic_year_bp.route('/', methods=['POST'])
+@inject
+def create_academic_year(academic_year_service: AcademicYearService = Provide[Container.academic_year_service]):
+    """Create a new academic year
     ---
     post:
-      summary: Login user
+      summary: Create an academic year
+      tags:
+        - AcademicYears
       requestBody:
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginUserRequest'
-      tags:
-        - Auth
-      responses:
-        200:
-          description: Successful login
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginUserResponse'
-        401:
-          description: Invalid credentials
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-    """
-    data = request.get_json()
-    user = session.query(UserModel).filter_by(
-        user_name=data['user_name'],
-        password=data['password']
-    ).first()
-    if not user:
-        return jsonify({'error': 'Invalid credentials'}), 401
-
-    payload = {
-        'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(hours=2)
-    }
-    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
-    return jsonify({'token': token})
-
-
-@auth_bp.route('/signup', methods=['POST'])
-def register():
-    """
-    Register a new user
-    ---
-    post:
-      summary: Register a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RigisterUserRequest'
-      tags:
-        - Auth
       responses:
         201:
-          description: User registered successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RigisterUserResponse'
+          description: Created
         400:
-          description: Invalid input or user exists
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          description: Invalid input
     """
-    data = request.get_json()
-    errors = register_request.validate(data)
+    data = request.get_json() or {}
+    errors = schema.validate(data)
     if errors:
         return jsonify(errors), 400
-    # Lay thong tin tu nguoi dung truyen vao
-    
-    
-    if request.method == 'POST':
-        user_name = request.form['user_name']
-        password = request.form['password']
-        password_confirm = request.form['password_confirm']
+    ay = academic_year_service.create_academic_year(data)
+    return jsonify(schema.dump(ay)), 201
 
-
-        if auth_service.check_exist(user_name):
-            return jsonify({'message': 'User already exists. Please login.'}), 400
-
-    #     hashed_password = generate_password_hash(password)
-    #     new_user = User(public_id=str(uuid.uuid4()), name=name, email=email, password=hashed_password)
-
-    #     db.session.add(new_user)
-    #     db.session.commit()
-
-    #     return redirect(url_for('login'))
-
-    # return render_template('register.html')
-</file>
-
-<file path="src/api/controllers/course_controller.py">
-from flask import Blueprint, request, jsonify
-from services.todo_service import TodoService
-from infrastructure.repositories.todo_repository import TodoRepository
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-from datetime import datetime
-
-bp = Blueprint('course', __name__, url_prefix='/courses')
-
-# Khởi tạo service và repository (dùng memory, chưa kết nối DB thật)
-todo_service = TodoService(TodoRepository())
-
-request_schema = TodoRequestSchema()
-response_schema = TodoResponseSchema()
-
-@bp.route('/', methods=['GET'])
-def list_todos():
-    """
-    Get all todos
-    ---
-    get:
-      summary: Get all todos
-      tags:
-        - Todos
-      responses:
-        200:
-          description: List of todos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TodoResponse'
-    """
-    todos = todo_service.list_todos()
-    return jsonify(response_schema.dump(todos, many=True)), 200
-
-@bp.route('/<int:todo_id>', methods=['GET'])
-def get_todo(todo_id):
-    todo = todo_service.get_todo(todo_id)
-    if not todo:
-        return jsonify({'message': 'Todo not found'}), 404
-    return jsonify(response_schema.dump(todo)), 200
-
-@bp.route('/', methods=['POST'])
-def create_todo():
-    data = request.get_json()
-    errors = request_schema.validate(data)
+@academic_year_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_academic_year(id: int, academic_year_service: AcademicYearService = Provide[Container.academic_year_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
     if errors:
         return jsonify(errors), 400
-    now = datetime.utcnow()
-    todo = todo_service.create_todo(
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=now,
-        updated_at=now
-    )
-    return jsonify(response_schema.dump(todo)), 201
+    ay = academic_year_service.update_academic_year(id, data)
+    if not ay:
+        return jsonify({'message': 'AcademicYear not found'}), 404
+    return jsonify(schema.dump(ay)), 200
 
-@bp.route('/<int:todo_id>', methods=['PUT'])
-def update_todo(todo_id):
-    data = request.get_json()
-    errors = request_schema.validate(data)
-    if errors:
-        return jsonify(errors), 400
-    todo = todo_service.update_todo(
-        todo_id=todo_id,
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=datetime.utcnow(),  # Có thể lấy từ DB nếu cần
-        updated_at=datetime.utcnow()
-    )
-    return jsonify(response_schema.dump(todo)), 200
-
-@bp.route('/<int:todo_id>', methods=['DELETE'])
-def delete_todo(todo_id):
-    todo_service.delete_todo(todo_id)
+@academic_year_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_academic_year(id: int, academic_year_service: AcademicYearService = Provide[Container.academic_year_service]):
+    ok = academic_year_service.delete_academic_year(id)
+    if not ok:
+        return jsonify({'message': 'AcademicYear not found'}), 404
     return '', 204
 </file>
 
-<file path="src/api/controllers/todo_controller.py">
+<file path="src/api/controllers/assessment_clo_controller.py">
 from flask import Blueprint, request, jsonify
-from services.todo_service import TodoService
-from infrastructure.repositories.todo_repository import TodoRepository
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-from datetime import datetime
-from infrastructure.databases.mssql import session
-bp = Blueprint('todo', __name__, url_prefix='/todos')
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.assessment_clo_service import AssessmentCloService
+from api.schemas.assessment_clo_mapping_schema import AssessmentCloMappingSchema
 
-todo_service = TodoService(TodoRepository(session))
+assessment_clo_bp = Blueprint('assessment_clo_map', __name__, url_prefix='/assessment-clos')
 
-request_schema = TodoRequestSchema()
-response_schema = TodoResponseSchema()
+schema = AssessmentCloMappingSchema()
 
-@bp.route('/', methods=['GET'])
-def list_todos():
-    """
-    Get all todos
+@assessment_clo_bp.route('/component/<int:component_id>', methods=['GET'])
+@inject
+def list_clos(component_id: int, service: AssessmentCloService = Provide[Container.assessment_clo_service]):
+    items = service.get_clos_for_component(component_id)
+    return jsonify([{'id': c.id, 'code': c.code, 'description': c.description} for c in items]), 200
+
+@assessment_clo_bp.route('/', methods=['POST'])
+@inject
+def add_mapping(service: AssessmentCloService = Provide[Container.assessment_clo_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        mapping = service.add_mapping(data['assessment_component_id'], data['syllabus_clo_id'])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify({'assessment_component_id': mapping.assessment_component_id, 'syllabus_clo_id': mapping.syllabus_clo_id}), 201
+
+@assessment_clo_bp.route('/', methods=['DELETE'])
+@inject
+def remove_mapping(service: AssessmentCloService = Provide[Container.assessment_clo_service]):
+    data = request.get_json() or {}
+    if not data:
+        return jsonify({'error': 'Provide JSON body with assessment_component_id and syllabus_clo_id'}), 400
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    ok = service.remove_mapping(data['assessment_component_id'], data['syllabus_clo_id'])
+    if not ok:
+        return jsonify({'message': 'Mapping not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/assessment_component_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.assessment_component_service import AssessmentComponentService
+from api.schemas.assessment_component_schema import AssessmentComponentSchema
+
+assessment_component_bp = Blueprint('assessment_component', __name__, url_prefix='/assessment-components')
+
+schema = AssessmentComponentSchema()
+
+@assessment_component_bp.route('/', methods=['POST'])
+@inject
+def create_component(service: AssessmentComponentService = Provide[Container.assessment_component_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = service.create_component(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@assessment_component_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_component(id: int, service: AssessmentComponentService = Provide[Container.assessment_component_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    item = service.update_component(id, data)
+    if not item:
+        return jsonify({'message': 'Component not found'}), 404
+    return jsonify(schema.dump(item)), 200
+
+@assessment_component_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_component(id: int, service: AssessmentComponentService = Provide[Container.assessment_component_service]):
+    ok = service.delete_component(id)
+    if not ok:
+        return jsonify({'message': 'Component not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/assessment_scheme_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.assessment_scheme_service import AssessmentSchemeService
+from api.schemas.assessment_scheme_schema import AssessmentSchemeSchema
+
+assessment_scheme_bp = Blueprint('assessment_scheme', __name__, url_prefix='/assessment-schemes')
+
+schema = AssessmentSchemeSchema()
+
+@assessment_scheme_bp.route('/syllabus/<int:syllabus_id>', methods=['GET'])
+@inject
+def list_schemes(syllabus_id: int, service: AssessmentSchemeService = Provide[Container.assessment_scheme_service]):
+    items = service.list_schemes_for_syllabus(syllabus_id)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@assessment_scheme_bp.route('/', methods=['POST'])
+@inject
+def create_scheme(service: AssessmentSchemeService = Provide[Container.assessment_scheme_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = service.create_scheme(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@assessment_scheme_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_scheme(id: int, service: AssessmentSchemeService = Provide[Container.assessment_scheme_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    item = service.update_scheme(id, data)
+    if not item:
+        return jsonify({'message': 'Scheme not found'}), 404
+    return jsonify(schema.dump(item)), 200
+
+@assessment_scheme_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_scheme(id: int, service: AssessmentSchemeService = Provide[Container.assessment_scheme_service]):
+    ok = service.delete_scheme(id)
+    if not ok:
+        return jsonify({'message': 'Scheme not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/department_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.department_service import DepartmentService
+from api.schemas.department_schema import DepartmentSchema
+
+department_bp = Blueprint('department', __name__, url_prefix='/departments')
+
+schema = DepartmentSchema()
+
+@department_bp.route('/', methods=['GET'])
+@inject
+def list_departments(department_service: DepartmentService = Provide[Container.department_service]):
+    """Get all departments
     ---
     get:
-      summary: Get all todos
+      summary: Get all departments
       tags:
-        - Todos
+        - Departments
       responses:
         200:
-          description: List of todos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TodoResponse'
+          description: List of departments
     """
-    todos = todo_service.list_todos()
-    return jsonify(response_schema.dump(todos, many=True)), 200
+    departments = department_service.list_departments()
+    return jsonify(schema.dump(departments, many=True)), 200
 
-@bp.route('/<int:todo_id>', methods=['GET'])
-def get_todo(todo_id):
-    """
-    Get todo by id
+@department_bp.route('/<int:id>', methods=['GET'])
+@inject
+def get_department(id: int, department_service: DepartmentService = Provide[Container.department_service]):
+    """Get department by id
     ---
     get:
-      summary: Get todo by id
+      summary: Get department by ID
+      tags:
+        - Departments
       parameters:
-        - name: todo_id
+        - name: id
           in: path
           required: true
           schema:
             type: integer
-          description: ID của todo cần lấy
-      tags:
-        - Todos
       responses:
         200:
-          description: object of todo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
+          description: Department object
         404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          description: Not found
     """
-    todo = todo_service.get_todo(todo_id)
-    if not todo:
-        return jsonify({'message': 'Todo not found'}), 404
-    return jsonify(response_schema.dump(todo)), 200
+    department = department_service.get_department(id)
+    if not department:
+        return jsonify({'message': 'Department not found'}), 404
+    return jsonify(schema.dump(department)), 200
 
-
-@bp.route('/', methods=['POST'])
-def create_todo():
-    """
-    Create a new todo
+@department_bp.route('/', methods=['POST'])
+@inject
+def create_department(department_service: DepartmentService = Provide[Container.department_service]):
+    """Create a new department
     ---
     post:
-      summary: Create a new todo
+      summary: Create a new department
+      tags:
+        - Departments
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TodoRequest'
-      tags:
-        - Todos
+              $ref: '#/components/schemas/Department'
       responses:
         201:
-          description: Todo created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
+          description: Department created
         400:
           description: Invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
     """
-    data = request.get_json()
-    errors = request_schema.validate(data)
+    data = request.get_json() or {}
+    errors = schema.validate(data)
     if errors:
         return jsonify(errors), 400
-    now = datetime.utcnow()
-    todo = todo_service.create_todo(
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=now,
-        updated_at=now
-    )
-    return jsonify(response_schema.dump(todo)), 201  
+    department = department_service.create_department(data)
+    return jsonify(schema.dump(department)), 201
 
-@bp.route('/<int:todo_id>', methods=['PUT'])
-def update_todo(todo_id):
-    """
-    Update a todo by id
+@department_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_department(id: int, department_service: DepartmentService = Provide[Container.department_service]):
+    """Update an existing department
     ---
     put:
-      summary: Update a todo by id
+      summary: Update department
+      tags:
+        - Departments
       parameters:
-        - name: todo_id
+        - name: id
           in: path
           required: true
           schema:
             type: integer
-          description: ID của todo cần cập nhật
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TodoRequest'
-      tags:
-        - Todos
+              $ref: '#/components/schemas/Department'
       responses:
         200:
-          description: Todo updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TodoResponse'
+          description: Department updated
         400:
           description: Invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
         404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          description: Department not found
     """
-    data = request.get_json()
-    errors = request_schema.validate(data)
+    data = request.get_json() or {}
+    errors = schema.validate(data)
     if errors:
         return jsonify(errors), 400
-    todo = todo_service.update_todo(
-        todo_id=todo_id,
-        title=data['title'],
-        description=data['description'],
-        status=data['status'],
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
-    )
-    return jsonify(response_schema.dump(todo)), 200
+    department = department_service.update_department(id, data)
+    if not department:
+        return jsonify({'message': 'Department not found'}), 404
+    return jsonify(schema.dump(department)), 200
 
-@bp.route('/<int:todo_id>', methods=['DELETE'])
-def delete_todo(todo_id):
-    """
-    Delete a todo by id
+@department_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_department(id: int, department_service: DepartmentService = Provide[Container.department_service]):
+    """Delete department
     ---
     delete:
-      summary: Delete a todo by id
+      summary: Delete department
+      tags:
+        - Departments
       parameters:
-        - name: todo_id
+        - name: id
           in: path
           required: true
           schema:
             type: integer
-          description: ID của todo cần xóa
-      tags:
-        - Todos
       responses:
         204:
-          description: Todo deleted successfully
+          description: Deleted
         404:
-          description: Todo not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          description: Department not found
     """
-    todo_service.delete_todo(todo_id)
+    ok = department_service.delete_department(id)
+    if not ok:
+        return jsonify({'message': 'Department not found'}), 404
     return '', 204
+</file>
+
+<file path="src/api/controllers/faculty_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.faculty_service import FacultyService
+from api.schemas.faculty_schema import FacultySchema
+
+faculty_bp = Blueprint('faculty', __name__, url_prefix='/faculties')
+
+schema = FacultySchema()
+
+@faculty_bp.route('/', methods=['GET'])
+@inject
+def list_faculties(faculty_service: FacultyService = Provide[Container.faculty_service]):
+    """Get all faculties
+    ---
+    get:
+      summary: Get all faculties
+      tags:
+        - Faculties
+      responses:
+        200:
+          description: List of faculties
+    """
+    faculties = faculty_service.list_faculties()
+    return jsonify(schema.dump(faculties, many=True)), 200
+
+@faculty_bp.route('/<int:id>', methods=['GET'])
+@inject
+def get_faculty(id: int, faculty_service: FacultyService = Provide[Container.faculty_service]):
+    """Get faculty by id
+    ---
+    get:
+      summary: Get faculty by ID
+      tags:
+        - Faculties
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Faculty object
+        404:
+          description: Not found
+    """
+    faculty = faculty_service.get_faculty(id)
+    if not faculty:
+        return jsonify({'message': 'Faculty not found'}), 404
+    return jsonify(schema.dump(faculty)), 200
+
+@faculty_bp.route('/', methods=['POST'])
+@inject
+def create_faculty(faculty_service: FacultyService = Provide[Container.faculty_service]):
+    """Create a new faculty
+    ---
+    post:
+      summary: Create a new faculty
+      tags:
+        - Faculties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Faculty'
+      responses:
+        201:
+          description: Faculty created
+        400:
+          description: Invalid input
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    faculty = faculty_service.create_faculty(data)
+    return jsonify(schema.dump(faculty)), 201
+
+@faculty_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_faculty(id: int, faculty_service: FacultyService = Provide[Container.faculty_service]):
+    """Update an existing faculty
+    ---
+    put:
+      summary: Update faculty
+      tags:
+        - Faculties
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Faculty'
+      responses:
+        200:
+          description: Faculty updated
+        400:
+          description: Invalid input
+        404:
+          description: Faculty not found
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    faculty = faculty_service.update_faculty(id, data)
+    if not faculty:
+        return jsonify({'message': 'Faculty not found'}), 404
+    return jsonify(schema.dump(faculty)), 200
+
+@faculty_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_faculty(id: int, faculty_service: FacultyService = Provide[Container.faculty_service]):
+    """Delete faculty
+    ---
+    delete:
+      summary: Delete faculty
+      tags:
+        - Faculties
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: Faculty not found
+    """
+    ok = faculty_service.delete_faculty(id)
+    if not ok:
+        return jsonify({'message': 'Faculty not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/program_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.program_service import ProgramService
+from api.schemas.program_schema import ProgramSchema
+
+program_bp = Blueprint('program', __name__, url_prefix='/programs')
+
+schema = ProgramSchema()
+
+@program_bp.route('/', methods=['GET'])
+@inject
+def list_programs(program_service: ProgramService = Provide[Container.program_service]):
+    """Get all programs
+    ---
+    get:
+      summary: Get all programs
+      tags:
+        - Programs
+      responses:
+        200:
+          description: List of programs
+    """
+    items = program_service.list_programs()
+    return jsonify(schema.dump(items, many=True)), 200
+
+@program_bp.route('/', methods=['POST'])
+@inject
+def create_program(program_service: ProgramService = Provide[Container.program_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    p = program_service.create_program(data)
+    return jsonify(schema.dump(p)), 201
+
+@program_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_program(id: int, program_service: ProgramService = Provide[Container.program_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    p = program_service.update_program(id, data)
+    if not p:
+        return jsonify({'message': 'Program not found'}), 404
+    return jsonify(schema.dump(p)), 200
+
+@program_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_program(id: int, program_service: ProgramService = Provide[Container.program_service]):
+    ok = program_service.delete_program(id)
+    if not ok:
+        return jsonify({'message': 'Program not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/role_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.role_service import RoleService
+from api.schemas.role_schema import RoleSchema
+
+role_bp = Blueprint('role', __name__, url_prefix='/roles')
+
+schema = RoleSchema()
+
+@role_bp.route('/', methods=['GET'])
+@inject
+def list_roles(role_service: RoleService = Provide[Container.role_service]):
+    """Get all roles
+    ---
+    get:
+      summary: Get all roles
+      tags:
+        - Roles
+      responses:
+        200:
+          description: List of roles
+    """
+    roles = role_service.list_roles()
+    return jsonify(schema.dump(roles, many=True)), 200
+
+@role_bp.route('/', methods=['POST'])
+@inject
+def create_role(role_service: RoleService = Provide[Container.role_service]):
+    """Create a new role
+    ---
+    post:
+      summary: Create a new role
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        201:
+          description: Role created
+        400:
+          description: Invalid input
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    role = role_service.create_role(data)
+    return jsonify(schema.dump(role)), 201
+</file>
+
+<file path="src/api/controllers/rubric_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.rubric_service import RubricService
+from api.schemas.rubric_schema import RubricSchema
+
+rubric_bp = Blueprint('rubric', __name__, url_prefix='/rubrics')
+
+schema = RubricSchema()
+
+@rubric_bp.route('/component/<int:component_id>', methods=['GET'])
+@inject
+def list_rubrics(component_id: int, rubric_service: RubricService = Provide[Container.rubric_service]):
+    items = rubric_service.list_rubrics_for_component(component_id)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@rubric_bp.route('/', methods=['POST'])
+@inject
+def create_rubric(rubric_service: RubricService = Provide[Container.rubric_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = rubric_service.create_rubric(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@rubric_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_rubric(id: int, rubric_service: RubricService = Provide[Container.rubric_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    item = rubric_service.update_rubric(id, data)
+    if not item:
+        return jsonify({'message': 'Rubric not found'}), 404
+    return jsonify(schema.dump(item)), 200
+
+@rubric_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_rubric(id: int, rubric_service: RubricService = Provide[Container.rubric_service]):
+    ok = rubric_service.delete_rubric(id)
+    if not ok:
+        return jsonify({'message': 'Rubric not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/syllabus_clo_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.syllabus_clo_service import SyllabusCloService
+from api.schemas.syllabus_clo_schema import SyllabusCloSchema
+
+syllabus_clo_bp = Blueprint('syllabus_clo', __name__, url_prefix='/syllabus-clos')
+
+schema = SyllabusCloSchema()
+
+@syllabus_clo_bp.route('/syllabus/<int:syllabus_id>', methods=['GET'])
+@inject
+def list_clos(syllabus_id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    items = syllabus_clo_service.get_by_syllabus(syllabus_id)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@syllabus_clo_bp.route('/', methods=['POST'])
+@inject
+def create_clo(syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = syllabus_clo_service.create_clo(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@syllabus_clo_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_clo(id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    item = syllabus_clo_service.update_clo(id, data)
+    if not item:
+        return jsonify({'message': 'CLO not found'}), 404
+    return jsonify(schema.dump(item)), 200
+
+@syllabus_clo_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_clo(id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    ok = syllabus_clo_service.delete_clo(id)
+    if not ok:
+        return jsonify({'message': 'CLO not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/syllabus_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.syllabus_service import SyllabusService
+from api.schemas.syllabus_schema import SyllabusSchema
+from api.schemas.syllabus_detail_schema import SyllabusDetailSchema
+
+syllabus_bp = Blueprint('syllabus', __name__, url_prefix='/syllabuses')
+
+schema = SyllabusSchema()
+detail_schema = SyllabusDetailSchema()
+
+@syllabus_bp.route('/', methods=['GET'])
+@inject
+def list_syllabuses(syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """List syllabuses
+    ---
+    get:
+      summary: List syllabuses
+      tags:
+        - Syllabuses
+      responses:
+        200:
+          description: List of syllabuses
+    """
+    items = syllabus_service.list_syllabuses()
+    return jsonify(schema.dump(items, many=True)), 200
+
+@syllabus_bp.route('/<int:id>', methods=['GET'])
+@inject
+def get_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Get syllabus
+    ---
+    get:
+      summary: Get syllabus by id
+      tags:
+        - Syllabuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Syllabus object
+        404:
+          description: Not found
+    """
+    s = syllabus_service.get_syllabus(id)
+    if not s:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return jsonify(schema.dump(s)), 200
+
+
+@syllabus_bp.route('/<int:id>/details', methods=['GET'])
+@inject
+def get_syllabus_details(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Get full syllabus details
+    ---
+    get:
+      summary: Get syllabus details by id
+      tags:
+        - Syllabuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Syllabus detail object
+        404:
+          description: Not found
+    """
+    s = syllabus_service.get_syllabus_details(id)
+    if not s:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return jsonify(detail_schema.dump(s)), 200
+
+
+@syllabus_bp.route('/<int:id>/submit', methods=['POST'])
+@inject
+def submit_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Submit a syllabus for evaluation
+    ---
+    post:
+      summary: Submit syllabus
+      tags:
+        - Syllabuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+      responses:
+        200:
+          description: Submitted syllabus
+        400:
+          description: Invalid action
+        404:
+          description: Not found
+    """
+    data = request.get_json() or {}
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'message': 'user_id is required'}), 400
+    try:
+        s = syllabus_service.submit_syllabus(id, user_id)
+    except ValueError as e:
+        return jsonify({'message': str(e)}), 400
+    if not s:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return jsonify(schema.dump(s)), 200
+
+
+@syllabus_bp.route('/<int:id>/evaluate', methods=['POST'])
+@inject
+def evaluate_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Evaluate (approve/reject) a syllabus
+    ---
+    post:
+      summary: Evaluate syllabus
+      tags:
+        - Syllabuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+      responses:
+        200:
+          description: Evaluation result
+        400:
+          description: Invalid action or missing comment
+        404:
+          description: Not found
+    """
+    data = request.get_json() or {}
+    action = data.get('action')
+    user_id = data.get('user_id')
+    comment = data.get('comment')
+    if not action or not user_id:
+        return jsonify({'message': 'action and user_id are required'}), 400
+    try:
+        s = syllabus_service.evaluate_syllabus(id, user_id, action, comment)
+    except ValueError as e:
+        return jsonify({'message': str(e)}), 400
+    if not s:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return jsonify(schema.dump(s)), 200
+
+
+@syllabus_bp.route('/<int:id>/workflow-logs', methods=['GET'])
+@inject
+def get_workflow_logs(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Get workflow logs for a syllabus
+    ---
+    get:
+      summary: Get workflow logs
+      tags:
+        - Syllabuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of workflow logs
+        404:
+          description: Not found
+    """
+    logs = syllabus_service.get_workflow_logs(id)
+    from api.schemas.workflow_log_schema import WorkflowLogSchema
+    schema_w = WorkflowLogSchema()
+    return jsonify(schema_w.dump(logs, many=True)), 200
+
+@syllabus_bp.route('/', methods=['POST'])
+@inject
+def create_syllabus(syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Create a syllabus
+    ---
+    post:
+      summary: Create syllabus
+      tags:
+        - Syllabuses
+      requestBody:
+        required: true
+      responses:
+        201:
+          description: Created
+        400:
+          description: Invalid input
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        s = syllabus_service.create_syllabus(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(s)), 201
+
+@syllabus_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    s = syllabus_service.update_syllabus(id, data)
+    if not s:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return jsonify(schema.dump(s)), 200
+
+@syllabus_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    ok = syllabus_service.delete_syllabus(id)
+    if not ok:
+        return jsonify({'message': 'Syllabus not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/syllabus_material_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.syllabus_material_service import SyllabusMaterialService
+from api.schemas.syllabus_material_schema import SyllabusMaterialSchema
+
+syllabus_material_bp = Blueprint('syllabus_material', __name__, url_prefix='/syllabus-materials')
+
+schema = SyllabusMaterialSchema()
+
+@syllabus_material_bp.route('/syllabus/<int:syllabus_id>', methods=['GET'])
+@inject
+def list_materials(syllabus_id: int, syllabus_material_service: SyllabusMaterialService = Provide[Container.syllabus_material_service]):
+    items = syllabus_material_service.get_by_syllabus(syllabus_id)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@syllabus_material_bp.route('/', methods=['POST'])
+@inject
+def create_material(syllabus_material_service: SyllabusMaterialService = Provide[Container.syllabus_material_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = syllabus_material_service.create_material(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@syllabus_material_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_material(id: int, syllabus_material_service: SyllabusMaterialService = Provide[Container.syllabus_material_service]):
+    ok = syllabus_material_service.delete_material(id)
+    if not ok:
+        return jsonify({'message': 'Material not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/teaching_plan_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.teaching_plan_service import TeachingPlanService
+from api.schemas.teaching_plan_schema import TeachingPlanSchema
+
+teaching_plan_bp = Blueprint('teaching_plan', __name__, url_prefix='/teaching-plans')
+
+schema = TeachingPlanSchema()
+
+@teaching_plan_bp.route('/syllabus/<int:syllabus_id>', methods=['GET'])
+@inject
+def list_plans(syllabus_id: int, teaching_plan_service: TeachingPlanService = Provide[Container.teaching_plan_service]):
+    items = teaching_plan_service.list_plans_for_syllabus(syllabus_id)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@teaching_plan_bp.route('/', methods=['POST'])
+@inject
+def create_plan(teaching_plan_service: TeachingPlanService = Provide[Container.teaching_plan_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    try:
+        item = teaching_plan_service.create_teaching_plan(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify(schema.dump(item)), 201
+
+@teaching_plan_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_plan(id: int, teaching_plan_service: TeachingPlanService = Provide[Container.teaching_plan_service]):
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    item = teaching_plan_service.update_teaching_plan(id, data)
+    if not item:
+        return jsonify({'message': 'Teaching plan not found'}), 404
+    return jsonify(schema.dump(item)), 200
+
+@teaching_plan_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_plan(id: int, teaching_plan_service: TeachingPlanService = Provide[Container.teaching_plan_service]):
+    ok = teaching_plan_service.delete_teaching_plan(id)
+    if not ok:
+        return jsonify({'message': 'Teaching plan not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/controllers/user_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.user_service import UserService
+from api.schemas.user_schema import UserSchema
+
+user_bp = Blueprint('user', __name__, url_prefix='/users')
+
+schema = UserSchema()
+
+@user_bp.route('/', methods=['GET'])
+@inject
+def list_users(user_service: UserService = Provide[Container.user_service]):
+    """Get all users
+    ---
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        200:
+          description: List of users
+    """
+    users = user_service.list_users()
+    return jsonify(schema.dump(users, many=True)), 200
+
+@user_bp.route('/<int:id>', methods=['GET'])
+@inject
+def get_user(id: int, user_service: UserService = Provide[Container.user_service]):
+    """Get user by id
+    ---
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: User object
+        404:
+          description: Not found
+    """
+    user = user_service.get_user(id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    return jsonify(schema.dump(user)), 200
+
+@user_bp.route('/', methods=['POST'])
+@inject
+def create_user(user_service: UserService = Provide[Container.user_service]):
+    """Create a new user
+    ---
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User created
+        400:
+          description: Invalid input
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    user = user_service.create_user(data)
+    return jsonify(schema.dump(user)), 201
+
+@user_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_user(id: int, user_service: UserService = Provide[Container.user_service]):
+    """Update an existing user
+    ---
+    put:
+      summary: Update user
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User updated
+        400:
+          description: Invalid input
+        404:
+          description: User not found
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data, partial=True)
+    if errors:
+        return jsonify(errors), 400
+    user = user_service.update_user(id, data)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    return jsonify(schema.dump(user)), 200
 </file>
 
 <file path="src/api/middleware.py">
@@ -1131,76 +1780,179 @@ def validation_error_response(errors):
     return jsonify({"message": "Validation errors", "errors": errors}), 422
 </file>
 
-<file path="src/api/routes.py">
-from src.api.controllers.todo_controller import bp as todo_bp
-
-def register_routes(app):
-    app.register_blueprint(todo_bp)
-</file>
-
 <file path="src/api/schemas/...  # Marshmallow schemas">
 # This file is intentionally left blank.
 </file>
 
-<file path="src/api/schemas/auth.py">
+<file path="src/api/schemas/academic_year_schema.py">
 from marshmallow import Schema, fields
 
-class RigisterUserRequestSchema(Schema):
-    user_name = fields.Str(required=True)
-    password = fields.Str(required=True)
-    password_confirm = fields.Str(required=True)
-    # email = fields.Email(required=True)
-class RigisterUserResponseSchema(Schema):
-    user_name = fields.Str(required=True)
-    password = fields.Str(required=True)
-    
-    
-class LoginUserRequestSchema(Schema):
-    user_name = fields.Str(required=True)
-    password = fields.Str(required=True)
-    
-class LoginUserResponseSchema(Schema):
-    user_name = fields.Str(required=True)
-    token = fields.Str(required=True)
+class AcademicYearSchema(Schema):
+    id = fields.Int(dump_only=True)
+    code = fields.Str(required=True)
+    start_date = fields.Date(required=True)
+    end_date = fields.Date(required=True)
 </file>
 
-<file path="src/api/schemas/todo.py">
+<file path="src/api/schemas/assessment_clo_mapping_schema.py">
 from marshmallow import Schema, fields
 
-class TodoRequestSchema(Schema):
-    title = fields.Str(required=True)
-    description = fields.Str(required=True)
-    status = fields.Str(required=True)
+class AssessmentCloMappingSchema(Schema):
+    assessment_component_id = fields.Int(required=True)
+    syllabus_clo_id = fields.Int(required=True)
+</file>
 
-class TodoResponseSchema(Schema):
-    id = fields.Int(required=True)
-    title = fields.Str(required=True)
+<file path="src/api/schemas/assessment_component_schema.py">
+from marshmallow import Schema, fields
+from marshmallow.validate import Range
+
+class AssessmentComponentSchema(Schema):
+    id = fields.Int(dump_only=True)
+    scheme_id = fields.Int(required=True)
+    name = fields.Str(required=True)
+    weight = fields.Float(required=True, validate=Range(min=0, max=100))
+    rubrics = fields.List(fields.Nested('RubricSchema'), dump_only=True)
+</file>
+
+<file path="src/api/schemas/assessment_scheme_schema.py">
+from marshmallow import Schema, fields
+from marshmallow.validate import Range
+
+class AssessmentSchemeSchema(Schema):
+    id = fields.Int(dump_only=True)
+    syllabus_id = fields.Int(required=True)
+    name = fields.Str(required=True)
+    weight = fields.Float(required=True, validate=Range(min=0, max=100))
+    components = fields.List(fields.Nested('AssessmentComponentSchema'), dump_only=True)
+</file>
+
+<file path="src/api/schemas/department_schema.py">
+from marshmallow import Schema, fields
+
+class DepartmentSchema(Schema):
+    id = fields.Int(dump_only=True)
+    faculty_id = fields.Int(required=True)
+    code = fields.Str(required=True)
+    name = fields.Str(required=True)
+</file>
+
+<file path="src/api/schemas/faculty_schema.py">
+from marshmallow import Schema, fields
+
+class FacultySchema(Schema):
+    id = fields.Int(dump_only=True)
+    code = fields.Str(required=True)
+    name = fields.Str(required=True)
+    # Optional fields example: use load_default for Marshmallow
+    description = fields.Str(load_default=None)
+</file>
+
+<file path="src/api/schemas/program_schema.py">
+from marshmallow import Schema, fields
+
+class ProgramSchema(Schema):
+    id = fields.Int(dump_only=True)
+    department_id = fields.Int(required=True)
+    name = fields.Str(required=True)
+    total_credits = fields.Int(load_default=0)
+</file>
+
+<file path="src/api/schemas/role_schema.py">
+from marshmallow import Schema, fields
+
+class RoleSchema(Schema):
+    id = fields.Int(dump_only=True)
+    name = fields.Str(required=True)
+    description = fields.Str(load_default=None)
+</file>
+
+<file path="src/api/schemas/rubric_schema.py">
+from marshmallow import Schema, fields
+
+class RubricSchema(Schema):
+    id = fields.Int(dump_only=True)
+    component_id = fields.Int(required=True)
+    criteria = fields.Str(required=True)
+    max_score = fields.Float(required=True)
+    description_level_pass = fields.Str(load_default=None)
+    description_level_fail = fields.Str(load_default=None)
+</file>
+
+<file path="src/api/schemas/syllabus_clo_schema.py">
+from marshmallow import Schema, fields
+
+class SyllabusCloSchema(Schema):
+    id = fields.Int(dump_only=True)
+    syllabus_id = fields.Int(required=True)
+    code = fields.Str(required=True)
     description = fields.Str(required=True)
-    status = fields.Str(required=True)
-    created_at = fields.Raw(required=True)
-    updated_at = fields.Raw(required=True)
+    created_at = fields.DateTime(dump_only=True)
+</file>
+
+<file path="src/api/schemas/syllabus_material_schema.py">
+from marshmallow import Schema, fields
+
+class SyllabusMaterialSchema(Schema):
+    id = fields.Int(dump_only=True)
+    syllabus_id = fields.Int(required=True)
+    type = fields.Str(required=True)
+    title = fields.Str(required=True)
+    author = fields.Str(load_default=None)
+    publisher = fields.Str(load_default=None)
+    isbn = fields.Str(load_default=None)
+    url = fields.Str(load_default=None)
+</file>
+
+<file path="src/api/schemas/syllabus_schema.py">
+from marshmallow import Schema, fields
+from marshmallow.validate import Length
+
+class SyllabusSchema(Schema):
+    id = fields.Int(dump_only=True)
+    subject_id = fields.Int(required=True)
+    program_id = fields.Int(required=True)
+    academic_year_id = fields.Int(required=True)
+    lecturer_id = fields.Int(required=True)
+
+    status = fields.Str(dump_only=True)
+    version = fields.Str(load_default="1.0", validate=Length(max=10))
+    time_allocation = fields.Str(load_default=None)
+    prerequisites = fields.Str(load_default=None)
+    publish_date = fields.DateTime(load_default=None)
+
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+</file>
+
+<file path="src/api/schemas/teaching_plan_schema.py">
+from marshmallow import Schema, fields
+
+class TeachingPlanSchema(Schema):
+    id = fields.Int(dump_only=True)
+    syllabus_id = fields.Int(required=True)
+    week = fields.Int(required=True)
+    topic = fields.Str(load_default=None)
+    activity = fields.Str(load_default=None)
+    assessment = fields.Str(load_default=None)
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+</file>
+
+<file path="src/api/schemas/user_schema.py">
+from marshmallow import Schema, fields
+
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    username = fields.Str(required=True)
+    email = fields.Email(required=True)
+    full_name = fields.Str(required=True)
+    department_id = fields.Int(load_default=None)
+    is_active = fields.Bool(load_default=True)
+    password = fields.Str(load_only=True, required=True)
 </file>
 
 <file path="src/api/schemas/user.py">
 
-</file>
-
-<file path="src/api/swagger.py">
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
-from apispec_webframeworks.flask import FlaskPlugin
-from api.schemas.todo import TodoRequestSchema, TodoResponseSchema
-
-spec = APISpec(
-    title="Todo API",
-    version="1.0.0",
-    openapi_version="3.0.2",
-    plugins=[FlaskPlugin(), MarshmallowPlugin()],
-)
-
-# Đăng ký schema để tự động sinh model
-spec.components.schema("TodoRequest", schema=TodoRequestSchema)
-spec.components.schema("TodoResponse", schema=TodoResponseSchema)
 </file>
 
 <file path="src/app_logging.py">
@@ -1217,155 +1969,6 @@ def setup_logging():
     )
 
 setup_logging()
-</file>
-
-<file path="src/app.py">
-from flask import Flask, jsonify
-from api.swagger import spec
-from api.controllers.todo_controller import bp as todo_bp
-from api.middleware import middleware
-from api.responses import success_response
-from infrastructure.databases import init_db
-from config import Config
-from flasgger import Swagger
-from config import SwaggerConfig
-from flask_swagger_ui import get_swaggerui_blueprint
-from cors import CORS
-
-
-def create_app():
-    app = Flask(__name__)
-    Swagger(app)
-    # Đăng ký blueprint trước
-    app.register_blueprint(todo_bp)
-
-     # Thêm Swagger UI blueprint
-    SWAGGER_URL = '/docs'
-    API_URL = '/swagger.json'
-    swaggerui_blueprint = get_swaggerui_blueprint(
-        SWAGGER_URL,
-        API_URL,
-        config={'app_name': "Todo API"}
-    )
-    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-    try:
-        init_db(app)
-    except Exception as e:
-        print(f"Error initializing database: {e}")
-
-    # Register middleware
-    middleware(app)
-
-    # Register routes
-    with app.test_request_context():
-        for rule in app.url_map.iter_rules():
-            # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.')):
-                view_func = app.view_functions[rule.endpoint]
-                print(f"Adding path: {rule.rule} -> {view_func}")
-                spec.path(view=view_func)
-
-    @app.route("/swagger.json")
-    def swagger_json():
-        return jsonify(spec.to_dict())
-
-    return app
-# Run the application
-
-if __name__ == '__main__':
-    app = create_app()
-    app.run(host='0.0.0.0', port=9999, debug=True)
-</file>
-
-<file path="src/config.py">
-# Configuration settings for the Flask application
-
-import os
-from dotenv import load_dotenv
-load_dotenv()
-
-class Config:
-    """Base configuration."""
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a_default_secret_key'
-    DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
-    TESTING = os.environ.get('TESTING', 'False').lower() in ['true', '1']
-    
-    DATABASE_URI = os.environ.get('DATABASE_URI') 
-    CORS_HEADERS = 'Content-Type'
-
-class DevelopmentConfig(Config):
-    """Development configuration."""
-    DEBUG = True
-    DATABASE_URI = os.environ.get('DATABASE_URI') 
-
-
-class TestingConfig(Config):
-    """Testing configuration."""
-    TESTING = True
-    DATABASE_URI = os.environ.get('DATABASE_URI')
-
-
-class ProductionConfig(Config):
-    """Production configuration."""
-    DATABASE_URI = os.environ.get('DATABASE_URI') 
-
-    
-template = {
-    "swagger": "2.0",
-    "info": {
-        "title": "Todo API",
-        "description": "API for managing todos",
-        "version": "1.0.0"
-    },
-    "basePath": "/",
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ]
-}
-class SwaggerConfig:
-    """Swagger configuration."""
-    template = {
-        "swagger": "2.0",
-        "info": {
-            "title": "Todo API",
-            "description": "API for managing todos",
-            "version": "1.0.0"
-        },
-        "basePath": "/",
-        "schemes": [
-            "http",
-            "https"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ]
-    }
-
-    swagger_config = {
-        "headers": [],
-        "specs": [
-            {
-                "endpoint": 'apispec',
-                "route": '/apispec.json',
-                "rule_filter": lambda rule: True,
-                "model_filter": lambda tag: True,
-            }
-        ],
-        "static_url_path": "/flasgger_static",
-        "swagger_ui": True,
-        "specs_route": "/docs"
-    }
 </file>
 
 <file path="src/cors.py">
@@ -1394,23 +1997,6 @@ def create_app():
     register_routes(app)
 
     return app
-</file>
-
-<file path="src/dependency_container.py">
-# Dependency Injection Container
-
-from dependency_injector import containers, providers
-
-# Import your services and repositories here
-# from infrastructure.repositories import SomeRepository
-# from infrastructure.services import SomeService
-
-class Container(containers.DeclarativeContainer):
-    # Define your providers here
-    # some_repository = providers.Factory(SomeRepository)
-    # some_service = providers.Factory(SomeService, repository=some_repository)
-
-    pass  # This file is intentionally left blank for now.
 </file>
 
 <file path="src/domain/constants.py">
@@ -1460,126 +2046,6 @@ class ConflictException(CustomException):
 # This file is intentionally left blank.
 </file>
 
-<file path="src/domain/models/auth.py">
-from datetime import date
-
-
-class Auth:
-    def __init__(self, user_name: str, password: str, password_comfirm: str):
-        self.user_name = user_name
-        self.password = password
-        self.password_comfirm = password_comfirm
-</file>
-
-<file path="src/domain/models/course.py">
-from datetime import date
-
-
-class Course:
-    def __init__(self, id: int, course_name: str, description: str, status: str,start_date :date ,end_date:date,created_at, updated_at):
-        self.id = id
-        self.course_name = course_name
-        self.description = description
-        self.status = status
-        self.start_date = start_date
-        self.end_date = end_date
-        self.created_at = created_at
-        self.updated_at = updated_at
-</file>
-
-<file path="src/domain/models/iauth_repository.py">
-from abc import ABC, abstractmethod
-from typing import List, Optional
-from .auth import Auth
-class IAuthRepository(ABC):
-    @abstractmethod
-    def login(self, auth: Auth) -> Auth:
-        pass
-
-    @abstractmethod
-    def register(self, auth: Auth) -> Optional[Auth]:
-        pass
-
-    @abstractmethod
-    def remember_password(self) -> Optional[Auth]:
-        pass
-
-    @abstractmethod
-    def look_account(self, Id: int) -> bool:
-        pass
-
-    @abstractmethod
-    def un_look_account(self, course_id: int) -> None:
-        pass 
-    @abstractmethod
-    def check_exist(self, user_name: str) -> bool:
-        pass
-</file>
-
-<file path="src/domain/models/icourse_repository.py">
-from abc import ABC, abstractmethod
-from typing import List, Optional
-from .course import Course
-class ICourseRepository(ABC):
-    @abstractmethod
-    def add(self, course: Course) -> Course:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, course_id: int) -> Optional[Course]:
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Course]:
-        pass
-
-    @abstractmethod
-    def update(self, course: Course) -> Course:
-        pass
-
-    @abstractmethod
-    def delete(self, course_id: int) -> None:
-        pass
-</file>
-
-<file path="src/domain/models/itodo_repository.py">
-from abc import ABC, abstractmethod
-from .todo import Todo
-from typing import List, Optional
-
-class ITodoRepository(ABC):
-    @abstractmethod
-    def add(self, todo: Todo) -> Todo:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, todo_id: int) -> Optional[Todo]:
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Todo]:
-        pass
-
-    @abstractmethod
-    def update(self, todo: Todo) -> Todo:
-        pass
-
-    @abstractmethod
-    def delete(self, todo_id: int) -> None:
-        pass
-</file>
-
-<file path="src/domain/models/todo.py">
-class Todo:
-    def __init__(self, id: int, title: str, description: str, status: str, created_at, updated_at):
-        self.id = id
-        self.title = title
-        self.description = description
-        self.status = status
-        self.created_at = created_at
-        self.updated_at = updated_at
-</file>
-
 <file path="src/domain/models/user.py">
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from infrastructure.databases.base import Base
@@ -1624,71 +2090,6 @@ def handle_error(error):
 
 def register_error_handlers(app):
     app.register_error_handler(Exception, handle_error)
-</file>
-
-<file path="src/infrastructure/databases/__init__.py">
-from infrastructure.databases.mssql import init_mssql
-from infrastructure.models import (
-    course_register_model, 
-    todo_model, 
-    user_model, 
-    course_model, 
-    consultant_model, 
-    appointment_model, 
-    program_model, 
-    feedback_model,
-    survey_model,
-    academic_year_model,
-    ai_auditlog_model,
-    appointment_model,
-    assessment_clo_model,
-    assessment_component_model,
-    assessment_scheme_model,
-    clo_plo_mapping_model,
-    consultant_model,
-    course_model,
-    course_register_model,
-    department_model,
-    faculty_model,
-    feedback_model,
-    file_model,
-    notification_model,
-    notification_template_model,
-    program_model,
-    program_outcome_model,
-    role_model,
-    rubric_model,
-    student_report_model,
-    student_subscription_model,
-    subject_model,
-    subject_relationship_model,
-    survey_model,
-    syllabus_clo_model,
-    syllabus_comment_model,
-    syllabus_current_workflow,
-    syllabus_material_model,
-    syllabus_model,
-    system_auditlog_model,
-    system_setting_model,
-    teaching_plan_model,
-    todo_model,
-    user_model,
-    user_role_model,
-    workflow_log_model,
-    workflow_state_model,
-    workflow_transition_model
-    
-
-)
-from infrastructure.models.auth import auth_user_model, auth_role_model,auth_funtion_model
-from infrastructure.models.sell import sell_customer_model, sell_product_model, sell_invoice_model
-from infrastructure.models.pay import pay_tran_model
-
-def init_db(app):
-    init_mssql(app)
-    
-# Migration Entities -> tables
-from infrastructure.databases.mssql import Base
 </file>
 
 <file path="src/infrastructure/databases/base.py">
@@ -1775,30 +2176,6 @@ class AiAuditLog(Base):
     syllabus = relationship("Syllabus", back_populates="ai_audit_logs")
 </file>
 
-<file path="src/infrastructure/models/appointment_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
-from infrastructure.databases.base import Base
-
-class AppointmentModel(Base):
-    __tablename__ = 'appointments'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    consultant_id = Column(Integer, ForeignKey('consultants.id'))
-    
-    # SỬA: Dùng BigInteger
-    user_id = Column(BigInteger,  ForeignKey('users.id'))
-    
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
-    url_online = Column(String(255), nullable=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
 <file path="src/infrastructure/models/assessment_clo_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -1870,67 +2247,6 @@ class AssessmentScheme(Base):
     components = relationship("AssessmentComponent", back_populates="scheme", cascade="all, delete-orphan")
 </file>
 
-<file path="src/infrastructure/models/auth/auth_funtion_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthFuntionModel(Base):
-    __tablename__ = 'auth_functions'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(100), unique=True, nullable=False)
-    url = Column(String(255), unique=True, nullable=False)
-    description = Column(String(255))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    
-    
-class AuthRoleFunctionModel(Base):
-    __tablename__ = 'auth_role_functions'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
-    function_id = Column(Integer, ForeignKey('auth_functions.id'), nullable=False)
-
-    def __repr__(self):
-        return f"<AuthRoleFunctionModel(role_id='{self.role_id}', function_id='{self.function_id}')>"
-</file>
-
-<file path="src/infrastructure/models/auth/auth_role_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthRoleModel(Base):
-    __tablename__ = 'auth_roles'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(50), unique=True, nullable=False)
-    description = Column(String(255))
-    
-class AuthUserRoleModel(Base):
-    __tablename__ = 'auth_user_roles'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('auth_users.id'), nullable=False)
-    role_id = Column(Integer, ForeignKey('auth_roles.id'), nullable=False)
-
-    def __repr__(self):
-        return f"<AuthUserRoleModel(user_id='{self.user_id}', role_id='{self.role_id}')>"
-</file>
-
-<file path="src/infrastructure/models/auth/auth_user_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from infrastructure.databases.base import Base
-class AuthUserModel(Base):
-    __tablename__ = 'auth_users'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String(50), unique=True, nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    password_hash = Column(String(128), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime) 
-
-    def __repr__(self):
-        return f"<AuthUserModel(username='{self.username}', email='{self.email}')>"
-</file>
-
 <file path="src/infrastructure/models/clo_plo_mapping_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -1957,61 +2273,6 @@ class CloPloMapping(Base):
     # Relationships
     syllabus_clo = relationship("SyllabusClo", back_populates="plo_mappings")
     program_plo = relationship("ProgramOutcome", back_populates="clo_mappings")
-</file>
-
-<file path="src/infrastructure/models/consultant_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class ConsultantModel(Base):
-    __tablename__ = 'consultants'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-    id = Column(Integer, primary_key=True)
-    consultant_name = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    gender = Column(String(10), nullable=False)
-    age = Column (Integer, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/course_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-# QUAN TRỌNG: Import Base từ file cấu hình chung, KHÔNG dùng declarative_base()
-from infrastructure.databases.base import Base
-
-class CourseModel(Base):
-    __tablename__ = 'courses'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    course_name = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    start_date = Column(DateTime, nullable=False)
-    end_date = Column(DateTime, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/course_register_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, BigInteger
-from infrastructure.databases.base import Base
-
-class CourseRegisterModel(Base):
-    __tablename__ = 'course_register'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-    
-    # SỬA: Dùng BigInteger để khớp với users.id
-    user_id = Column(BigInteger, ForeignKey('users.id')) 
-    
-    # Giữ nguyên Integer cho course_id vì bảng courses dùng Integer (trừ khi bạn đã sửa bảng courses thành BigInteger)
-    course_id = Column(Integer, ForeignKey('courses.id'))
 </file>
 
 <file path="src/infrastructure/models/department_model.py">
@@ -2064,27 +2325,6 @@ class Faculty(Base):
     departments = relationship("Department", back_populates="faculty")
 </file>
 
-<file path="src/infrastructure/models/feedback_model.py">
-# Thêm BigInteger vào dòng import
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, BigInteger
-from infrastructure.databases.base import Base
-
-class FeedbackModel(Base):
-    __tablename__ = 'feedbacks'
-    __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-
-    feedback_text = Column(String(255))
-    evaluation = Column(Float)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime) 
-    course_id = Column(Integer, ForeignKey('courses.id'))
-    
-    # SỬA: Dùng BigInteger
-    user_id = Column(BigInteger, ForeignKey('users.id'))
-</file>
-
 <file path="src/infrastructure/models/notification_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -2130,80 +2370,6 @@ class NotificationTemplate(Base):
     title_template = Column(String(255), nullable=False)
     body_template = Column(Text, nullable=False)
     channel = Column(String(20), default='SYSTEM')  # EMAIL, SMS, SYSTEM
-</file>
-
-<file path="src/infrastructure/models/pay/pay_tran_model.py">
-# Pay Transaction Model
-# Chứa các thông tin về giao dịch thanh toán của hoá đơn(invoice)
-from datetime import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
-from infrastructure.databases.base import Base
-from sqlalchemy.orm import relationship
-class PayTranModel(Base):
-    __tablename__ = 'pay_trans'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'), nullable=False)
-    amount = Column(Float, nullable=False)
-    payment_method = Column(String(50), nullable=False)
-    transaction_date = Column(DateTime, default=datetime.utcnow)
-
-    # invoice = relationship("InvoiceModel", back_populates="payments")
-
-    def __init__(self, invoice_id, amount, payment_method):
-        self.invoice_id = invoice_id
-        self.amount = amount
-        self.payment_method = payment_method
-</file>
-
-<file path="src/infrastructure/models/program_model.py">
-from datetime import datetime
-from sqlalchemy import (
-    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-from infrastructure.databases.base import Base
-
-class Program(Base):
-    __tablename__ = 'programs'
-    
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
-    name = Column(String(255), nullable=False)
-    total_credits = Column(Integer)
-    
-    # Relationships
-    department = relationship("Department", back_populates="programs")
-    outcomes = relationship("ProgramOutcome", back_populates="program")
-    syllabuses = relationship("Syllabus", back_populates="program")
-
-
-
-
-
-# from sqlalchemy import Column, Integer, String, DateTime
-# from infrastructure.databases.base import Base
-
-# class ProgramModel(Base):
-#     __tablename__ = 'programs'
-#     __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-#     id = Column(Integer, primary_key=True)
-
-#     title = Column(String(255), nullable=False)
-#     description = Column(String(255), nullable=True)
-#     status = Column(String(50), nullable=False)
-#     created_at = Column(DateTime)
-#     updated_at = Column(DateTime) 
-    
-    
-    # create table programs(
-    #     id Int primary key,
-    #     title nvarchar(255) not null,....
-    # )
 </file>
 
 <file path="src/infrastructure/models/program_outcome_model.py">
@@ -2276,71 +2442,6 @@ class Rubric(Base):
     
     # Relationships
     component = relationship("AssessmentComponent", back_populates="rubrics")
-</file>
-
-<file path="src/infrastructure/models/sell/sell_customer_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellCustomerModel(Base):
-    __tablename__ = 'sell_customers'
-
-    id = Column(Integer, primary_key=True)
-    customer_name = Column(String(100))
-    email = Column(String(100), unique=True)
-    phone = Column(String(20))
-    address = Column(String(255))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
-<file path="src/infrastructure/models/sell/sell_invoice_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellInvoiceModel(Base):
-    __tablename__ = 'sell_invoices'
-
-    id = Column(Integer, primary_key=True)
-    customer_id = Column(Integer, ForeignKey('sell_customers.id'))
-    invoice_date = Column(DateTime)
-    total_amount = Column(Float)
-    status = Column(String(50))
-    invoice_code = Column(String(12), unique=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    blank_amount = Column(Float)
-    paid_amount = Column(Float)
-    # customer = relationship("CustomerModel", back_populates="invoices")
-    # items = relationship("SellInvoiceItemModel", back_populates="invoice")
-    # payments = relationship("PayTranModel", back_populates="invoice")
-    
-class SellInvoiceItemModel(Base):
-    __tablename__ = 'sell_invoice_items'
-
-    id = Column(Integer, primary_key=True)
-    invoice_id = Column(Integer, ForeignKey('sell_invoices.id'))
-    product_id = Column(Integer, ForeignKey('sell_products.id'))
-    quantity = Column(Integer)
-    unit_price = Column(Float)
-    total_price = Column(Float)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    # invoice = relationship("SellInvoiceModel", back_populates="items")
-</file>
-
-<file path="src/infrastructure/models/sell/sell_product_model.py">
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime,Float
-from infrastructure.databases.base import Base
-class SellProductModel(Base):
-    __tablename__ = 'sell_products'
-    
-    # Sell Product Model
-    # Chứa các thông tin về sản phẩm bán ra trong hoá đơn(invoice)
-    id = Column(Integer, primary_key=True)
-    product_name = Column(String(100))
-    description = Column(String(255))
-    product_code = Column(String(100), unique=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
 </file>
 
 <file path="src/infrastructure/models/student_report_model.py">
@@ -2451,21 +2552,6 @@ class SubjectRelationship(Base):
     # Relationships
     subject = relationship("Subject", foreign_keys=[subject_id], back_populates="subject_relationships")
     related_subject = relationship("Subject", foreign_keys=[related_subject_id], back_populates="related_subjects")
-</file>
-
-<file path="src/infrastructure/models/survey_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class SurveyModel(Base):
-    __tablename__ = 'surveys'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-    id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
 </file>
 
 <file path="src/infrastructure/models/syllabus_clo_model.py">
@@ -2694,22 +2780,6 @@ class TeachingPlan(Base):
     syllabus = relationship("Syllabus", back_populates="teaching_plans")
 </file>
 
-<file path="src/infrastructure/models/todo_model.py">
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.base import Base
-
-class TodoModel(Base):
-    __tablename__ = 'todos'
-    __table_args__ = {'extend_existing': True}  # Thêm dòng này
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    description = Column(String(255), nullable=True)
-    status = Column(String(50), nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-</file>
-
 <file path="src/infrastructure/models/user_role_model.py">
 from datetime import datetime
 from sqlalchemy import (
@@ -2817,246 +2887,602 @@ class WorkflowTransition(Base):
     allowed_role = relationship("Role", back_populates="workflow_transitions")
 </file>
 
-<file path="src/infrastructure/repositories/auth_repository.py">
-from domain.models.iauth_repository import IAuthRepository
-from domain.models.auth import Auth
-from infrastructure.databases import Base
+<file path="src/infrastructure/repositories/academic_year_repository.py">
 from typing import List, Optional
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from config import Config
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases.mssql import session
 from sqlalchemy.orm import Session
-from infrastructure.models.user_model import UserModel
-load_dotenv()
+from infrastructure.databases.mssql import session
+from infrastructure.models.academic_year_model import AcademicYear
 
-class AuthRepository(IAuthRepository):
+class AcademicYearRepository:
     def __init__(self, session: Session = session):
-        self._users = []
-        self._id_counter = 1
         self.session = session
-    
-    def login(self, auth: Auth) -> Auth:
-        # Implement login logic here
-        # For demonstration, we will just return the auth object
-        return auth
-    def register(self, auth: Auth) -> Optional[Auth]:
-        # Implement registration logic here
-        # For demonstration, we will just return the auth object
-        auth.id = 1  # Simulate setting an ID after registration
-        return auth
-    def remember_password(self) -> Optional[Auth]:
-        # Implement remember password logic here
-        return None
-    def look_account(self, Id: int) -> bool:
-        # Implement look account logic here
-        return True
-    def un_look_account(self, course_id: int) -> None:
-        # Implement un-look account logic here
-        pass
-    def check_exist(self, user_name: str) -> bool:
-        # Implement check exist logic here
-        existing_user = self.session.query(UserModel).filter_by(user_name = user_name).first()
-        if existing_user:
+
+    def get_all(self) -> List[AcademicYear]:
+        return self.session.query(AcademicYear).all()
+
+    def get_by_id(self, id: int) -> Optional[AcademicYear]:
+        return self.session.query(AcademicYear).filter_by(id=id).first()
+
+    def create(self, data: dict) -> AcademicYear:
+        ay = AcademicYear(**data)
+        self.session.add(ay)
+        self.session.commit()
+        self.session.refresh(ay)
+        return ay
+
+    def update(self, id: int, data: dict) -> Optional[AcademicYear]:
+        ay = self.get_by_id(id)
+        if not ay:
+            return None
+        for key, value in data.items():
+            if hasattr(ay, key):
+                setattr(ay, key, value)
+        self.session.commit()
+        self.session.refresh(ay)
+        return ay
+
+    def delete(self, id: int) -> bool:
+        ay = self.get_by_id(id)
+        if not ay:
             return False
+        self.session.delete(ay)
+        self.session.commit()
         return True
 </file>
 
-<file path="src/infrastructure/repositories/course_repository.py">
-from domain.models.icourse_repository import ICourseRepository
-from domain.models.course import Course
-from infrastructure.databases import Base
-from domain.models.todo import Todo
-from typing import List, Optional
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from config import Config
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases import Base
-
-load_dotenv()
-
-class CourseRepository(ICourseRepository):
-    def __init__(self):
-        self._courses = []
-        self._id_counter = 1
-
-    def add(self, course: Course) -> Course:
-        course.id = self._id_counter
-        self._id_counter += 1
-        self._todos.append(course)
-        return course
-
-    def get_by_id(self, course_id: int) -> Optional[Course]:
-        for course in self._courses:
-            if course.id == course_id:
-                return course
-        return None
-
-    def list(self) -> List[Course]:
-        return self._courses
-
-    def update(self, course: Course) -> Course:
-        for idx, t in enumerate(self._courses):
-            if t.id == course.id:
-                self._courses[idx] = course
-                return course
-        raise ValueError('course not found')
-
-    def delete(self, course_id: int) -> None:
-        self._courses = [t for t in self._courses if t.id != course_id]
-</file>
-
-<file path="src/infrastructure/repositories/todo_repository.py">
-from domain.models.itodo_repository import ITodoRepository
-from domain.models.todo import Todo
-from typing import List, Optional
-from dotenv import load_dotenv
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from config import Config
-from sqlalchemy import Column, Integer, String, DateTime
-from infrastructure.databases import Base
+<file path="src/infrastructure/repositories/assessment_clo_repository.py">
+from typing import List
 from sqlalchemy.orm import Session
-from infrastructure.models.todo_model import TodoModel
 from infrastructure.databases.mssql import session
-load_dotenv()
+from infrastructure.models.assessment_clo_model import AssessmentClo
+from infrastructure.models.syllabus_clo_model import SyllabusClo
 
-class TodoRepository(ITodoRepository):
-    def __init__(self, session: Session = session):
-        self._todos = []
-        self._id_counter = 1
-        self.session = session
-
-    def add(self, todo: Todo) -> TodoModel:
-        try:
-            #Manual mapping from Todo to TodoModel
-            todo = TodoModel(
-                title=todo.title,
-                description=todo.description,
-                status=todo.status,
-                created_at=todo.created_at,
-                updated_at=todo.updated_at
-            )
-            self.session.add(todo)
-            self.session.commit()
-            self.session.refresh(todo)
-            return todo
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-    
-    # def add(self, todo: Todo) -> Todo:
-    #     todo.id = self._id_counter
-    #     self._id_counter += 1
-    #     self._todos.append(todo)
-    #     return todo
-
-    def get_by_id(self, todo_id: int) -> Optional[TodoModel]:
-        return self.session.query(TodoModel).filter_by(id=todo_id).first()
-
-
-    # def list(self) -> List[Todo]:
-    #     self._todos
-    #     return self._todos
-    def list(self) -> List[TodoModel]:
-        self._todos = session.query(TodoModel).all()
-        # select * from todos
-        return self._todos
-
-
-    def update(self, todo: TodoModel) -> TodoModel:
-        try:
-             #Manual mapping from Todo to TodoModel
-            todo = TodoModel(
-                id = todo.id,
-                title=todo.title,
-                description=todo.description,
-                status=todo.status,
-                created_at=todo.created_at,
-                updated_at=todo.updated_at
-            )
-            self.session.merge(todo)
-            self.session.commit()
-            return todo
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-
-    def delete(self, todo_id: int) -> None:
-        # self._todos = [t for t in self._todos if t.id != todo_id] 
-        try:
-            todo = self.session.query(TodoModel).filter_by(id=todo_id).first()
-            if todo:
-                self.session.delete(todo)
-                self.session.commit()
-            else:
-                raise ValueError('Todo not found')
-        except Exception as e:
-            self.session.rollback()
-            raise ValueError('Todo not found')
-        finally:
-            self.session.close()
-</file>
-
-<file path="src/infrastructure/repositories/user_repository.py">
-from typing import List, Optional
-from dotenv import load_dotenv
-import os
-from sqlalchemy.orm import Session
-from infrastructure.databases import Base
-from infrastructure.databases.mssql import session
-
-# IMPORT MODEL CHUẨN TỪ FILE MODEL
-from infrastructure.models.user_model import UserModel 
-
-load_dotenv()
-
-class UserRepository:
+class AssessmentCloRepository:
     def __init__(self, session: Session = session):
         self.session = session
 
-    def get_by_username(self, username: str) -> Optional[UserModel]:
-        return self.session.query(UserModel).filter_by(username=username).first()
+    def add_mapping(self, component_id: int, syllabus_clo_id: int) -> AssessmentClo:
+        mapping = AssessmentClo(assessment_component_id=component_id, syllabus_clo_id=syllabus_clo_id)
+        self.session.add(mapping)
+        self.session.commit()
+        return mapping
 
-    def get_by_id(self, user_id: int) -> Optional[UserModel]:
-        return self.session.query(UserModel).filter_by(id=user_id).first()
-    
-    # Bạn có thể thêm các hàm create, update, delete tại đây nếu cần
-    # from domain.models.itodo_repository import ITodoRepository
-# from domain.models.todo import Todo
-# from typing import List, Optional
-# from dotenv import load_dotenv
-# import os
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker, declarative_base
-# from config import Config
-# from sqlalchemy import Column, Integer, String, DateTime,Boolean
-# from infrastructure.databases import Base
+    def remove_mapping(self, component_id: int, syllabus_clo_id: int) -> bool:
+        mapping = self.session.query(AssessmentClo).filter_by(assessment_component_id=component_id, syllabus_clo_id=syllabus_clo_id).first()
+        if not mapping:
+            return False
+        self.session.delete(mapping)
+        self.session.commit()
+        return True
 
-# load_dotenv()
+    def get_clos_by_component(self, component_id: int) -> List[SyllabusClo]:
+        mappings = self.session.query(AssessmentClo).filter_by(assessment_component_id=component_id).all()
+        return [m.syllabus_clo for m in mappings]
+</file>
 
-# class UserModel(Base):
-#     __tablename__ = 'flask_user'
-#     __table_args__ = {'extend_existing': True}  # Thêm dòng này
+<file path="src/infrastructure/repositories/assessment_component_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.assessment_component_model import AssessmentComponent
 
-#     id = Column(Integer, primary_key=True)
-#     user_name = Column(String(18), nullable=False)
-#     password = Column(String(18), nullable=False)
-#     description = Column(String(255), nullable=True)
-#     status = Column(Boolean, nullable=False)
-#     created_at = Column(DateTime)
-#     updated_at = Column(DateTime)
+class AssessmentComponentRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_by_id(self, id: int) -> Optional[AssessmentComponent]:
+        return self.session.query(AssessmentComponent).filter_by(id=id).first()
+
+    def create(self, data: dict) -> AssessmentComponent:
+        item = AssessmentComponent(**data)
+        self.session.add(item)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def update(self, id: int, data: dict) -> Optional[AssessmentComponent]:
+        item = self.get_by_id(id)
+        if not item:
+            return None
+        for k, v in data.items():
+            if hasattr(item, k):
+                setattr(item, k, v)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def delete(self, id: int) -> bool:
+        item = self.get_by_id(id)
+        if not item:
+            return False
+        self.session.delete(item)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/assessment_scheme_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session, joinedload
+from infrastructure.databases.mssql import session
+from infrastructure.models.assessment_scheme_model import AssessmentScheme
+
+class AssessmentSchemeRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[AssessmentScheme]:
+        return self.session.query(AssessmentScheme).all()
+
+    def get_by_id(self, id: int) -> Optional[AssessmentScheme]:
+        return self.session.query(AssessmentScheme).filter_by(id=id).first()
+
+    def get_by_syllabus_id(self, syllabus_id: int) -> List[AssessmentScheme]:
+        # Load components eagerly
+        return self.session.query(AssessmentScheme).options(joinedload(AssessmentScheme.components)).filter_by(syllabus_id=syllabus_id).all()
+
+    def create(self, data: dict) -> AssessmentScheme:
+        s = AssessmentScheme(**data)
+        self.session.add(s)
+        self.session.commit()
+        self.session.refresh(s)
+        return s
+
+    def update(self, id: int, data: dict) -> Optional[AssessmentScheme]:
+        s = self.get_by_id(id)
+        if not s:
+            return None
+        for k, v in data.items():
+            if hasattr(s, k):
+                setattr(s, k, v)
+        self.session.commit()
+        self.session.refresh(s)
+        return s
+
+    def delete(self, id: int) -> bool:
+        s = self.get_by_id(id)
+        if not s:
+            return False
+        self.session.delete(s)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/department_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.department_model import Department
+
+class DepartmentRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Department]:
+        return self.session.query(Department).all()
+
+    def get_by_id(self, id: int) -> Optional[Department]:
+        return self.session.query(Department).filter_by(id=id).first()
+
+    def create(self, data: dict) -> Department:
+        department = Department(**data)
+        self.session.add(department)
+        self.session.commit()
+        self.session.refresh(department)
+        return department
+
+    def update(self, id: int, data: dict) -> Optional[Department]:
+        department = self.get_by_id(id)
+        if not department:
+            return None
+        for key, value in data.items():
+            if hasattr(department, key):
+                setattr(department, key, value)
+        self.session.commit()
+        self.session.refresh(department)
+        return department
+
+    def delete(self, id: int) -> bool:
+        department = self.get_by_id(id)
+        if not department:
+            return False
+        self.session.delete(department)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/faculty_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.faculty_model import Faculty
+
+class FacultyRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Faculty]:
+        return self.session.query(Faculty).all()
+
+    def get_by_id(self, id: int) -> Optional[Faculty]:
+        return self.session.query(Faculty).filter_by(id=id).first()
+
+    def create(self, data: dict) -> Faculty:
+        faculty = Faculty(**data)
+        self.session.add(faculty)
+        self.session.commit()
+        self.session.refresh(faculty)
+        return faculty
+
+    def update(self, id: int, data: dict) -> Optional[Faculty]:
+        faculty = self.get_by_id(id)
+        if not faculty:
+            return None
+        for key, value in data.items():
+            if hasattr(faculty, key):
+                setattr(faculty, key, value)
+        self.session.commit()
+        self.session.refresh(faculty)
+        return faculty
+
+    def delete(self, id: int) -> bool:
+        faculty = self.get_by_id(id)
+        if not faculty:
+            return False
+        self.session.delete(faculty)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/program_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.program_model import Program
+
+class ProgramRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Program]:
+        return self.session.query(Program).all()
+
+    def get_by_id(self, id: int) -> Optional[Program]:
+        return self.session.query(Program).filter_by(id=id).first()
+
+    def create(self, data: dict) -> Program:
+        p = Program(**data)
+        self.session.add(p)
+        self.session.commit()
+        self.session.refresh(p)
+        return p
+
+    def update(self, id: int, data: dict) -> Optional[Program]:
+        p = self.get_by_id(id)
+        if not p:
+            return None
+        for key, value in data.items():
+            if hasattr(p, key):
+                setattr(p, key, value)
+        self.session.commit()
+        self.session.refresh(p)
+        return p
+
+    def delete(self, id: int) -> bool:
+        p = self.get_by_id(id)
+        if not p:
+            return False
+        self.session.delete(p)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/role_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.role_model import Role
+
+class RoleRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Role]:
+        return self.session.query(Role).all()
+
+    def get_by_id(self, id: int) -> Optional[Role]:
+        return self.session.query(Role).filter_by(id=id).first()
+
+    def get_by_name(self, name: str) -> Optional[Role]:
+        return self.session.query(Role).filter_by(name=name).first()
+
+    def create(self, data: dict) -> Role:
+        role = Role(**data)
+        self.session.add(role)
+        self.session.commit()
+        self.session.refresh(role)
+        return role
+
+    def delete(self, id: int) -> bool:
+        role = self.get_by_id(id)
+        if not role:
+            return False
+        self.session.delete(role)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/rubric_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.rubric_model import Rubric
+
+class RubricRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_by_id(self, id: int) -> Optional[Rubric]:
+        return self.session.query(Rubric).filter_by(id=id).first()
+
+    def get_by_component_id(self, component_id: int) -> List[Rubric]:
+        return self.session.query(Rubric).filter_by(component_id=component_id).all()
+
+    def create(self, data: dict) -> Rubric:
+        item = Rubric(**data)
+        self.session.add(item)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def update(self, id: int, data: dict) -> Optional[Rubric]:
+        item = self.get_by_id(id)
+        if not item:
+            return None
+        for k, v in data.items():
+            if hasattr(item, k):
+                setattr(item, k, v)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def delete(self, id: int) -> bool:
+        item = self.get_by_id(id)
+        if not item:
+            return False
+        self.session.delete(item)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/subject_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.subject_model import Subject
+
+class SubjectRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Subject]:
+        return self.session.query(Subject).all()
+
+    def get_by_id(self, id: int) -> Optional[Subject]:
+        return self.session.query(Subject).filter_by(id=id).first()
+
+    def create(self, data: dict) -> Subject:
+        subject = Subject(**data)
+        self.session.add(subject)
+        self.session.commit()
+        self.session.refresh(subject)
+        return subject
+
+    def update(self, id: int, data: dict) -> Optional[Subject]:
+        subject = self.get_by_id(id)
+        if not subject:
+            return None
+        for key, value in data.items():
+            if hasattr(subject, key):
+                setattr(subject, key, value)
+        self.session.commit()
+        self.session.refresh(subject)
+        return subject
+
+    def delete(self, id: int) -> bool:
+        subject = self.get_by_id(id)
+        if not subject:
+            return False
+        self.session.delete(subject)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/syllabus_clo_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.syllabus_clo_model import SyllabusClo
+
+class SyllabusCloRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[SyllabusClo]:
+        return self.session.query(SyllabusClo).all()
+
+    def get_by_id(self, id: int) -> Optional[SyllabusClo]:
+        return self.session.query(SyllabusClo).filter_by(id=id).first()
+
+    def get_by_syllabus_id(self, syllabus_id: int) -> List[SyllabusClo]:
+        return self.session.query(SyllabusClo).filter_by(syllabus_id=syllabus_id).all()
+
+    def create(self, data: dict) -> SyllabusClo:
+        item = SyllabusClo(**data)
+        self.session.add(item)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def update(self, id: int, data: dict) -> Optional[SyllabusClo]:
+        item = self.get_by_id(id)
+        if not item:
+            return None
+        for k, v in data.items():
+            if hasattr(item, k):
+                setattr(item, k, v)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def delete(self, id: int) -> bool:
+        item = self.get_by_id(id)
+        if not item:
+            return False
+        self.session.delete(item)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/syllabus_material_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.syllabus_material_model import SyllabusMaterial
+
+class SyllabusMaterialRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[SyllabusMaterial]:
+        return self.session.query(SyllabusMaterial).all()
+
+    def get_by_id(self, id: int) -> Optional[SyllabusMaterial]:
+        return self.session.query(SyllabusMaterial).filter_by(id=id).first()
+
+    def get_by_syllabus_id(self, syllabus_id: int) -> List[SyllabusMaterial]:
+        return self.session.query(SyllabusMaterial).filter_by(syllabus_id=syllabus_id).all()
+
+    def create(self, data: dict) -> SyllabusMaterial:
+        item = SyllabusMaterial(**data)
+        self.session.add(item)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def delete(self, id: int) -> bool:
+        item = self.get_by_id(id)
+        if not item:
+            return False
+        self.session.delete(item)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/syllabus_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session, joinedload
+from infrastructure.databases.mssql import session
+from infrastructure.models.syllabus_model import Syllabus
+from infrastructure.models.assessment_scheme_model import AssessmentScheme
+from infrastructure.models.assessment_component_model import AssessmentComponent
+
+class SyllabusRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[Syllabus]:
+        return self.session.query(Syllabus).all()
+
+    def get_by_id(self, id: int) -> Optional[Syllabus]:
+        return self.session.query(Syllabus).filter_by(id=id).first()
+
+    def get_by_subject_id(self, subject_id: int) -> List[Syllabus]:
+        return self.session.query(Syllabus).filter_by(subject_id=subject_id).all()
+
+    def get_details(self, id: int) -> Optional[Syllabus]:
+        # Eagerly load related collections and nested components->rubrics
+        return (
+            self.session.query(Syllabus)
+            .options(
+                joinedload(Syllabus.clos),
+                joinedload(Syllabus.materials),
+                joinedload(Syllabus.teaching_plans),
+                joinedload(Syllabus.assessment_schemes)
+                    .joinedload(AssessmentScheme.components)
+                    .joinedload(AssessmentComponent.rubrics),
+            )
+            .filter_by(id=id)
+            .first()
+        )
+
+    def create(self, data: dict) -> Syllabus:
+        s = Syllabus(**data)
+        self.session.add(s)
+        self.session.commit()
+        self.session.refresh(s)
+        return s
+
+    def update(self, id: int, data: dict) -> Optional[Syllabus]:
+        s = self.get_by_id(id)
+        if not s:
+            return None
+        for key, value in data.items():
+            if hasattr(s, key):
+                setattr(s, key, value)
+        self.session.commit()
+        self.session.refresh(s)
+        return s
+
+    def delete(self, id: int) -> bool:
+        s = self.get_by_id(id)
+        if not s:
+            return False
+        self.session.delete(s)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/infrastructure/repositories/teaching_plan_repository.py">
+from typing import List, Optional
+from sqlalchemy.orm import Session
+from infrastructure.databases.mssql import session
+from infrastructure.models.teaching_plan_model import TeachingPlan
+
+class TeachingPlanRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_by_id(self, id: int) -> Optional[TeachingPlan]:
+        return self.session.query(TeachingPlan).filter_by(id=id).first()
+
+    def get_by_syllabus_id(self, syllabus_id: int) -> List[TeachingPlan]:
+        return self.session.query(TeachingPlan).filter_by(syllabus_id=syllabus_id).order_by(TeachingPlan.week).all()
+
+    def create(self, data: dict) -> TeachingPlan:
+        item = TeachingPlan(**data)
+        self.session.add(item)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def update(self, id: int, data: dict) -> Optional[TeachingPlan]:
+        item = self.get_by_id(id)
+        if not item:
+            return None
+        for k, v in data.items():
+            if hasattr(item, k):
+                setattr(item, k, v)
+        self.session.commit()
+        self.session.refresh(item)
+        return item
+
+    def delete(self, id: int) -> bool:
+        item = self.get_by_id(id)
+        if not item:
+            return False
+        self.session.delete(item)
+        self.session.commit()
+        return True
 </file>
 
 <file path="src/infrastructure/services/...  # Services that use third party libraries or services (e.g. email service)">
@@ -3109,22 +3535,6 @@ To get started with the project, ensure you have the necessary dependencies inst
 Contributions are welcome! Please follow the contribution guidelines outlined in the project documentation.
 </file>
 
-<file path="src/requirements.txt">
-Flask>=2.0
-Flask-Cors>=3.0
-Flask-SQLAlchemy>=2.5
-SQLAlchemy>=1.4
-marshmallow>=3.0
-pymssql>=2.2
-python-dotenv>=0.21 
-Flask-RESTX>=1.1.0 
-flasgger
-fastapi
-apispec
-apispec_webframeworks
-flask-swagger-ui
-</file>
-
 <file path="src/scripts/run_postgres.sh">
 #!/bin/bash
 
@@ -3152,117 +3562,909 @@ fi
 # This file is intentionally left blank.
 </file>
 
-<file path="src/services/auth_service.py">
+<file path="src/services/academic_year_service.py">
 from typing import List, Optional
-from domain.models.auth import Auth
-from domain.models.iauth_repository import IAuthRepository
-class AuthService:
-    def __init__(self, repository: IAuthRepository):
-        self.repository = repository
-        
-    def register(self, user_name: str, password: str) -> Optional[Auth]:
-        # Check if user already exists
-        if self.repository.check_exist(user_name):
-            return None  # User already exists
-        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
-        return self.repository.register(auth)
-    def login(self, user_name: str, password: str) -> Optional[Auth]:
-        auth = Auth( user_name=user_name, password=password, password_comfirm=password)
-        return self.repository.login(auth)
-    def remember_password(self) -> Optional[Auth]:
-        return self.repository.remember_password()
-    def look_account(self, Id: int) -> bool:
-        return self.repository.look_account(Id)
-    def un_look_account(self, course_id: int) -> None:
-        self.repository.un_look_account(course_id)
-    def check_exist(self, user_name: str) -> bool:
-        return self.repository.check_exist(user_name)
-</file>
+from infrastructure.repositories.academic_year_repository import AcademicYearRepository
 
-<file path="src/services/course_service.py">
-from typing import List, Optional
-from domain.models.course import Course
-from domain.models.icourse_repository import ICourseRepository
-class CourseService:
-    def __init__(self, repository: ICourseRepository):
-        self.repository = repository
-    def create_course(self, course_name: str, description: str, status: str, start_date, end_date, created_at, updated_at) -> Course:
-        course = Course(id=None, course_name=course_name, description=description, status=status, start_date=start_date, end_date=end_date, created_at=created_at, updated_at=updated_at)
-        return self.repository.add(course)
-    def get_course(self, course_id: int) -> Optional[Course]:
-        return self.repository.get_by_id(course_id)
-
-    def list_courses(self) -> List[Course]:
-        return self.repository.list()
-
-    def update_course(self, course_id: int, course_name: str, description: str, status: str, start_date, end_date, created_at, updated_at) -> Course:
-        course = Course(id=course_id, course_name=course_name, description=description, status=status, start_date=start_date, end_date=end_date, created_at=created_at, updated_at=updated_at)
-        return self.repository.update(course)
-    def delete_course(self, course_id: int) -> None:
-        self.repository.delete(course_id)
-</file>
-
-<file path="src/services/todo_service.py">
-from domain.models.todo import Todo
-from domain.models.itodo_repository import ITodoRepository
-from typing import List, Optional
-
-class TodoService:
-    def __init__(self, repository: ITodoRepository):
+class AcademicYearService:
+    def __init__(self, repository: AcademicYearRepository):
         self.repository = repository
 
-    def create_todo(self, title: str, description: str, status: str, created_at, updated_at) -> Todo:
-        todo = Todo(id=None, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
-        return self.repository.add(todo)
+    def list_academic_years(self) -> List:
+        return self.repository.get_all()
 
-    def get_todo(self, todo_id: int) -> Optional[Todo]:
-        return self.repository.get_by_id(todo_id)
+    def get_academic_year(self, id: int):
+        return self.repository.get_by_id(id)
 
-    def list_todos(self) -> List[Todo]:
-        return self.repository.list()
+    def create_academic_year(self, data: dict):
+        return self.repository.create(data)
 
-    def update_todo(self, todo_id: int, title: str, description: str, status: str, created_at, updated_at) -> Todo:
-        todo = Todo(id=todo_id, title=title, description=description, status=status, created_at=created_at, updated_at=updated_at)
-        return self.repository.update(todo)
+    def update_academic_year(self, id: int, data: dict):
+        return self.repository.update(id, data)
 
-    def delete_todo(self, todo_id: int) -> None:
-        self.repository.delete(todo_id)
+    def delete_academic_year(self, id: int) -> bool:
+        return self.repository.delete(id)
 </file>
 
-<file path="src/swagger_config.json">
-{
-    "template": {
-        "swagger": "2.0",
-        "info": {
-            "title": "Todo API",
-            "description": "API for managing todos",
-            "version": "1.0.0"
-        },
-        "basePath": "/",
-        "schemes": [
-            "http",
-            "https"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ]
-    },
-    "swagger_config": {
-        "headers": [],
-        "specs": [
-            {
-                "endpoint": "apispec",
-                "route": "/apispec.json"
-            }
-        ],
-        "static_url_path": "/flasgger_static",
-        "swagger_ui": true,
-        "specs_route": "/docs"
-    }
-}
+<file path="src/services/assessment_clo_service.py">
+from typing import List
+from infrastructure.repositories.assessment_clo_repository import AssessmentCloRepository
+
+class AssessmentCloService:
+    def __init__(self, repository: AssessmentCloRepository, component_repository=None, syllabus_clo_repository=None):
+        self.repository = repository
+        self.component_repository = component_repository
+        self.syllabus_clo_repository = syllabus_clo_repository
+
+    def get_clos_for_component(self, component_id: int) -> List:
+        return self.repository.get_clos_by_component(component_id)
+
+    def add_mapping(self, component_id: int, syllabus_clo_id: int):
+        if not self.component_repository.get_by_id(component_id):
+            raise ValueError('Invalid component_id')
+        if not self.syllabus_clo_repository.get_by_id(syllabus_clo_id):
+            raise ValueError('Invalid syllabus_clo_id')
+        return self.repository.add_mapping(component_id, syllabus_clo_id)
+
+    def remove_mapping(self, component_id: int, syllabus_clo_id: int) -> bool:
+        return self.repository.remove_mapping(component_id, syllabus_clo_id)
+</file>
+
+<file path="src/services/assessment_component_service.py">
+from typing import Optional
+from infrastructure.repositories.assessment_component_repository import AssessmentComponentRepository
+
+class AssessmentComponentService:
+    def __init__(self, repository: AssessmentComponentRepository, scheme_repository=None):
+        self.repository = repository
+        self.scheme_repository = scheme_repository
+
+    def get_component(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_component(self, data: dict):
+        scheme_id = data.get('scheme_id')
+        if not scheme_id or not self.scheme_repository.get_by_id(scheme_id):
+            raise ValueError('Invalid scheme_id')
+        return self.repository.create(data)
+
+    def update_component(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_component(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/assessment_scheme_service.py">
+from typing import List, Optional
+from infrastructure.repositories.assessment_scheme_repository import AssessmentSchemeRepository
+
+class AssessmentSchemeService:
+    def __init__(self, repository: AssessmentSchemeRepository, syllabus_repository=None):
+        self.repository = repository
+        self.syllabus_repository = syllabus_repository
+
+    def list_schemes_for_syllabus(self, syllabus_id: int) -> List:
+        return self.repository.get_by_syllabus_id(syllabus_id)
+
+    def get_scheme(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_scheme(self, data: dict):
+        syllabus_id = data.get('syllabus_id')
+        if not syllabus_id or not self.syllabus_repository.get_by_id(syllabus_id):
+            raise ValueError('Invalid syllabus_id')
+        return self.repository.create(data)
+
+    def update_scheme(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_scheme(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/department_service.py">
+from typing import List, Optional
+from infrastructure.repositories.department_repository import DepartmentRepository
+
+class DepartmentService:
+    def __init__(self, repository: DepartmentRepository):
+        self.repository = repository
+
+    def list_departments(self) -> List:
+        return self.repository.get_all()
+
+    def get_department(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_department(self, data: dict):
+        return self.repository.create(data)
+
+    def update_department(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_department(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/faculty_service.py">
+from typing import List, Optional
+from infrastructure.repositories.faculty_repository import FacultyRepository
+
+class FacultyService:
+    def __init__(self, repository: FacultyRepository):
+        self.repository = repository
+
+    def list_faculties(self) -> List:
+        return self.repository.get_all()
+
+    def get_faculty(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_faculty(self, data: dict):
+        return self.repository.create(data)
+
+    def update_faculty(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_faculty(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/program_service.py">
+from typing import List, Optional
+from infrastructure.repositories.program_repository import ProgramRepository
+
+class ProgramService:
+    def __init__(self, repository: ProgramRepository):
+        self.repository = repository
+
+    def list_programs(self) -> List:
+        return self.repository.get_all()
+
+    def get_program(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_program(self, data: dict):
+        return self.repository.create(data)
+
+    def update_program(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_program(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/role_service.py">
+from typing import List, Optional
+from infrastructure.repositories.role_repository import RoleRepository
+
+class RoleService:
+    def __init__(self, repository: RoleRepository):
+        self.repository = repository
+
+    def list_roles(self) -> List:
+        return self.repository.get_all()
+
+    def get_role(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def get_by_name(self, name: str):
+        return self.repository.get_by_name(name)
+
+    def create_role(self, data: dict):
+        return self.repository.create(data)
+
+    def delete_role(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/rubric_service.py">
+from typing import List, Optional
+from infrastructure.repositories.rubric_repository import RubricRepository
+
+class RubricService:
+    def __init__(self, repository: RubricRepository, component_repository=None):
+        self.repository = repository
+        self.component_repository = component_repository
+
+    def list_rubrics_for_component(self, component_id: int) -> List:
+        return self.repository.get_by_component_id(component_id)
+
+    def get_rubric(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_rubric(self, data: dict):
+        component_id = data.get('component_id')
+        if not component_id or not self.component_repository.get_by_id(component_id):
+            raise ValueError('Invalid component_id')
+        return self.repository.create(data)
+
+    def update_rubric(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_rubric(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/subject_service.py">
+from typing import List, Optional
+from infrastructure.repositories.subject_repository import SubjectRepository
+
+class SubjectService:
+    def __init__(self, repository: SubjectRepository):
+        self.repository = repository
+
+    def list_subjects(self) -> List:
+        return self.repository.get_all()
+
+    def get_subject(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_subject(self, data: dict):
+        return self.repository.create(data)
+
+    def update_subject(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_subject(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/syllabus_clo_service.py">
+from typing import List, Optional
+from infrastructure.repositories.syllabus_clo_repository import SyllabusCloRepository
+
+class SyllabusCloService:
+    def __init__(self, repository: SyllabusCloRepository, syllabus_repository=None):
+        self.repository = repository
+        self.syllabus_repository = syllabus_repository
+
+    def list_clos(self) -> List:
+        return self.repository.get_all()
+
+    def get_clo(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def get_by_syllabus(self, syllabus_id: int):
+        return self.repository.get_by_syllabus_id(syllabus_id)
+
+    def create_clo(self, data: dict):
+        syllabus_id = data.get('syllabus_id')
+        if not syllabus_id or not self.syllabus_repository.get_by_id(syllabus_id):
+            raise ValueError('Invalid syllabus_id')
+        return self.repository.create(data)
+
+    def update_clo(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_clo(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/syllabus_material_service.py">
+from typing import List, Optional
+from infrastructure.repositories.syllabus_material_repository import SyllabusMaterialRepository
+
+class SyllabusMaterialService:
+    def __init__(self, repository: SyllabusMaterialRepository, syllabus_repository=None):
+        self.repository = repository
+        self.syllabus_repository = syllabus_repository
+
+    def list_materials(self) -> List:
+        return self.repository.get_all()
+
+    def get_material(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def get_by_syllabus(self, syllabus_id: int):
+        return self.repository.get_by_syllabus_id(syllabus_id)
+
+    def create_material(self, data: dict):
+        syllabus_id = data.get('syllabus_id')
+        if not syllabus_id or not self.syllabus_repository.get_by_id(syllabus_id):
+            raise ValueError('Invalid syllabus_id')
+        return self.repository.create(data)
+
+    def delete_material(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/syllabus_service.py">
+from typing import List, Optional
+from infrastructure.repositories.syllabus_repository import SyllabusRepository
+
+class SyllabusService:
+    def __init__(self, repository: SyllabusRepository,
+                 subject_repository=None,
+                 program_repository=None,
+                 academic_year_repository=None,
+                 user_repository=None,
+                 workflow_log_repository=None):
+        self.repository = repository
+        self.subject_repository = subject_repository
+        self.program_repository = program_repository
+        self.academic_year_repository = academic_year_repository
+        self.user_repository = user_repository
+        self.workflow_log_repository = workflow_log_repository
+
+    def list_syllabuses(self) -> List:
+        return self.repository.get_all()
+
+    def get_syllabus(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def get_syllabus_details(self, id: int):
+        return self.repository.get_details(id)
+
+    def get_by_subject(self, subject_id: int):
+        return self.repository.get_by_subject_id(subject_id)
+
+    def create_syllabus(self, data: dict):
+        # Validate foreign keys
+        subject_id = data.get('subject_id')
+        program_id = data.get('program_id')
+        academic_year_id = data.get('academic_year_id')
+        lecturer_id = data.get('lecturer_id')
+
+        if not subject_id or not self.subject_repository.get_by_id(subject_id):
+            raise ValueError('Invalid subject_id')
+        if not program_id or not self.program_repository.get_by_id(program_id):
+            raise ValueError('Invalid program_id')
+        if not academic_year_id or not self.academic_year_repository.get_by_id(academic_year_id):
+            raise ValueError('Invalid academic_year_id')
+        if not lecturer_id or not self.user_repository.get_by_id(lecturer_id):
+            raise ValueError('Invalid lecturer_id')
+
+        # Defaults
+        data.setdefault('status', 'DRAFT')
+
+        return self.repository.create(data)
+
+    def update_syllabus(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_syllabus(self, id: int) -> bool:
+        return self.repository.delete(id)
+
+    # Workflow methods
+    def submit_syllabus(self, id: int, user_id: int):
+        s = self.repository.get_by_id(id)
+        if not s:
+            return None
+        if s.status not in ('DRAFT', 'REJECTED'):
+            raise ValueError('Syllabus cannot be submitted in current status')
+        from_status = s.status
+        updated = self.repository.update(id, {'status': 'PENDING'})
+        # Create workflow log
+        if self.workflow_log_repository:
+            self.workflow_log_repository.create({
+                'syllabus_id': id,
+                'actor_id': user_id,
+                'action': 'SUBMIT',
+                'from_status': from_status,
+                'to_status': 'PENDING',
+                'comment': None
+            })
+        return updated
+
+    def evaluate_syllabus(self, id: int, user_id: int, action: str, comment: Optional[str] = None):
+        s = self.repository.get_by_id(id)
+        if not s:
+            return None
+        action = action.upper()
+        if action not in ('APPROVE', 'REJECT'):
+            raise ValueError('Invalid action')
+        from_status = s.status
+        if action == 'APPROVE':
+            new_status = 'APPROVED'
+        else:  # REJECT
+            if not comment:
+                raise ValueError('Comment is required when rejecting')
+            new_status = 'DRAFT'
+        updated = self.repository.update(id, {'status': new_status})
+        if self.workflow_log_repository:
+            self.workflow_log_repository.create({
+                'syllabus_id': id,
+                'actor_id': user_id,
+                'action': action,
+                'from_status': from_status,
+                'to_status': new_status,
+                'comment': comment
+            })
+        return updated
+
+    def get_workflow_logs(self, syllabus_id: int):
+        if not self.workflow_log_repository:
+            return []
+        return self.workflow_log_repository.get_by_syllabus_id(syllabus_id)
+</file>
+
+<file path="src/services/teaching_plan_service.py">
+from typing import List, Optional
+from infrastructure.repositories.teaching_plan_repository import TeachingPlanRepository
+
+class TeachingPlanService:
+    def __init__(self, repository: TeachingPlanRepository, syllabus_repository=None):
+        self.repository = repository
+        self.syllabus_repository = syllabus_repository
+
+    def list_plans_for_syllabus(self, syllabus_id: int) -> List:
+        return self.repository.get_by_syllabus_id(syllabus_id)
+
+    def get_plan(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def create_teaching_plan(self, data: dict):
+        syllabus_id = data.get('syllabus_id')
+        if not syllabus_id or not self.syllabus_repository.get_by_id(syllabus_id):
+            raise ValueError('Invalid syllabus_id')
+        return self.repository.create(data)
+
+    def update_teaching_plan(self, id: int, data: dict):
+        return self.repository.update(id, data)
+
+    def delete_teaching_plan(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="src/services/user_service.py">
+from typing import List, Optional
+from werkzeug.security import generate_password_hash
+from infrastructure.repositories.user_repository import UserRepository
+
+class UserService:
+    def __init__(self, repository: UserRepository):
+        self.repository = repository
+
+    def list_users(self) -> List:
+        return self.repository.get_all()
+
+    def get_user(self, id: int):
+        return self.repository.get_by_id(id)
+
+    def get_by_username(self, username: str):
+        return self.repository.get_by_username(username)
+
+    def create_user(self, data: dict):
+        # Hash password before saving
+        if 'password' in data:
+            data['password_hash'] = generate_password_hash(data.pop('password'))
+        return self.repository.create(data)
+
+    def update_user(self, id: int, data: dict):
+        if 'password' in data:
+            data['password_hash'] = generate_password_hash(data.pop('password'))
+        return self.repository.update(id, data)
+
+    def delete_user(self, id: int) -> bool:
+        return self.repository.delete(id)
+</file>
+
+<file path="README.md">
+# Architecture
+
+```bash
+    ├── migrations
+    ├── scripts
+    │   └── run_postgres.sh
+    ├── src
+    │   ├── api
+    │   │   ├── controllers
+    │   │   │   └── ...  # controllers for the api
+    │   │   ├── schemas
+    │   │   │   └── ...  # Marshmallow schemas
+    │   │   ├── middleware.py
+    │   │   ├── responses.py
+    │   │   └── requests.py
+    │   ├── infrastructure
+    │   │   ├── services
+    │   │   │   └── ...  # Services that use third party libraries or services (e.g. email service)
+    │   │   ├── databases
+    │   │   │   └── ...  # Database adapaters and initialization
+    │   │   ├── repositories
+    │   │   │   └── ...  # Repositories for interacting with the databases
+    │   │   └── models
+    │   │   │   └── ...  # Database models
+    │   ├── domain
+    │   │   ├── constants.py
+    │   │   ├── exceptions.py
+    │   │   ├── models
+    │   │   │   └── ...  # Business logic models
+    │   ├── services
+    │   │    └── ...  # Services for interacting with the domain (business logic)
+    │   ├── app.py
+    │   ├── config.py
+    │   ├── cors.py
+    │   ├── create_app.py
+    │   ├── dependency_container.py
+    │   ├── error_handler.py
+    │   └── logging.py
+```
+
+## Domain Layer
+
+## Services Layer
+
+## Infrastructure Layer
+
+## Download source code (CMD)
+    git clone https://github.com/ChienNguyensrdn/Flask-CleanArchitecture.git
+## Kiểm tra đã cài python đã cài đặt trên máy chưa
+    python --version
+## Run app
+
+ - Bước 1: Tạo môi trường ảo co Python (phiên bản 3.x)
+     ## Windows:
+     		py -m venv .venv
+     ## Unix/MacOS:
+     		python3 -m venv .venv
+   - Bước 2: Kích hoạt môi trường:
+     ## Windows:
+     		.venv\Scripts\activate.ps1
+     ### Nếu xảy ra lỗi active .venv trên winos run powershell -->Administrator
+         Set-ExecutionPolicy RemoteSigned -Force
+     ## Unix/MacOS:
+     		source .venv/bin/activate
+     
+   - Bước 3: Cài đặt các thư viện cần thiết
+     ## Install:
+     		pip install -r requirements.txt
+   - Bước 4: Chạy mã xử lý dữ liệu
+     ## Run:
+    		python app.py
+
+
+     Truy câp http://localhost:6868/docs
+     Truy câp http://localhost:9999/docs
+
+
+
+## Create file .env in folder /src/.env
+    
+    # Flask settings
+    FLASK_ENV=development
+    SECRET_KEY=your_secret_key
+    
+    # SQL Server settings
+    DB_USER=sa
+    DB_PASSWORD=Aa@123456
+    DB_HOST=127.0.0.1
+    DB_PORT=1433
+    DB_NAME=FlaskApiDB
+    
+    
+    DATABASE_URI = "mssql+pymssql://sa:Aa%40123456@127.0.0.1:1433/FlaskApiDB"
+
+## pull image MS SQL server 
+    
+    ```bash
+    docker pull mcr.microsoft.com/mssql/server:2025-latest
+    ```
+## Install MS SQL server in docker 
+    ```bash
+    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Aa@123456" -p 1433:1433 --name sql1 --hostname sql1 -d  mcr.microsoft.com/mssql/server:2025-latest
+    ```
+## Test connect SQL server 
+
+## ORM Flask (from sqlalchemy.orm )
+Object Relational Mapping
+
+Ánh xạ 1 class (OOP)  model src/infrastructure/models --> Table in database 
+Ánh xạ các mối quan hệ (Relational) -- Khoá ngoại CSDL 
+(n-n): many to many 
+
+@startuml
+' Diagram Title
+title Clean Architecture Sequence Diagram
+
+' Define participants in order of appearance
+actor Actor
+participant "Web App"
+participant "Controller"
+participant "Services"
+participant "Domain"
+participant "infrastructure"
+database "Database"
+
+' --- Message Flow ---
+
+' 1. Initial Request
+Actor -> "Web App": Request
+activate "Web App"
+
+' 2. Forwarding to Controller
+"Web App" -> "Controller"
+activate "Controller"
+
+' 3. Calling the Service Layer
+"Controller" -> "Services"
+activate "Services"
+
+' 4. Interacting with the Domain Layer
+"Services" -> "Domain"
+activate "Domain"
+note over Domain: Interfaces
+
+' 5. Interacting with Infrastructure
+"Domain" -> "infrastructure"
+activate "infrastructure"
+note over infrastructure: Class implement
+
+' 6. Database Query
+"infrastructure" -> "Database"
+activate "Database"
+
+' --- Response Flow (Return Messages) ---
+
+' 7. Database returns data
+"Database" --> "infrastructure"
+deactivate "Database"
+
+' 8. Infrastructure returns to Domain
+"infrastructure" --> "Domain"
+deactivate "infrastructure"
+
+' 9. Domain returns to Services
+"Domain" --> "Services"
+deactivate "Domain"
+
+' 10. Services returns to Controller
+"Services" --> "Controller"
+deactivate "Services"
+
+' 11. Controller returns to Web App
+"Controller" --> "Web App"
+deactivate "Controller"
+
+' 12. Final data rendering to Actor
+"Web App" --> Actor
+note left of "Web App"
+  Render data
+end note
+deactivate "Web App"
+
+@enduml
+=======
+</file>
+
+<file path="src/api/controllers/subject_controller.py">
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.subject_service import SubjectService
+from api.schemas.subject_schema import SubjectSchema
+
+subject_bp = Blueprint('subject', __name__, url_prefix='/subjects')
+
+schema = SubjectSchema()
+
+@subject_bp.route('/', methods=['GET'])
+@inject
+def list_subjects(subject_service: SubjectService = Provide[Container.subject_service]):
+    """Get all subjects
+    ---
+    get:
+      summary: Get all subjects
+      tags:
+        - Subjects
+      responses:
+        200:
+          description: List of subjects
+    """
+    subjects = subject_service.list_subjects()
+    return jsonify(schema.dump(subjects, many=True)), 200
+
+@subject_bp.route('/<int:id>', methods=['GET'])
+@inject
+def get_subject(id: int, subject_service: SubjectService = Provide[Container.subject_service]):
+    """Get subject by id
+    ---
+    get:
+      summary: Get subject by ID
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Subject object
+        404:
+          description: Not found
+    """
+    subject = subject_service.get_subject(id)
+    if not subject:
+        return jsonify({'message': 'Subject not found'}), 404
+    return jsonify(schema.dump(subject)), 200
+
+@subject_bp.route('/', methods=['POST'])
+@inject
+def create_subject(subject_service: SubjectService = Provide[Container.subject_service]):
+    """Create a new subject
+    ---
+    post:
+      summary: Create a new subject
+      tags:
+        - Subjects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subject'
+      responses:
+        201:
+          description: Subject created
+        400:
+          description: Invalid input
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    subject = subject_service.create_subject(data)
+    return jsonify(schema.dump(subject)), 201
+
+@subject_bp.route('/<int:id>', methods=['PUT'])
+@inject
+def update_subject(id: int, subject_service: SubjectService = Provide[Container.subject_service]):
+    """Update an existing subject
+    ---
+    put:
+      summary: Update subject
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subject'
+      responses:
+        200:
+          description: Subject updated
+        400:
+          description: Invalid input
+        404:
+          description: Subject not found
+    """
+    data = request.get_json() or {}
+    errors = schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    subject = subject_service.update_subject(id, data)
+    if not subject:
+        return jsonify({'message': 'Subject not found'}), 404
+    return jsonify(schema.dump(subject)), 200
+
+@subject_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_subject(id: int, subject_service: SubjectService = Provide[Container.subject_service]):
+    """Delete subject
+    ---
+    delete:
+      summary: Delete subject
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: Subject not found
+    """
+    ok = subject_service.delete_subject(id)
+    if not ok:
+        return jsonify({'message': 'Subject not found'}), 404
+    return '', 204
+</file>
+
+<file path="src/api/routes.py">
+def register_routes(app):
+    """Register API routes. No legacy route blueprints are registered for SMD."""
+    return
+</file>
+
+<file path="src/api/schemas/subject_schema.py">
+# from marshmallow import Schema, fields
+
+# class SubjectSchema(Schema):
+#     id = fields.Int(dump_only=True)
+#     department_id = fields.Int(required=True)
+#     code = fields.Str(required=True)
+#     name_vi = fields.Str(required=True)
+#     name_en = fields.Str(required=True)
+#     credits = fields.Int(required=True)
+#     credit_theory = fields.Float(missing=0)
+#     credit_practice = fields.Float(missing=0)
+#     credit_self_study = fields.Float(missing=0)
+from marshmallow import Schema, fields
+
+class SubjectSchema(Schema):
+    id = fields.Int(dump_only=True)
+    department_id = fields.Int(required=True)
+    code = fields.Str(required=True)
+    name_vi = fields.Str(required=True)
+    name_en = fields.Str(required=True)
+    credits = fields.Int(required=True)
+    # Sửa missing=0 thành load_default=0
+    credit_theory = fields.Float(load_default=0)
+    credit_practice = fields.Float(load_default=0)
+    credit_self_study = fields.Float(load_default=0)
+</file>
+
+<file path="src/api/swagger.py">
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from apispec_webframeworks.flask import FlaskPlugin
+
+spec = APISpec(
+    title="Syllabus Management API",
+    version="1.0.0",
+    openapi_version="3.0.2",
+    plugins=[FlaskPlugin(), MarshmallowPlugin()],
+)
+
+# (No legacy Todo schemas registered — SMD module schemas are registered via controllers/schemas)
+</file>
+
+<file path="src/infrastructure/databases/__init__.py">
+from infrastructure.databases.mssql import init_mssql
+from infrastructure.models import (
+    academic_year_model,
+    ai_auditlog_model,
+    assessment_clo_model,
+    assessment_component_model,
+    assessment_scheme_model,
+    clo_plo_mapping_model,
+    department_model,
+    faculty_model,
+    file_model,
+    notification_model,
+    notification_template_model,
+    program_model,
+    program_outcome_model,
+    role_model,
+    rubric_model,
+    student_report_model,
+    student_subscription_model,
+    subject_model,
+    subject_relationship_model,
+    syllabus_clo_model,
+    syllabus_comment_model,
+    syllabus_current_workflow,
+    syllabus_material_model,
+    syllabus_model,
+    system_auditlog_model,
+    system_setting_model,
+    teaching_plan_model,
+    user_model,
+    user_role_model,
+    workflow_log_model,
+    workflow_state_model,
+    workflow_transition_model
+)
+
+def init_db(app):
+    init_mssql(app)
+
+# Migration Entities -> tables
+from infrastructure.databases.mssql import Base
 </file>
 
 <file path="src/infrastructure/models/file_model.py">
@@ -3289,6 +4491,31 @@ class File(Base):
     
     # Relationships
     uploader = relationship("User", back_populates="uploaded_files", foreign_keys=[uploader_id])
+</file>
+
+<file path="src/infrastructure/models/program_model.py">
+from datetime import datetime
+from sqlalchemy import (
+    Column, BigInteger, String, Integer, Date, DateTime, Boolean,
+    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from infrastructure.databases.base import Base
+
+class Program(Base):
+    __tablename__ = 'programs'
+    
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
+    name = Column(String(255), nullable=False)
+    total_credits = Column(Integer)
+    
+    # Relationships
+    department = relationship("Department", back_populates="programs")
+    outcomes = relationship("ProgramOutcome", back_populates="program")
+    syllabuses = relationship("Syllabus", back_populates="program")
 </file>
 
 <file path="src/infrastructure/models/user_model.py">
@@ -3328,6 +4555,741 @@ class User(Base):
     comments = relationship("SyllabusComment", back_populates="user")
     notifications = relationship("Notification", back_populates="user")
     workflow_logs = relationship("WorkflowLog", back_populates="actor")
+</file>
+
+<file path="src/infrastructure/repositories/user_repository.py">
+from typing import List, Optional
+from dotenv import load_dotenv
+import os
+from sqlalchemy.orm import Session
+from infrastructure.databases import Base
+from infrastructure.databases.mssql import session
+
+# Import the User model
+from infrastructure.models.user_model import User
+
+load_dotenv()
+
+class UserRepository:
+    def __init__(self, session: Session = session):
+        self.session = session
+
+    def get_all(self) -> List[User]:
+        return self.session.query(User).all()
+
+    def get_by_username(self, username: str) -> Optional[User]:
+        return self.session.query(User).filter_by(username=username).first()
+
+    def get_by_id(self, user_id: int) -> Optional[User]:
+        return self.session.query(User).filter_by(id=user_id).first()
+
+    def create(self, data: dict) -> User:
+        user = User(**data)
+        self.session.add(user)
+        self.session.commit()
+        self.session.refresh(user)
+        return user
+
+    def update(self, id: int, data: dict) -> Optional[User]:
+        user = self.get_by_id(id)
+        if not user:
+            return None
+        for key, value in data.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+        self.session.commit()
+        self.session.refresh(user)
+        return user
+
+    def delete(self, id: int) -> bool:
+        user = self.get_by_id(id)
+        if not user:
+            return False
+        self.session.delete(user)
+        self.session.commit()
+        return True
+</file>
+
+<file path="src/requirements.txt">
+Flask>=2.0
+Flask-Cors>=3.0
+Flask-SQLAlchemy>=2.5
+SQLAlchemy>=1.4
+marshmallow>=3.0
+pymssql>=2.2
+python-dotenv>=0.21 
+Flask-RESTX>=1.1.0 
+flasgger
+fastapi
+apispec
+apispec_webframeworks
+flask-swagger-ui
+dependency-injector>=4.0
+</file>
+
+<file path="src/swagger_config.json">
+{
+    "template": {
+        "swagger": "2.0",
+        "info": {
+            "title": "Syllabus Management API",
+            "description": "API for Syllabus Management (SMD)",
+            "version": "1.0.0"
+        },
+        "basePath": "/",
+        "schemes": [
+            "http",
+            "https"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ]
+    },
+    "swagger_config": {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": "apispec",
+                "route": "/apispec.json"
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": true,
+        "specs_route": "/docs"
+    }
+}
+</file>
+
+<file path="src/config.py">
+# Configuration settings for the Flask application
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+class Config:
+    """Base configuration."""
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a_default_secret_key'
+    DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
+    TESTING = os.environ.get('TESTING', 'False').lower() in ['true', '1']
+    
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+    CORS_HEADERS = 'Content-Type'
+
+class DevelopmentConfig(Config):
+    """Development configuration."""
+    DEBUG = True
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+
+
+class TestingConfig(Config):
+    """Testing configuration."""
+    TESTING = True
+    DATABASE_URI = os.environ.get('DATABASE_URI')
+
+
+class ProductionConfig(Config):
+    """Production configuration."""
+    DATABASE_URI = os.environ.get('DATABASE_URI') 
+
+    
+template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "Syllabus Management API",
+        "description": "API for Syllabus Management (SMD)",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ]
+}
+class SwaggerConfig:
+    """Swagger configuration."""
+    template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Syllabus Management API",
+            "description": "API for Syllabus Management (SMD)",
+            "version": "1.0.0"
+        },
+        "basePath": "/",
+        "schemes": [
+            "http",
+            "https"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ]
+    }
+
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec',
+                "route": '/apispec.json',
+                "rule_filter": lambda rule: True,
+                "model_filter": lambda tag: True,
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/docs"
+    }
+</file>
+
+<file path="src/scripts/seed_users.py">
+from dependency_container import Container
+from datetime import date
+
+
+def get_or_create(service, list_method_name, check_attr, check_value, create_method_name, create_data):
+    list_method = getattr(service, list_method_name)
+    for item in list_method():
+        if getattr(item, check_attr) == check_value:
+            return item
+    create_method = getattr(service, create_method_name)
+    return create_method(create_data)
+
+
+def seed():
+    container = Container()
+
+    # Services
+    role_service = container.role_service()
+    user_service = container.user_service()
+    faculty_service = container.faculty_service()
+    department_service = container.department_service()
+    academic_year_service = container.academic_year_service()
+    program_service = container.program_service()
+    subject_service = container.subject_service()
+    syllabus_service = container.syllabus_service()
+    syllabus_clo_service = container.syllabus_clo_service()
+    syllabus_material_service = container.syllabus_material_service()
+
+    # 1) Roles
+    admin_role = role_service.get_by_name('ADMIN') or role_service.create_role({'name': 'ADMIN', 'description': 'ADMIN role'})
+    print('✅  Role:', admin_role.name)
+    lecturer_role = role_service.get_by_name('LECTURER') or role_service.create_role({'name': 'LECTURER', 'description': 'LECTURER role'})
+    print('✅  Role:', lecturer_role.name)
+
+    # 2) Users
+    admin = user_service.get_by_username('admin')
+    if not admin:
+        admin = user_service.create_user({'username': 'admin', 'email': 'admin@example.com', 'full_name': 'Admin User', 'password': 'password123', 'is_active': True})
+        print('✅  Created User: admin')
+    else:
+        print('✅  Found User: admin')
+
+    lecturer = user_service.get_by_username('lecturer')
+    if not lecturer:
+        lecturer = user_service.create_user({'username': 'lecturer', 'email': 'lecturer@example.com', 'full_name': 'Lecturer User', 'password': 'password123', 'is_active': True})
+        print('✅  Created User: lecturer')
+    else:
+        print('✅  Found User: lecturer')
+
+    # Assign roles idempotently
+    session = container.db_session()
+    from infrastructure.models.user_role_model import UserRole
+
+    def ensure_role(user, role):
+        if not session.query(UserRole).filter_by(user_id=user.id, role_id=role.id).first():
+            try:
+                session.add(UserRole(user_id=user.id, role_id=role.id))
+                session.commit()
+                print(f"✅  Assigned role {role.name} to user {user.username}")
+            except Exception:
+                session.rollback()
+
+    ensure_role(admin, admin_role)
+    ensure_role(lecturer, lecturer_role)
+
+    # 3) Faculty & Department
+    faculty = get_or_create(faculty_service, 'list_faculties', 'code', 'FIT', 'create_faculty', {'code': 'FIT', 'name': 'Faculty of Information Technology'})
+    print(f"✅  Faculty: {faculty.code} - {faculty.name}")
+
+    department = None
+    # department needs faculty_id
+    for d in department_service.list_departments():
+        if d.code == 'SE' and d.faculty_id == faculty.id:
+            department = d
+            break
+    if not department:
+        department = department_service.create_department({'faculty_id': faculty.id, 'code': 'SE', 'name': 'Software Engineering'})
+        print('✅  Created Department: SE')
+    else:
+        print('✅  Found Department: SE')
+
+    # 4) Academic Year, Program, Subject
+    academic_year = get_or_create(academic_year_service, 'list_academic_years', 'code', '2025-2026', 'create_academic_year', {'code': '2025-2026', 'start_date': date(2025,9,1), 'end_date': date(2026,6,30)})
+    print(f"✅  AcademicYear: {academic_year.code}")
+
+    program = get_or_create(program_service, 'list_programs', 'name', 'Software Engineering K18', 'create_program', {'department_id': department.id, 'name': 'Software Engineering K18', 'total_credits': 120})
+    print(f"✅  Program: {program.name}")
+
+    subject = None
+    for s in subject_service.list_subjects():
+        if s.code == 'SWT301' and s.department_id == department.id:
+            subject = s
+            break
+    if not subject:
+        subject = subject_service.create_subject({'department_id': department.id, 'code': 'SWT301', 'name_vi': 'Giới thiệu Kỹ thuật Phần mềm', 'name_en': 'Introduction to Software Engineering', 'credits': 3})
+        print('✅  Created Subject: SWT301')
+    else:
+        print('✅  Found Subject: SWT301')
+
+    # 5) Syllabus
+    syllabus = None
+    for sy in syllabus_service.list_syllabuses():
+        if sy.subject_id == subject.id and sy.program_id == program.id and sy.academic_year_id == academic_year.id:
+            syllabus = sy
+            break
+    if not syllabus:
+        syllabus = syllabus_service.create_syllabus({'subject_id': subject.id, 'program_id': program.id, 'academic_year_id': academic_year.id, 'lecturer_id': lecturer.id, 'version': '1.0'})
+        print(f"✅  Created Syllabus ID: {syllabus.id}")
+    else:
+        print(f"✅  Found Syllabus ID: {syllabus.id}")
+
+    # 6) Syllabus Details - CLOs
+    existing_clos = {c.code for c in syllabus_clo_service.get_by_syllabus(syllabus.id)}
+    clos_to_add = [
+        {'code': 'CLO1', 'description': 'Explain software lifecycle.'},
+        {'code': 'CLO2', 'description': 'Apply software requirements engineering.'},
+        {'code': 'CLO3', 'description': 'Design basic software architecture.'},
+    ]
+    for clo in clos_to_add:
+        if clo['code'] not in existing_clos:
+            item = syllabus_clo_service.create_clo({'syllabus_id': syllabus.id, **clo})
+            print(f"✅  Added CLO: {item.code}")
+        else:
+            print(f"✅  CLO exists: {clo['code']}")
+
+    # Materials
+    existing_mats = {m.title for m in syllabus_material_service.get_by_syllabus(syllabus.id)}
+    mats_to_add = [
+        {'type': 'MAIN', 'title': 'Software Engineering (Textbook)', 'author': 'Ian Sommerville', 'publisher': 'Pearson', 'isbn': '1234567890', 'syllabus_id': syllabus.id},
+        {'type': 'REFERENCE', 'title': 'Design Patterns', 'author': 'Gamma et al.', 'publisher': 'Addison-Wesley', 'isbn': '0987654321', 'syllabus_id': syllabus.id},
+    ]
+    for mat in mats_to_add:
+        if mat['title'] not in existing_mats:
+            item = syllabus_material_service.create_material(mat)
+            print(f"✅  Added Material: {item.title}")
+        else:
+            print(f"✅  Material exists: {mat['title']}")
+
+    # Teaching Plans
+    teaching_plan_service = container.teaching_plan_service()
+    existing_weeks = {p.week for p in teaching_plan_service.list_plans_for_syllabus(syllabus.id)}
+    plans_to_add = [
+        {'week': 1, 'topic': 'Introduction to Software Engineering', 'activity': 'Lecture', 'assessment': 'Quiz', 'syllabus_id': syllabus.id},
+        {'week': 2, 'topic': 'Software Process Models', 'activity': 'Lecture', 'assessment': 'Assignment 1', 'syllabus_id': syllabus.id},
+        {'week': 3, 'topic': 'Requirements Engineering', 'activity': 'Lecture', 'assessment': 'Assignment 2', 'syllabus_id': syllabus.id},
+    ]
+    for plan in plans_to_add:
+        if plan['week'] not in existing_weeks:
+            item = teaching_plan_service.create_teaching_plan(plan)
+            print(f"✅  Added Teaching Plan Week: {item.week}")
+        else:
+            print(f"✅  Teaching Plan exists for week: {plan['week']}")
+
+    # Assessments: Schemes, Components, Rubrics, CLO mappings
+    assessment_scheme_service = container.assessment_scheme_service()
+    assessment_component_service = container.assessment_component_service()
+    rubric_service = container.rubric_service()
+    assessment_clo_service = container.assessment_clo_service()
+
+    existing_schemes = {s.name for s in assessment_scheme_service.list_schemes_for_syllabus(syllabus.id)}
+
+    # Example scheme: Midterm
+    if 'Midterm' not in existing_schemes:
+        scheme = assessment_scheme_service.create_scheme({'syllabus_id': syllabus.id, 'name': 'Midterm', 'weight': 30.0})
+        print(f"✅  Created Assessment Scheme: {scheme.name}")
+        comp = assessment_component_service.create_component({'scheme_id': scheme.id, 'name': 'Midterm Exam', 'weight': 30.0})
+        print(f"✅  Created Assessment Component: {comp.name}")
+        rubric = rubric_service.create_rubric({'component_id': comp.id, 'criteria': 'Comprehensive exam', 'max_score': 100})
+        print(f"✅  Created Rubric for component: {rubric.criteria}")
+        # Map to CLO1 if exists
+        clo1 = None
+        for c in syllabus_clo_service.get_by_syllabus(syllabus.id):
+            if c.code == 'CLO1':
+                clo1 = c
+                break
+        if clo1:
+            assessment_clo_service.add_mapping(comp.id, clo1.id)
+            print(f"✅  Mapped component {comp.name} to CLO {clo1.code}")
+    else:
+        print('✅  Midterm scheme exists')
+
+    print('\n✅  Seeding complete!')
+
+
+if __name__ == '__main__':
+    seed()
+</file>
+
+<file path="src/app.py">
+from flask import Flask, jsonify
+from api.swagger import spec
+from api.middleware import middleware
+from api.responses import success_response
+from infrastructure.databases import init_db
+from config import Config
+from flasgger import Swagger
+from config import SwaggerConfig
+from flask_swagger_ui import get_swaggerui_blueprint
+from cors import CORS
+
+# Dependency injection
+from dependency_container import Container
+from api.controllers.subject_controller import subject_bp
+from api.controllers.faculty_controller import faculty_bp
+from api.controllers.department_controller import department_bp
+from api.controllers.role_controller import role_bp
+from api.controllers.user_controller import user_bp
+from api.controllers.academic_year_controller import academic_year_bp
+from api.controllers.program_controller import program_bp
+from api.controllers.syllabus_controller import syllabus_bp
+from api.controllers.syllabus_clo_controller import syllabus_clo_bp
+from api.controllers.syllabus_material_controller import syllabus_material_bp
+from api.controllers.teaching_plan_controller import teaching_plan_bp
+from api.controllers.assessment_scheme_controller import assessment_scheme_bp
+from api.controllers.assessment_component_controller import assessment_component_bp
+from api.controllers.rubric_controller import rubric_bp
+from api.controllers.assessment_clo_controller import assessment_clo_bp
+
+
+def create_app():
+    app = Flask(__name__)
+    Swagger(app)
+
+    # Initialize DI container and wire controllers
+    container = Container()
+    # Wire the container explicitly for controllers
+    try:
+        container.wire(modules=[
+            "api.controllers.subject_controller",
+            "api.controllers.faculty_controller",
+            "api.controllers.department_controller",
+            "api.controllers.role_controller",
+            "api.controllers.user_controller",
+            "api.controllers.academic_year_controller",
+            "api.controllers.program_controller",
+            "api.controllers.syllabus_controller",
+            "api.controllers.syllabus_clo_controller",
+            "api.controllers.syllabus_material_controller",
+            "api.controllers.teaching_plan_controller",
+            "api.controllers.assessment_scheme_controller",
+            "api.controllers.assessment_component_controller",
+        ])
+    except Exception:
+        # best-effort wiring; if it fails here the app can still start
+        pass
+
+    # Register blueprints
+    app.register_blueprint(subject_bp)
+    app.register_blueprint(faculty_bp)
+    app.register_blueprint(department_bp)
+    app.register_blueprint(role_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(academic_year_bp)
+    app.register_blueprint(program_bp)
+    app.register_blueprint(syllabus_bp)
+    app.register_blueprint(syllabus_clo_bp)
+    app.register_blueprint(syllabus_material_bp)
+    app.register_blueprint(teaching_plan_bp)
+    app.register_blueprint(assessment_scheme_bp)
+    app.register_blueprint(assessment_component_bp)
+
+     # Thêm Swagger UI blueprint
+    SWAGGER_URL = '/docs'
+    API_URL = '/swagger.json'
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={'app_name': "Syllabus Management API"}
+    )
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+    try:
+        init_db(app)
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+
+    # Register middleware
+    middleware(app)
+
+    # Register routes (add all non-static endpoints to Swagger where possible)
+    with app.test_request_context():
+        for rule in app.url_map.iter_rules():
+            if rule.endpoint == 'static':
+                continue
+            view_func = app.view_functions.get(rule.endpoint)
+            if not view_func:
+                continue
+            try:
+                spec.path(view=view_func)
+                print(f"Adding path: {rule.rule} -> {view_func}")
+            except Exception:
+                # some endpoints may not be compatible with flasgger, skip them
+                pass
+
+    @app.route("/swagger.json")
+    def swagger_json():
+        return jsonify(spec.to_dict())
+
+    return app
+# Run the application
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(host='0.0.0.0', port=9999, debug=True)
+</file>
+
+<file path="src/dependency_container.py">
+# Dependency Injection Container
+
+from dependency_injector import containers, providers
+from infrastructure.databases.mssql import session
+
+from infrastructure.repositories.subject_repository import SubjectRepository
+from services.subject_service import SubjectService
+from infrastructure.repositories.faculty_repository import FacultyRepository
+from services.faculty_service import FacultyService
+from infrastructure.repositories.department_repository import DepartmentRepository
+from services.department_service import DepartmentService
+from infrastructure.repositories.role_repository import RoleRepository
+from services.role_service import RoleService
+from infrastructure.repositories.user_repository import UserRepository
+from services.user_service import UserService
+from infrastructure.repositories.academic_year_repository import AcademicYearRepository
+from services.academic_year_service import AcademicYearService
+from infrastructure.repositories.program_repository import ProgramRepository
+from services.program_service import ProgramService
+from infrastructure.repositories.syllabus_repository import SyllabusRepository
+from services.syllabus_service import SyllabusService
+from infrastructure.repositories.syllabus_clo_repository import SyllabusCloRepository
+from services.syllabus_clo_service import SyllabusCloService
+from infrastructure.repositories.syllabus_material_repository import SyllabusMaterialRepository
+from services.syllabus_material_service import SyllabusMaterialService
+from infrastructure.repositories.teaching_plan_repository import TeachingPlanRepository
+from services.teaching_plan_service import TeachingPlanService
+from infrastructure.repositories.assessment_scheme_repository import AssessmentSchemeRepository
+from services.assessment_scheme_service import AssessmentSchemeService
+from infrastructure.repositories.assessment_component_repository import AssessmentComponentRepository
+from services.assessment_component_service import AssessmentComponentService
+from infrastructure.repositories.rubric_repository import RubricRepository
+from services.rubric_service import RubricService
+from infrastructure.repositories.assessment_clo_repository import AssessmentCloRepository
+from services.assessment_clo_service import AssessmentCloService
+from infrastructure.repositories.workflow_log_repository import WorkflowLogRepository
+
+class Container(containers.DeclarativeContainer):
+    """Dependency Injection Container for SMD services."""
+
+    wiring_config = containers.WiringConfiguration(modules=[
+        "api.controllers.subject_controller",
+        "api.controllers.faculty_controller",
+        "api.controllers.department_controller",
+        "api.controllers.role_controller",
+        "api.controllers.user_controller",
+        "api.controllers.academic_year_controller",
+        "api.controllers.program_controller",
+        "api.controllers.syllabus_controller",
+        "api.controllers.syllabus_clo_controller",
+        "api.controllers.syllabus_material_controller",
+        "api.controllers.teaching_plan_controller",
+        "api.controllers.assessment_scheme_controller",
+        "api.controllers.assessment_component_controller",
+        "api.controllers.rubric_controller",
+        "api.controllers.assessment_clo_controller",
+    ])
+
+    # Provide a session object (singleton)
+    db_session = providers.Object(session)
+
+    # Repositories
+    subject_repository = providers.Factory(
+        SubjectRepository,
+        session=db_session
+    )
+
+    faculty_repository = providers.Factory(
+        FacultyRepository,
+        session=db_session
+    )
+
+    department_repository = providers.Factory(
+        DepartmentRepository,
+        session=db_session
+    )
+
+    academic_year_repository = providers.Factory(
+        AcademicYearRepository,
+        session=db_session
+    )
+
+    program_repository = providers.Factory(
+        ProgramRepository,
+        session=db_session
+    )
+
+    role_repository = providers.Factory(
+        RoleRepository,
+        session=db_session
+    )
+
+    user_repository = providers.Factory(
+        UserRepository,
+        session=db_session
+    )
+    # Services
+    subject_service = providers.Factory(
+        SubjectService,
+        repository=subject_repository
+    )
+
+    faculty_service = providers.Factory(
+        FacultyService,
+        repository=faculty_repository
+    )
+
+    department_service = providers.Factory(
+        DepartmentService,
+        repository=department_repository
+    )
+
+    syllabus_repository = providers.Factory(
+        SyllabusRepository,
+        session=db_session
+    )
+
+    syllabus_clo_repository = providers.Factory(
+        SyllabusCloRepository,
+        session=db_session
+    )
+
+    syllabus_material_repository = providers.Factory(
+        SyllabusMaterialRepository,
+        session=db_session
+    )
+
+    teaching_plan_repository = providers.Factory(
+        TeachingPlanRepository,
+        session=db_session
+    )
+
+    assessment_scheme_repository = providers.Factory(
+        AssessmentSchemeRepository,
+        session=db_session
+    )
+
+    assessment_component_repository = providers.Factory(
+        AssessmentComponentRepository,
+        session=db_session
+    )
+
+    rubric_repository = providers.Factory(
+        RubricRepository,
+        session=db_session
+    )
+
+    assessment_clo_repository = providers.Factory(
+        AssessmentCloRepository,
+        session=db_session
+    )
+
+    workflow_log_repository = providers.Factory(
+        WorkflowLogRepository,
+        session=db_session
+    )
+
+    academic_year_service = providers.Factory(
+        AcademicYearService,
+        repository=academic_year_repository
+    )
+
+    program_service = providers.Factory(
+        ProgramService,
+        repository=program_repository
+    )
+
+    syllabus_service = providers.Factory(
+        SyllabusService,
+        repository=syllabus_repository,
+        subject_repository=subject_repository,
+        program_repository=program_repository,
+        academic_year_repository=academic_year_repository,
+        user_repository=user_repository,
+        workflow_log_repository=workflow_log_repository
+    )
+
+    syllabus_clo_service = providers.Factory(
+        SyllabusCloService,
+        repository=syllabus_clo_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    syllabus_material_service = providers.Factory(
+        SyllabusMaterialService,
+        repository=syllabus_material_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    teaching_plan_service = providers.Factory(
+        TeachingPlanService,
+        repository=teaching_plan_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    assessment_scheme_service = providers.Factory(
+        AssessmentSchemeService,
+        repository=assessment_scheme_repository,
+        syllabus_repository=syllabus_repository
+    )
+
+    assessment_component_service = providers.Factory(
+        AssessmentComponentService,
+        repository=assessment_component_repository,
+        scheme_repository=assessment_scheme_repository
+    )
+
+    rubric_service = providers.Factory(
+        RubricService,
+        repository=rubric_repository,
+        component_repository=assessment_component_repository
+    )
+
+    assessment_clo_service = providers.Factory(
+        AssessmentCloService,
+        repository=assessment_clo_repository,
+        component_repository=assessment_component_repository,
+        syllabus_clo_repository=__import__('infrastructure.repositories.syllabus_clo_repository', fromlist=['SyllabusCloRepository']).SyllabusCloRepository
+    )
+
+    role_service = providers.Factory(
+        RoleService,
+        repository=role_repository
+    )
+
+    user_service = providers.Factory(
+        UserService,
+        repository=user_repository
+    )
 </file>
 
 </files>

@@ -6,3 +6,4 @@ class AssessmentComponentSchema(Schema):
     scheme_id = fields.Int(required=True)
     name = fields.Str(required=True)
     weight = fields.Float(required=True, validate=Range(min=0, max=100))
+    rubrics = fields.List(fields.Nested('RubricSchema'), dump_only=True)

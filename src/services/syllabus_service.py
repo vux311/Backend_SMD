@@ -6,18 +6,23 @@ class SyllabusService:
                  subject_repository=None,
                  program_repository=None,
                  academic_year_repository=None,
-                 user_repository=None):
+                 user_repository=None,
+                 workflow_log_repository=None):
         self.repository = repository
         self.subject_repository = subject_repository
         self.program_repository = program_repository
         self.academic_year_repository = academic_year_repository
         self.user_repository = user_repository
+        self.workflow_log_repository = workflow_log_repository
 
     def list_syllabuses(self) -> List:
         return self.repository.get_all()
 
     def get_syllabus(self, id: int):
         return self.repository.get_by_id(id)
+
+    def get_syllabus_details(self, id: int):
+        return self.repository.get_details(id)
 
     def get_by_subject(self, subject_id: int):
         return self.repository.get_by_subject_id(subject_id)
@@ -48,3 +53,55 @@ class SyllabusService:
 
     def delete_syllabus(self, id: int) -> bool:
         return self.repository.delete(id)
+
+    # Workflow methods
+    def submit_syllabus(self, id: int, user_id: int):
+        s = self.repository.get_by_id(id)
+        if not s:
+            return None
+        if s.status not in ('DRAFT', 'REJECTED'):
+            raise ValueError('Syllabus cannot be submitted in current status')
+        from_status = s.status
+        updated = self.repository.update(id, {'status': 'PENDING'})
+        # Create workflow log
+        if self.workflow_log_repository:
+            self.workflow_log_repository.create({
+                'syllabus_id': id,
+                'actor_id': user_id,
+                'action': 'SUBMIT',
+                'from_status': from_status,
+                'to_status': 'PENDING',
+                'comment': None
+            })
+        return updated
+
+    def evaluate_syllabus(self, id: int, user_id: int, action: str, comment: Optional[str] = None):
+        s = self.repository.get_by_id(id)
+        if not s:
+            return None
+        action = action.upper()
+        if action not in ('APPROVE', 'REJECT'):
+            raise ValueError('Invalid action')
+        from_status = s.status
+        if action == 'APPROVE':
+            new_status = 'APPROVED'
+        else:  # REJECT
+            if not comment:
+                raise ValueError('Comment is required when rejecting')
+            new_status = 'DRAFT'
+        updated = self.repository.update(id, {'status': new_status})
+        if self.workflow_log_repository:
+            self.workflow_log_repository.create({
+                'syllabus_id': id,
+                'actor_id': user_id,
+                'action': action,
+                'from_status': from_status,
+                'to_status': new_status,
+                'comment': comment
+            })
+        return updated
+
+    def get_workflow_logs(self, syllabus_id: int):
+        if not self.workflow_log_repository:
+            return []
+        return self.workflow_log_repository.get_by_syllabus_id(syllabus_id)

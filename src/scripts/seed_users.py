@@ -136,6 +136,49 @@ def seed():
         else:
             print(f"✅  Material exists: {mat['title']}")
 
+    # Teaching Plans
+    teaching_plan_service = container.teaching_plan_service()
+    existing_weeks = {p.week for p in teaching_plan_service.list_plans_for_syllabus(syllabus.id)}
+    plans_to_add = [
+        {'week': 1, 'topic': 'Introduction to Software Engineering', 'activity': 'Lecture', 'assessment': 'Quiz', 'syllabus_id': syllabus.id},
+        {'week': 2, 'topic': 'Software Process Models', 'activity': 'Lecture', 'assessment': 'Assignment 1', 'syllabus_id': syllabus.id},
+        {'week': 3, 'topic': 'Requirements Engineering', 'activity': 'Lecture', 'assessment': 'Assignment 2', 'syllabus_id': syllabus.id},
+    ]
+    for plan in plans_to_add:
+        if plan['week'] not in existing_weeks:
+            item = teaching_plan_service.create_teaching_plan(plan)
+            print(f"✅  Added Teaching Plan Week: {item.week}")
+        else:
+            print(f"✅  Teaching Plan exists for week: {plan['week']}")
+
+    # Assessments: Schemes, Components, Rubrics, CLO mappings
+    assessment_scheme_service = container.assessment_scheme_service()
+    assessment_component_service = container.assessment_component_service()
+    rubric_service = container.rubric_service()
+    assessment_clo_service = container.assessment_clo_service()
+
+    existing_schemes = {s.name for s in assessment_scheme_service.list_schemes_for_syllabus(syllabus.id)}
+
+    # Example scheme: Midterm
+    if 'Midterm' not in existing_schemes:
+        scheme = assessment_scheme_service.create_scheme({'syllabus_id': syllabus.id, 'name': 'Midterm', 'weight': 30.0})
+        print(f"✅  Created Assessment Scheme: {scheme.name}")
+        comp = assessment_component_service.create_component({'scheme_id': scheme.id, 'name': 'Midterm Exam', 'weight': 30.0})
+        print(f"✅  Created Assessment Component: {comp.name}")
+        rubric = rubric_service.create_rubric({'component_id': comp.id, 'criteria': 'Comprehensive exam', 'max_score': 100})
+        print(f"✅  Created Rubric for component: {rubric.criteria}")
+        # Map to CLO1 if exists
+        clo1 = None
+        for c in syllabus_clo_service.get_by_syllabus(syllabus.id):
+            if c.code == 'CLO1':
+                clo1 = c
+                break
+        if clo1:
+            assessment_clo_service.add_mapping(comp.id, clo1.id)
+            print(f"✅  Mapped component {comp.name} to CLO {clo1.code}")
+    else:
+        print('✅  Midterm scheme exists')
+
     print('\n✅  Seeding complete!')
 
 

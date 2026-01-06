@@ -6,4 +6,4 @@ class AssessmentSchemeSchema(Schema):
     syllabus_id = fields.Int(required=True)
     name = fields.Str(required=True)
     weight = fields.Float(required=True, validate=Range(min=0, max=100))
-    components = fields.List(fields.Dict(), dump_only=True)
+    components = fields.List(fields.Nested('AssessmentComponentSchema'), dump_only=True)
