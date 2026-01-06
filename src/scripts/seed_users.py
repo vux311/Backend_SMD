@@ -30,7 +30,7 @@ def seed():
 
     lecturer_exists = user_service.get_by_username('lecturer')
     if not lecturer_exists:
-        user_service.create_user({
+        lecturer = user_service.create_user({
             'username': 'lecturer',
             'email': 'lecturer@example.com',
             'full_name': 'Lecturer User',
@@ -39,7 +39,30 @@ def seed():
         })
         print('Created lecturer user')
     else:
+        lecturer = user_service.get_by_username('lecturer')
         print('Lecturer user already exists')
+
+    # Attach roles (if possible)
+    session = container.db_session()
+    from infrastructure.models.user_role_model import UserRole
+
+    admin_role = role_service.get_by_name('ADMIN')
+    if admin and admin_role:
+        try:
+            session.add(UserRole(user_id=admin.id, role_id=admin_role.id))
+            session.commit()
+            print('Assigned ADMIN role to admin user')
+        except Exception:
+            session.rollback()
+
+    lecturer_role = role_service.get_by_name('LECTURER')
+    if lecturer and lecturer_role:
+        try:
+            session.add(UserRole(user_id=lecturer.id, role_id=lecturer_role.id))
+            session.commit()
+            print('Assigned LECTURER role to lecturer user')
+        except Exception:
+            session.rollback()
 
 
 if __name__ == '__main__':
