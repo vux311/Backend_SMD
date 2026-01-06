@@ -33,8 +33,8 @@ class ProductionConfig(Config):
 template = {
     "swagger": "2.0",
     "info": {
-        "title": "Todo API",
-        "description": "API for managing todos",
+        "title": "Syllabus Management API",
+        "description": "API for Syllabus Management (SMD)",
         "version": "1.0.0"
     },
     "basePath": "/",
@@ -54,8 +54,8 @@ class SwaggerConfig:
     template = {
         "swagger": "2.0",
         "info": {
-            "title": "Todo API",
-            "description": "API for managing todos",
+            "title": "Syllabus Management API",
+            "description": "API for Syllabus Management (SMD)",
             "version": "1.0.0"
         },
         "basePath": "/",
