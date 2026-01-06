@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from api.swagger import spec
-from api.controllers.todo_controller import bp as todo_bp
 from api.middleware import middleware
 from api.responses import success_response
 from infrastructure.databases import init_db
@@ -14,8 +13,6 @@ from cors import CORS
 def create_app():
     app = Flask(__name__)
     Swagger(app)
-    # Đăng ký blueprint trước
-    app.register_blueprint(todo_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
@@ -23,7 +20,7 @@ def create_app():
     swaggerui_blueprint = get_swaggerui_blueprint(
         SWAGGER_URL,
         API_URL,
-        config={'app_name': "Todo API"}
+        config={'app_name': "Syllabus Management API"}
     )
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
@@ -35,14 +32,20 @@ def create_app():
     # Register middleware
     middleware(app)
 
-    # Register routes
+    # Register routes (add all non-static endpoints to Swagger where possible)
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
-            # Thêm các endpoint khác nếu cần
-            if rule.endpoint.startswith(('todo.', 'course.', 'user.')):
-                view_func = app.view_functions[rule.endpoint]
-                print(f"Adding path: {rule.rule} -> {view_func}")
+            if rule.endpoint == 'static':
+                continue
+            view_func = app.view_functions.get(rule.endpoint)
+            if not view_func:
+                continue
+            try:
                 spec.path(view=view_func)
+                print(f"Adding path: {rule.rule} -> {view_func}")
+            except Exception:
+                # some endpoints may not be compatible with flasgger, skip them
+                pass
 
     @app.route("/swagger.json")
     def swagger_json():
@@ -53,4 +56,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='0.0.0.0', port=9999, debug=True)
+    app.run(host='0.0.0.0', port=9999, debug=True) 
