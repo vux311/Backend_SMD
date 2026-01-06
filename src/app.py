@@ -1,13 +1,10 @@
 from flask import Flask, jsonify
 from api.swagger import spec
 from api.middleware import middleware
-from api.responses import success_response
 from infrastructure.databases import init_db
-from config import Config
 from flasgger import Swagger
-from config import SwaggerConfig
 from flask_swagger_ui import get_swaggerui_blueprint
-from cors import CORS
+from cors import init_cors
 
 # Dependency injection
 from dependency_container import Container
@@ -50,6 +47,8 @@ def create_app():
             "api.controllers.teaching_plan_controller",
             "api.controllers.assessment_scheme_controller",
             "api.controllers.assessment_component_controller",
+            "api.controllers.rubric_controller",
+            "api.controllers.assessment_clo_controller",
         ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
@@ -69,6 +68,8 @@ def create_app():
     app.register_blueprint(teaching_plan_bp)
     app.register_blueprint(assessment_scheme_bp)
     app.register_blueprint(assessment_component_bp)
+    app.register_blueprint(rubric_bp)
+    app.register_blueprint(assessment_clo_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
@@ -87,6 +88,12 @@ def create_app():
 
     # Register middleware
     middleware(app)
+
+    # Initialize CORS
+    try:
+        init_cors(app)
+    except Exception:
+        pass
 
     # Register routes (add all non-static endpoints to Swagger where possible)
     with app.test_request_context():

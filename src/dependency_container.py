@@ -29,6 +29,11 @@ from infrastructure.repositories.assessment_scheme_repository import AssessmentS
 from services.assessment_scheme_service import AssessmentSchemeService
 from infrastructure.repositories.assessment_component_repository import AssessmentComponentRepository
 from services.assessment_component_service import AssessmentComponentService
+from infrastructure.repositories.rubric_repository import RubricRepository
+from services.rubric_service import RubricService
+from infrastructure.repositories.assessment_clo_repository import AssessmentCloRepository
+from services.assessment_clo_service import AssessmentCloService
+from infrastructure.repositories.workflow_log_repository import WorkflowLogRepository
 
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
@@ -105,16 +110,6 @@ class Container(containers.DeclarativeContainer):
         repository=department_repository
     )
 
-    academic_year_service = providers.Factory(
-        AcademicYearService,
-        repository=academic_year_repository
-    )
-
-    program_service = providers.Factory(
-        ProgramService,
-        repository=program_repository
-    )
-
     syllabus_repository = providers.Factory(
         SyllabusRepository,
         session=db_session
@@ -155,6 +150,11 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    workflow_log_repository = providers.Factory(
+        WorkflowLogRepository,
+        session=db_session
+    )
+
     academic_year_service = providers.Factory(
         AcademicYearService,
         repository=academic_year_repository
@@ -171,7 +171,8 @@ class Container(containers.DeclarativeContainer):
         subject_repository=subject_repository,
         program_repository=program_repository,
         academic_year_repository=academic_year_repository,
-        user_repository=user_repository
+        user_repository=user_repository,
+        workflow_log_repository=workflow_log_repository
     )
 
     syllabus_clo_service = providers.Factory(
