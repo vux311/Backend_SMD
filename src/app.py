@@ -18,6 +18,7 @@ from api.controllers.role_controller import role_bp
 from api.controllers.user_controller import user_bp
 from api.controllers.academic_year_controller import academic_year_bp
 from api.controllers.program_controller import program_bp
+from api.controllers.syllabus_controller import syllabus_bp
 
 
 def create_app():
@@ -49,6 +50,7 @@ def create_app():
     app.register_blueprint(user_bp)
     app.register_blueprint(academic_year_bp)
     app.register_blueprint(program_bp)
+    app.register_blueprint(syllabus_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'

@@ -29,6 +29,7 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.user_controller",
         "api.controllers.academic_year_controller",
         "api.controllers.program_controller",
+        "api.controllers.syllabus_controller",
     ])
 
     # Provide a session object (singleton)
@@ -93,6 +94,30 @@ class Container(containers.DeclarativeContainer):
     program_service = providers.Factory(
         ProgramService,
         repository=program_repository
+    )
+
+    syllabus_repository = providers.Factory(
+        __import__('infrastructure.repositories.syllabus_repository', fromlist=['SyllabusRepository']).SyllabusRepository,
+        session=db_session
+    )
+
+    academic_year_service = providers.Factory(
+        AcademicYearService,
+        repository=academic_year_repository
+    )
+
+    program_service = providers.Factory(
+        ProgramService,
+        repository=program_repository
+    )
+
+    syllabus_service = providers.Factory(
+        __import__('services.syllabus_service', fromlist=['SyllabusService']).SyllabusService,
+        repository=syllabus_repository,
+        subject_repository=subject_repository,
+        program_repository=program_repository,
+        academic_year_repository=academic_year_repository,
+        user_repository=user_repository
     )
 
     role_service = providers.Factory(
