@@ -11,12 +11,50 @@ schema = SyllabusCloSchema()
 @syllabus_clo_bp.route('/syllabus/<int:syllabus_id>', methods=['GET'])
 @inject
 def list_clos(syllabus_id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    """
+    List CLOs for a syllabus
+    ---
+    tags:
+      - Syllabus CLOs
+    parameters:
+      - name: syllabus_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    responses:
+      200:
+        description: List of CLOs
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/SyllabusClo'
+    """
     items = syllabus_clo_service.get_by_syllabus(syllabus_id)
     return jsonify(schema.dump(items, many=True)), 200
 
 @syllabus_clo_bp.route('/', methods=['POST'])
 @inject
 def create_clo(syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    """
+    Create a new CLO for a syllabus
+    ---
+    tags:
+      - Syllabus CLOs
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SyllabusClo'
+    responses:
+      201:
+        description: CLO created
+      400:
+        description: Validation or creation error
+    """
     data = request.get_json() or {}
     errors = schema.validate(data)
     if errors:
@@ -30,6 +68,31 @@ def create_clo(syllabus_clo_service: SyllabusCloService = Provide[Container.syll
 @syllabus_clo_bp.route('/<int:id>', methods=['PUT'])
 @inject
 def update_clo(id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    """
+    Update an existing CLO
+    ---
+    tags:
+      - Syllabus CLOs
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SyllabusClo'
+    responses:
+      200:
+        description: CLO updated
+      400:
+        description: Validation error
+      404:
+        description: CLO not found
+    """
     data = request.get_json() or {}
     errors = schema.validate(data, partial=True)
     if errors:
@@ -42,6 +105,23 @@ def update_clo(id: int, syllabus_clo_service: SyllabusCloService = Provide[Conta
 @syllabus_clo_bp.route('/<int:id>', methods=['DELETE'])
 @inject
 def delete_clo(id: int, syllabus_clo_service: SyllabusCloService = Provide[Container.syllabus_clo_service]):
+    """
+    Delete a CLO by id
+    ---
+    tags:
+      - Syllabus CLOs
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    responses:
+      204:
+        description: Deleted
+      404:
+        description: CLO not found
+    """
     ok = syllabus_clo_service.delete_clo(id)
     if not ok:
         return jsonify({'message': 'CLO not found'}), 404

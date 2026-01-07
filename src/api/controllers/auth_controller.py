@@ -9,6 +9,33 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 @auth_bp.route('/login', methods=['POST'])
 @inject
 def login(user_service: UserService = Provide[Container.user_service]):
+    """
+    Login and obtain a token
+    ---
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+            required:
+              - username
+              - password
+    responses:
+      200:
+        description: Login successful, returns token and user information
+      400:
+        description: Missing username or password
+      401:
+        description: Invalid credentials
+    """
     data = request.get_json() or {}
     username = data.get('username')
     password = data.get('password')
