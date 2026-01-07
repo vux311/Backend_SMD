@@ -49,6 +49,12 @@ class SyllabusService:
         return self.repository.create(data)
 
     def update_syllabus(self, id: int, data: dict):
+        # Check current status before allowing update
+        s = self.repository.get_by_id(id)
+        if not s:
+            return None
+        if s.status not in ('DRAFT', 'REJECTED'):
+            raise ValueError(f"Cannot update syllabus in {s.status} status")
         return self.repository.update(id, data)
 
     def delete_syllabus(self, id: int) -> bool:

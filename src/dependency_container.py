@@ -216,8 +216,10 @@ class Container(containers.DeclarativeContainer):
         AssessmentCloService,
         repository=assessment_clo_repository,
         component_repository=assessment_component_repository,
-        syllabus_clo_repository=__import__('infrastructure.repositories.syllabus_clo_repository', fromlist=['SyllabusCloRepository']).SyllabusCloRepository
+        syllabus_clo_repository=syllabus_clo_repository,
+        assessment_scheme_repository=assessment_scheme_repository
     )
+  
 
     role_service = providers.Factory(
         RoleService,
