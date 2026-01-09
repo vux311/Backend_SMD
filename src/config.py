@@ -9,8 +9,10 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'a_default_secret_key'
     DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
     TESTING = os.environ.get('TESTING', 'False').lower() in ['true', '1']
-    
-    DATABASE_URI = os.environ.get('DATABASE_URI') 
+    # Provide a sensible default for local development (SQLite file) when
+    # DATABASE_URI is not set in the environment. Production should set
+    # DATABASE_URI explicitly (e.g. mssql+pyodbc://... or postgresql://...).
+    DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///sdm_dev.db'
     CORS_HEADERS = 'Content-Type'
 
 class DevelopmentConfig(Config):

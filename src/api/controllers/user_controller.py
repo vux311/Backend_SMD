@@ -115,3 +115,30 @@ def update_user(id: int, user_service: UserService = Provide[Container.user_serv
     if not user:
         return jsonify({'message': 'User not found'}), 404
     return jsonify(schema.dump(user)), 200
+
+
+@user_bp.route('/<int:id>', methods=['DELETE'])
+@inject
+def delete_user(id: int, user_service: UserService = Provide[Container.user_service]):
+    """Delete user
+    ---
+    delete:
+      summary: Delete user
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: User not found
+    """
+    ok = user_service.delete_user(id)
+    if not ok:
+        return jsonify({'message': 'User not found'}), 404
+    return '', 204

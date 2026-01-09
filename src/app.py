@@ -24,6 +24,7 @@ from api.controllers.assessment_component_controller import assessment_component
 from api.controllers.rubric_controller import rubric_bp
 from api.controllers.assessment_clo_controller import assessment_clo_bp
 from api.controllers.auth_controller import auth_bp
+from infrastructure.databases.mssql import session as db_session
 
 
 def create_app():
@@ -91,6 +92,15 @@ def create_app():
 
     # Register middleware
     middleware(app)
+
+    # Ensure scoped_session is removed after each request to return connections to the pool
+    @app.teardown_appcontext
+    def remove_db_session(exception=None):
+        try:
+            db_session.remove()
+        except Exception:
+            # Best-effort; do not raise during teardown
+            pass
 
     # Initialize CORS
     try:
