@@ -1,6 +1,7 @@
 # Middleware functions for processing requests and responses
 
 from flask import  request, jsonify
+from werkzeug.exceptions import HTTPException
 
 def log_request_info(app):
     app.logger.debug('Headers: %s', request.headers)
@@ -10,6 +11,10 @@ def handle_options_request():
     return jsonify({'message': 'CORS preflight response'}), 200
 
 def error_handling_middleware(error):
+    # Preserve HTTPException responses (e.g., redirects, 404/405) instead of masking them
+    if isinstance(error, HTTPException):
+        return error
+
     response = jsonify({'error': str(error)})
     response.status_code = 500
     return response
