@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,9 +14,9 @@ class Subject(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
-    code = Column(String(20), unique=True, nullable=False)
-    name_vi = Column(String(255), nullable=False)
-    name_en = Column(String(255), nullable=False)
+    code = Column(NVARCHAR(20), unique=True, nullable=False)
+    name_vi = Column(NVARCHAR(255), nullable=False)
+    name_en = Column(NVARCHAR(255), nullable=False)
     credits = Column(Integer, nullable=False)
     credit_theory = Column(DECIMAL(3, 1), default=0)
     credit_practice = Column(DECIMAL(3, 1), default=0)

@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text
+    ForeignKey, UnicodeText
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 # IMPORT BASE CHUNG (QUAN TRỌNG)
@@ -13,10 +14,10 @@ class File(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     uploader_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
-    file_name = Column(String(255), nullable=False)
-    file_path = Column(String(500), nullable=False)
+    file_name = Column(NVARCHAR(255), nullable=False)
+    file_path = Column(NVARCHAR(500), nullable=False)
     file_size = Column(BigInteger)
-    mime_type = Column(String(100))
+    mime_type = Column(NVARCHAR(100))
     created_at = Column(DateTime, default=func.now())
     
     # Relationships

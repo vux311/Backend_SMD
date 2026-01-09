@@ -1,11 +1,12 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+from sqlalchemy.dialects.mssql import NVARCHAR
 from infrastructure.databases.base import Base
 
 class Syllabus(Base):
@@ -16,13 +17,13 @@ class Syllabus(Base):
     program_id = Column(BigInteger, ForeignKey('programs.id'), nullable=False)
     academic_year_id = Column(BigInteger, ForeignKey('academic_years.id'), nullable=False)
     lecturer_id = Column(BigInteger, ForeignKey('users.id'), nullable=False)
-    status = Column(String(20))  # DRAFT, PENDING, APPROVED
-    version = Column(String(10))
-    time_allocation = Column(Text)  # JSON
-    prerequisites = Column(Text)
+    status = Column(NVARCHAR(20))  # DRAFT, PENDING, APPROVED
+    version = Column(NVARCHAR(10))
+    time_allocation = Column(UnicodeText)  # JSON
+    prerequisites = Column(UnicodeText)
     publish_date = Column(DateTime)
     is_active = Column(Boolean)
-    embedding_vector = Column(Text, nullable=True)  # JSON vector
+    embedding_vector = Column(UnicodeText, nullable=True)  # JSON vector
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     

@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,7 +14,7 @@ class AssessmentScheme(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     syllabus_id = Column(BigInteger, ForeignKey('syllabuses.id', ondelete='CASCADE'), nullable=False)
-    name = Column(String(100))
+    name = Column(NVARCHAR(100))
     weight = Column(DECIMAL(3, 1))
     
     # Relationships

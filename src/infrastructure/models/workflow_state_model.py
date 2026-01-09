@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -12,9 +13,9 @@ class WorkflowState(Base):
     __tablename__ = 'workflow_states'
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    code = Column(String(50), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-    color = Column(String(20))
+    code = Column(NVARCHAR(50), unique=True, nullable=False)
+    name = Column(NVARCHAR(100), nullable=False)
+    color = Column(NVARCHAR(20))
     is_final = Column(Boolean, default=False)
     
     # Relationships

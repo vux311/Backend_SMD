@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text
+    ForeignKey, UnicodeText
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 # IMPORT BASE CHUNG (QUAN TRỌNG)
@@ -13,10 +14,10 @@ class User(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=True)
-    username = Column(String(50), unique=True, nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    password_hash = Column(String(255), nullable=False)
-    full_name = Column(String(100), nullable=False)
+    username = Column(NVARCHAR(50), unique=True, nullable=False)
+    email = Column(NVARCHAR(100), unique=True, nullable=False)
+    password_hash = Column(NVARCHAR(255), nullable=False)
+    full_name = Column(NVARCHAR(100), nullable=False)
     is_active = Column(Boolean, default=True)
     
     # SỬA LỖI VÒNG LẶP: Thêm use_alter=True

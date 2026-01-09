@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,9 +14,9 @@ class SyllabusClo(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     syllabus_id = Column(BigInteger, ForeignKey('syllabuses.id', ondelete='CASCADE'), nullable=False)
-    code = Column(String(20), nullable=False)
-    description = Column(Text, nullable=False)
-    embedding_vector = Column(Text, nullable=True)  # JSON vector
+    code = Column(NVARCHAR(20), nullable=False)
+    description = Column(UnicodeText, nullable=False)
+    embedding_vector = Column(UnicodeText, nullable=True)  # JSON vector
     created_at = Column(DateTime, default=func.now())
     
     # Relationships

@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,7 +14,7 @@ class Program(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     department_id = Column(BigInteger, ForeignKey('departments.id'), nullable=False)
-    name = Column(String(255), nullable=False)
+    name = Column(NVARCHAR(255), nullable=False)
     total_credits = Column(Integer)
     
     # Relationships

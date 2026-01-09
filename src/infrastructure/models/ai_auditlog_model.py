@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import (
     Column, BigInteger, String, Integer, Date, DateTime, Boolean,
-    ForeignKey, Text, DECIMAL, CheckConstraint, UniqueConstraint
+    ForeignKey, UnicodeText, DECIMAL, CheckConstraint, UniqueConstraint
 )
+from sqlalchemy.dialects.mssql import NVARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,7 +14,7 @@ class AiAuditLog(Base):
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     syllabus_id = Column(BigInteger, ForeignKey('syllabuses.id'), nullable=False)
-    action = Column(String(50))  # GENERATE, COMPARE_DIFF, SUMMARIZE
+    action = Column(NVARCHAR(50))  # GENERATE, COMPARE_DIFF, SUMMARIZE
     input_tokens = Column(Integer)
     output_tokens = Column(Integer)
     created_at = Column(DateTime, default=func.now())
