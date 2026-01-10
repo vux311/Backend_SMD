@@ -24,11 +24,27 @@ from api.controllers.assessment_component_controller import assessment_component
 from api.controllers.rubric_controller import rubric_bp
 from api.controllers.assessment_clo_controller import assessment_clo_bp
 from api.controllers.auth_controller import auth_bp
-from infrastructure.databases.mssql import session as db_session
+from api.controllers.ai_controller import ai_bp
+from api.controllers.dashboard_controller import dashboard_bp
+from api.controllers.program_outcome_controller import program_outcome_bp
+from api.controllers.file_controller import file_bp
+from api.controllers.clo_plo_mapping_controller import clo_plo_mapping_bp
+from api.controllers.subject_relationship_controller import subject_rel_bp
+from api.controllers.syllabus_comment_controller import syllabus_comment_bp
+from api.controllers.notification_controller import notification_bp
+from api.controllers.system_setting_controller import system_setting_bp
+from api.controllers.student_controller import student_bp
 
 
 def create_app():
     app = Flask(__name__)
+
+    # Initialize CORS early so Swagger and other blueprints respect it
+    try:
+        init_cors(app)
+    except Exception:
+        pass
+
     Swagger(app)
 
     # Initialize DI container and wire controllers
@@ -52,6 +68,16 @@ def create_app():
             "api.controllers.rubric_controller",
             "api.controllers.assessment_clo_controller",
             "api.controllers.auth_controller",
+            "api.controllers.ai_controller",
+            "api.controllers.dashboard_controller",
+            "api.controllers.program_outcome_controller",
+            "api.controllers.file_controller",
+            "api.controllers.clo_plo_mapping_controller",
+            "api.controllers.subject_relationship_controller",
+            "api.controllers.syllabus_comment_controller",
+            "api.controllers.notification_controller",
+            "api.controllers.system_setting_controller",
+            "api.controllers.student_controller",
         ])
     except Exception:
         # best-effort wiring; if it fails here the app can still start
@@ -74,6 +100,16 @@ def create_app():
     app.register_blueprint(rubric_bp)
     app.register_blueprint(assessment_clo_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(ai_bp)
+    app.register_blueprint(dashboard_bp)
+    app.register_blueprint(program_outcome_bp)
+    app.register_blueprint(file_bp)
+    app.register_blueprint(clo_plo_mapping_bp)
+    app.register_blueprint(subject_rel_bp)
+    app.register_blueprint(syllabus_comment_bp)
+    app.register_blueprint(notification_bp)
+    app.register_blueprint(system_setting_bp)
+    app.register_blueprint(student_bp)
 
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
@@ -92,15 +128,6 @@ def create_app():
 
     # Register middleware
     middleware(app)
-
-    # Ensure scoped_session is removed after each request to return connections to the pool
-    @app.teardown_appcontext
-    def remove_db_session(exception=None):
-        try:
-            db_session.remove()
-        except Exception:
-            # Best-effort; do not raise during teardown
-            pass
 
     # Initialize CORS
     try:

@@ -12,3 +12,5 @@ apispec
 apispec_webframeworks
 flask-swagger-ui
 dependency-injector>=4.0
+PyJWT>=2.0
+google-genai>=0.1

@@ -81,6 +81,62 @@ def get_syllabus_details(id: int, syllabus_service: SyllabusService = Provide[Co
     return jsonify(detail_schema.dump(s)), 200
 
 
+@syllabus_bp.route('/compare', methods=['GET'])
+@inject
+def compare_syllabuses(syllabus_service: SyllabusService = Provide[Container.syllabus_service]):
+    """Compare two syllabuses by id
+    ---
+    get:
+      summary: Compare two syllabuses
+      tags:
+        - Syllabuses
+      parameters:
+        - name: base_id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: target_id
+          in: query
+          required: true
+          schema:
+            type: integer
+    responses:
+      200:
+        description: Differences between the two syllabuses
+      404:
+        description: Syllabus not found
+    """
+    try:
+        base_id = int(request.args.get('baseId') or request.args.get('base_id'))
+        target_id = int(request.args.get('targetId') or request.args.get('target_id'))
+    except Exception:
+        return jsonify({'message': 'base_id and target_id query parameters are required and must be integers'}), 400
+
+    base = syllabus_service.get_syllabus_details(base_id)
+    target = syllabus_service.get_syllabus_details(target_id)
+
+    if not base or not target:
+        return jsonify({'message': 'One or both syllabuses not found'}), 404
+
+    # Fields to compare
+    fields = ['subject_name_vi', 'credits', 'description', 'student_duties']
+    diffs = []
+    for f in fields:
+        base_val = getattr(base, f, None)
+        target_val = getattr(target, f, None)
+        if base_val != target_val:
+            diffs.append({'field': f, 'base': base_val, 'target': target_val})
+
+    # Compare CLO counts
+    base_clos = getattr(base, 'clos', []) or []
+    target_clos = getattr(target, 'clos', []) or []
+    if len(base_clos) != len(target_clos):
+        diffs.append({'field': 'clos_count', 'base': len(base_clos), 'target': len(target_clos)})
+
+    return jsonify({'diffs': diffs}), 200
+
+
 @syllabus_bp.route('/<int:id>/submit', methods=['POST'])
 @inject
 def submit_syllabus(id: int, syllabus_service: SyllabusService = Provide[Container.syllabus_service]):

@@ -35,6 +35,27 @@ from infrastructure.repositories.assessment_clo_repository import AssessmentCloR
 from services.assessment_clo_service import AssessmentCloService
 from infrastructure.repositories.workflow_log_repository import WorkflowLogRepository
 
+# NEW: Program Outcome, File Management, Mappings, Relationships, Comments, Notifications, System Settings, AI Audit
+from infrastructure.repositories.program_outcome_repository import ProgramOutcomeRepository
+from services.program_outcome_service import ProgramOutcomeService
+from infrastructure.repositories.file_repository import FileRepository
+from services.file_service import FileService
+from infrastructure.repositories.clo_plo_mapping_repository import CloPloMappingRepository
+from services.clo_plo_mapping_service import CloPloMappingService
+from infrastructure.repositories.subject_relationship_repository import SubjectRelationshipRepository
+from services.subject_relationship_service import SubjectRelationshipService
+from infrastructure.repositories.syllabus_comment_repository import SyllabusCommentRepository
+from services.syllabus_comment_service import SyllabusCommentService
+from infrastructure.repositories.notification_repository import NotificationRepository
+from services.notification_service import NotificationService
+from infrastructure.repositories.system_setting_repository import SystemSettingRepository
+from infrastructure.repositories.ai_auditlog_repository import AiAuditLogRepository
+from infrastructure.repositories.notification_repository import NotificationRepository
+from infrastructure.repositories.student_subscription_repository import StudentSubscriptionRepository
+from infrastructure.repositories.student_report_repository import StudentReportRepository
+from services.system_setting_service import SystemSettingService
+from services.student_service import StudentService
+
 class Container(containers.DeclarativeContainer):
     """Dependency Injection Container for SMD services."""
 
@@ -55,6 +76,16 @@ class Container(containers.DeclarativeContainer):
         "api.controllers.rubric_controller",
         "api.controllers.assessment_clo_controller",
         "api.controllers.auth_controller",
+        "api.controllers.ai_controller",
+        "api.controllers.dashboard_controller",
+        "api.controllers.program_outcome_controller",
+        "api.controllers.file_controller",
+        "api.controllers.clo_plo_mapping_controller",
+        "api.controllers.subject_relationship_controller",
+        "api.controllers.syllabus_comment_controller",
+        "api.controllers.notification_controller",
+        "api.controllers.system_setting_controller",
+        "api.controllers.student_controller",
     ])
 
     # Provide a session object (singleton)
@@ -156,6 +187,57 @@ class Container(containers.DeclarativeContainer):
         session=db_session
     )
 
+    # NEW REPOSITORIES
+    program_outcome_repository = providers.Factory(
+        ProgramOutcomeRepository,
+        session=db_session
+    )
+    
+    file_repository = providers.Factory(
+        FileRepository,
+        session=db_session
+    )
+
+    clo_plo_mapping_repository = providers.Factory(
+        CloPloMappingRepository,
+        session=db_session
+    )
+
+    subject_relationship_repository = providers.Factory(
+        SubjectRelationshipRepository,
+        session=db_session
+    )
+
+    syllabus_comment_repository = providers.Factory(
+        SyllabusCommentRepository,
+        session=db_session
+    )
+
+    notification_repository = providers.Factory(
+        NotificationRepository,
+        session=db_session
+    )
+
+    system_setting_repository = providers.Factory(
+        SystemSettingRepository,
+        session=db_session
+    )
+
+    student_subscription_repository = providers.Factory(
+        StudentSubscriptionRepository,
+        session=db_session
+    )
+
+    student_report_repository = providers.Factory(
+        StudentReportRepository,
+        session=db_session
+    )
+
+    ai_auditlog_repository = providers.Factory(
+        AiAuditLogRepository,
+        session=db_session
+    )
+
     academic_year_service = providers.Factory(
         AcademicYearService,
         repository=academic_year_repository
@@ -173,7 +255,15 @@ class Container(containers.DeclarativeContainer):
         program_repository=program_repository,
         academic_year_repository=academic_year_repository,
         user_repository=user_repository,
-        workflow_log_repository=workflow_log_repository
+        workflow_log_repository=workflow_log_repository,
+        # NEW INJECTIONS:
+        syllabus_clo_repository=syllabus_clo_repository,
+        syllabus_material_repository=syllabus_material_repository,
+        teaching_plan_repository=teaching_plan_repository,
+        assessment_scheme_repository=assessment_scheme_repository,
+        assessment_component_repository=assessment_component_repository,
+        rubric_repository=rubric_repository,
+        assessment_clo_repository=assessment_clo_repository
     )
 
     syllabus_clo_service = providers.Factory(
@@ -221,6 +311,62 @@ class Container(containers.DeclarativeContainer):
     )
   
 
+    # NEW SERVICES
+    program_outcome_service = providers.Factory(
+        ProgramOutcomeService,
+        repository=program_outcome_repository,
+        program_repository=program_repository
+    )
+
+    file_service = providers.Factory(
+        FileService,
+        repository=file_repository
+    )
+
+    clo_plo_mapping_service = providers.Factory(
+        CloPloMappingService,
+        repository=clo_plo_mapping_repository,
+        syllabus_clo_repository=syllabus_clo_repository,
+        program_outcome_repository=program_outcome_repository
+    )
+
+    subject_relationship_service = providers.Factory(
+        SubjectRelationshipService,
+        repository=subject_relationship_repository,
+        subject_repository=subject_repository
+    )
+
+    syllabus_comment_service = providers.Factory(
+        SyllabusCommentService,
+        repository=syllabus_comment_repository,
+        syllabus_repository=syllabus_repository,
+        user_repository=user_repository
+    )
+
+    notification_service = providers.Factory(
+        NotificationService,
+        repository=notification_repository,
+        user_repository=user_repository
+    )
+
+    system_setting_service = providers.Factory(
+        SystemSettingService,
+        repository=system_setting_repository
+    )
+
+    student_service = providers.Factory(
+        StudentService, 
+        sub_repo=student_subscription_repository,
+        report_repo=student_report_repository
+    )
+
+    # AI Service (inject audit repository)
+    from services.ai_service import AiService
+    ai_service = providers.Factory(
+        AiService,
+        audit_repository=ai_auditlog_repository
+    )
+
     role_service = providers.Factory(
         RoleService,
         repository=role_repository
@@ -229,4 +375,10 @@ class Container(containers.DeclarativeContainer):
     user_service = providers.Factory(
         UserService,
         repository=user_repository
+    )
+
+    # AI Service
+    from services.ai_service import AiService
+    ai_service = providers.Factory(
+        AiService
     )

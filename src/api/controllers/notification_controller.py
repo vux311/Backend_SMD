@@ -1,0 +1,30 @@
+from flask import Blueprint, request, jsonify
+from dependency_injector.wiring import inject, Provide
+from dependency_container import Container
+from services.notification_service import NotificationService
+from api.schemas.notification_schema import NotificationSchema
+from api.middleware import token_required
+
+notification_bp = Blueprint('notification', __name__, url_prefix='/notifications')
+schema = NotificationSchema()
+
+@notification_bp.route('/', methods=['GET'])
+@inject
+@token_required
+def get_my_notifications(service: NotificationService = Provide[Container.notification_service]):
+    # In production, get user_id from token. For demo, we might read header or assume user_id=1 if not parsed.
+    user_id = getattr(request, 'user', {}).get('user_id')
+    if not user_id:
+         return jsonify({'message': 'User context missing'}), 401
+    unread = request.args.get('unread', 'false').lower() == 'true'
+    items = service.get_user_notifications(user_id, unread_only=unread)
+    return jsonify(schema.dump(items, many=True)), 200
+
+@notification_bp.route('/<int:id>/read', methods=['PUT'])
+@inject
+@token_required
+def mark_read(id: int, service: NotificationService = Provide[Container.notification_service]):
+    ok = service.mark_read(id)
+    if not ok:
+        return jsonify({'message': 'Notification not found'}), 404
+    return jsonify({'message': 'Marked as read'}), 200

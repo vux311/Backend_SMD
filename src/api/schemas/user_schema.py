@@ -1,6 +1,7 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
+from .base_schema import BaseSchema
 
-class UserSchema(Schema):
+class UserSchema(BaseSchema):
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True)
     email = fields.Email(required=True)

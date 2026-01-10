@@ -1,6 +1,6 @@
 import sys
 import os
-import bcrypt
+from werkzeug.security import generate_password_hash
 from datetime import datetime, date
 import json
 
@@ -27,8 +27,8 @@ except ImportError as e:
 # ----------------------------------------
 
 def hash_password(password: str) -> str:
-    """Mã hóa mật khẩu bằng bcrypt"""
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    """Hash password using werkzeug.generate_password_hash"""
+    return generate_password_hash(password)
 
 def seed_all():
     print("🌱 Bắt đầu nạp dữ liệu mẫu (Seeding)...")
@@ -96,8 +96,8 @@ def seed_all():
 
         for u in users_data:
             user = session.query(User).filter_by(username=u["u"]).first()
+            dept_id = dept_objs[u["d"]].id if u["d"] else None
             if not user:
-                dept_id = dept_objs[u["d"]].id if u["d"] else None
                 user = User(
                     username=u["u"],
                     email=f"{u['u']}@ut.edu.vn",
@@ -108,12 +108,20 @@ def seed_all():
                 )
                 session.add(user)
                 session.flush()
-                
+
                 # Gán Role
                 if u["r"] in role_objs:
                     user_role = UserRole(user_id=user.id, role_id=role_objs[u["r"]].id)
                     session.add(user_role)
-            
+            else:
+                # Ensure seeded test users have werkzeug-hashed passwords (migrate old bcrypt hashes)
+                user.password_hash = default_pass
+                # Ensure role assignment exists
+                existing_role = session.query(UserRole).filter_by(user_id=user.id).first()
+                if not existing_role and u["r"] in role_objs:
+                    user_role = UserRole(user_id=user.id, role_id=role_objs[u["r"]].id)
+                    session.add(user_role)
+
             user_objs[u["u"]] = user
         session.flush()
 

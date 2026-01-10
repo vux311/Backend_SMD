@@ -12,6 +12,7 @@ import uuid
 from datetime import date
 
 import requests
+import json
 try:
     from colorama import Fore, Style, init as colorama_init
 except Exception:
@@ -167,12 +168,18 @@ def run():
     resp = get(f'/syllabuses/{syllabus_id}/details', token=token)
     expect_status(step, resp, 200)
     detail = resp.json()
+    # Debug: dump details
+    try:
+        print(Fore.CYAN + json.dumps(detail, indent=2, ensure_ascii=False))
+    except Exception:
+        pass
     # Check CLO presence
     clos = detail.get('clos', [])
     if not any(c.get('id') == clo_id for c in clos):
         fail(step, 'CLO not found in syllabus details')
     # Check component presence inside assessment_schemes
-    schemes = detail.get('assessment_schemes', [])
+    # API returns camelCase via BaseSchema; support both for robustness
+    schemes = detail.get('assessmentSchemes') or detail.get('assessment_schemes', [])
     found_comp = False
     for s in schemes:
         for c in s.get('components', []):

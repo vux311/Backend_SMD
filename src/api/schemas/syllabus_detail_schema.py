@@ -1,6 +1,7 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
+from .base_schema import BaseSchema
 
-class SyllabusDetailSchema(Schema):
+class SyllabusDetailSchema(BaseSchema):
     id = fields.Int(dump_only=True)
     subject_id = fields.Int(required=True)
     program_id = fields.Int(required=True)

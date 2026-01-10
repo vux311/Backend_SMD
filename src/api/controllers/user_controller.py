@@ -3,6 +3,7 @@ from dependency_injector.wiring import inject, Provide
 from dependency_container import Container
 from services.user_service import UserService
 from api.schemas.user_schema import UserSchema
+from api.middleware import token_required
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 
@@ -46,6 +47,25 @@ def get_user(id: int, user_service: UserService = Provide[Container.user_service
           description: Not found
     """
     user = user_service.get_user(id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    return jsonify(schema.dump(user)), 200
+
+
+@user_bp.route('/me', methods=['GET'])
+@inject
+@token_required
+def get_me(user_service: UserService = Provide[Container.user_service]):
+    """Get current user from token
+    """
+    from flask import request
+    payload = getattr(request, 'user', None)
+    if not payload:
+        return jsonify({'message': 'User not found in token'}), 404
+    user_id = payload.get('user_id')
+    if not user_id:
+        return jsonify({'message': 'user_id missing in token'}), 400
+    user = user_service.get_user(user_id)
     if not user:
         return jsonify({'message': 'User not found'}), 404
     return jsonify(schema.dump(user)), 200
@@ -115,30 +135,3 @@ def update_user(id: int, user_service: UserService = Provide[Container.user_serv
     if not user:
         return jsonify({'message': 'User not found'}), 404
     return jsonify(schema.dump(user)), 200
-
-
-@user_bp.route('/<int:id>', methods=['DELETE'])
-@inject
-def delete_user(id: int, user_service: UserService = Provide[Container.user_service]):
-    """Delete user
-    ---
-    delete:
-      summary: Delete user
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        204:
-          description: Deleted
-        404:
-          description: User not found
-    """
-    ok = user_service.delete_user(id)
-    if not ok:
-        return jsonify({'message': 'User not found'}), 404
-    return '', 204

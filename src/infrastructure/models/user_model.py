@@ -28,7 +28,7 @@ class User(Base):
     
     # Lưu ý: Cập nhật tên relationship nếu file_model dùng tên class là File
     avatar_file = relationship("File", foreign_keys=[avatar_file_id])
-    uploaded_files = relationship("File", back_populates="uploader", foreign_keys="[File.uploader_id]")
+    uploaded_files = relationship("File", back_populates="uploader", foreign_keys="File.uploader_id")
     
     roles = relationship("UserRole", back_populates="user")
     syllabuses = relationship("Syllabus", back_populates="lecturer")

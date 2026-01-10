@@ -1,5 +1,5 @@
 from typing import List, Optional
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from infrastructure.repositories.user_repository import UserRepository
 
 class UserService:
@@ -28,3 +28,11 @@ class UserService:
 
     def delete_user(self, id: int) -> bool:
         return self.repository.delete(id)
+
+    def authenticate(self, username: str, password: str):
+        user = self.get_by_username(username)
+        if not user:
+            return None
+        if not check_password_hash(user.password_hash, password):
+            return None
+        return user

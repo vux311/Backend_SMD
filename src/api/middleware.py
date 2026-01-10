@@ -1,31 +1,42 @@
 # Middleware functions for processing requests and responses
 
-from flask import request, jsonify, current_app
-from werkzeug.exceptions import HTTPException
-import logging
-
+from flask import  request, jsonify
 
 def log_request_info(app):
     app.logger.debug('Headers: %s', request.headers)
     app.logger.debug('Body: %s', request.get_data())
 
-
 def handle_options_request():
     return jsonify({'message': 'CORS preflight response'}), 200
 
+from flask import current_app
+from werkzeug.exceptions import HTTPException
+import traceback
 
 def error_handling_middleware(error):
-    # Preserve HTTPException responses (e.g., redirects, 404/405) instead of masking them
+    # Handle HTTP exceptions (e.g., BadRequest) with their status codes
     if isinstance(error, HTTPException):
-        return error
+        response = jsonify({'error': error.description})
+        response.status_code = error.code or 400
+        return response
 
-    # Log full exception traceback for diagnostics
+    # Log unexpected exceptions with traceback
     try:
-        current_app.logger.exception('Unhandled exception during request')
+        current_app.logger.exception(error)
     except Exception:
-        logging.exception('Unhandled exception during request (logger unavailable)')
+        pass
 
-    response = jsonify({'error': str(error)})
+    tb = None
+    try:
+        tb = traceback.format_exc()
+    except Exception:
+        tb = None
+
+    payload = {'error': str(error)}
+    if getattr(current_app, 'debug', False) and tb:
+        payload['traceback'] = tb
+
+    response = jsonify(payload)
     response.status_code = 500
     return response
 
@@ -54,17 +65,28 @@ def middleware(app):
         return handle_options_request()
 
 
-# Simple token decorator for demo purposes
+# Token decorator verifying JWT
+import jwt
+from config import Config
+
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        from flask import request
+        from flask import request, make_response
+        # Allow preflight CORS requests through without authentication
+        if request.method == 'OPTIONS':
+            return make_response('', 200)
         auth = request.headers.get('Authorization', '')
         if not auth or not auth.startswith('Bearer '):
             return jsonify({'message': 'Authorization token is missing'}), 401
         token = auth.split(' ', 1)[1]
-        # Very simple token check for demo
-        if not token.startswith('fake-jwt-token'):
+        try:
+            payload = jwt.decode(token, Config.SECRET_KEY, algorithms=['HS256'])
+            # Optionally attach user info to request context
+            request.user = payload
+        except jwt.ExpiredSignatureError:
+            return jsonify({'message': 'Token expired'}), 401
+        except jwt.InvalidTokenError:
             return jsonify({'message': 'Invalid token'}), 401
         return f(*args, **kwargs)
 
