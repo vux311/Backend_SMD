@@ -10,6 +10,21 @@ schema = CloPloMappingSchema()
 @clo_plo_mapping_bp.route('/', methods=['POST'])
 @inject
 def create_mapping(service: CloPloMappingService = Provide[Container.clo_plo_mapping_service]):
+    """
+    Create CLO-PLO Mapping
+    ---
+    tags:
+      - Mappings (CLO-PLO)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CloPloMapping'
+    responses:
+      201: {description: Created}
+      400: {description: Error}
+    """
     data = request.get_json() or {}
     errors = schema.validate(data)
     if errors:
@@ -23,6 +38,19 @@ def create_mapping(service: CloPloMappingService = Provide[Container.clo_plo_map
 @clo_plo_mapping_bp.route('/<int:id>', methods=['DELETE'])
 @inject
 def delete_mapping(id: int, service: CloPloMappingService = Provide[Container.clo_plo_mapping_service]):
+    """
+    Delete CLO-PLO Mapping
+    ---
+    tags:
+      - Mappings (CLO-PLO)
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: {type: integer}
+    responses:
+      204: {description: Deleted}
+    """
     ok = service.delete_mapping(id)
     if not ok:
         return jsonify({'message': 'Mapping not found'}), 404

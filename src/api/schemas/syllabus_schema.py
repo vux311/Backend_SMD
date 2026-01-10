@@ -13,8 +13,8 @@ class SyllabusSchema(BaseSchema):
     status = fields.Str(dump_only=True)
     version = fields.Str(load_default="1.0", validate=Length(max=10))
     
-    # FIX: time_allocation as Dict
-    time_allocation = fields.Dict(allow_none=True)
+    # FIX: time_allocation as Dict -> Use Raw to accept DB-stored JSON string
+    time_allocation = fields.Raw(allow_none=True)  # Changed from Dict to Raw to handle DB String
     prerequisites = fields.Str(load_default=None)
     publish_date = fields.DateTime(load_default=None)
 

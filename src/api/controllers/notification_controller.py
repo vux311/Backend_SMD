@@ -12,7 +12,20 @@ schema = NotificationSchema()
 @inject
 @token_required
 def get_my_notifications(service: NotificationService = Provide[Container.notification_service]):
-    # In production, get user_id from token. For demo, we might read header or assume user_id=1 if not parsed.
+    """
+    Get current user's notifications
+    ---
+    tags:
+      - Notifications
+    parameters:
+      - name: unread
+        in: query
+        type: boolean
+        description: Filter by unread only
+    responses:
+      200:
+        description: List of notifications
+    """
     user_id = getattr(request, 'user', {}).get('user_id')
     if not user_id:
          return jsonify({'message': 'User context missing'}), 401
@@ -24,6 +37,20 @@ def get_my_notifications(service: NotificationService = Provide[Container.notifi
 @inject
 @token_required
 def mark_read(id: int, service: NotificationService = Provide[Container.notification_service]):
+    """
+    Mark a notification as read
+    ---
+    tags:
+      - Notifications
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: {type: integer}
+    responses:
+      200:
+        description: Marked as read
+    """
     ok = service.mark_read(id)
     if not ok:
         return jsonify({'message': 'Notification not found'}), 404

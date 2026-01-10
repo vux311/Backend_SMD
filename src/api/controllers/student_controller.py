@@ -11,20 +11,61 @@ rep_schema = StudentReportSchema()
 @student_bp.route('/subscribe', methods=['POST'])
 @inject
 def subscribe(service: StudentService = Provide[Container.student_service]):
+    """
+    Student subscribes to a subject
+    ---
+    tags:
+      - Student Features
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              student_id: {type: integer}
+              subject_id: {type: integer}
+    responses:
+      201:
+        description: Subscription created
+    """
     data = request.get_json() or {}
-    # In production get user_id from token
-    item = service.subscribe(data['student_id'], data['subject_id'])
+    item = service.subscribe(data.get('student_id'), data.get('subject_id'))
     return jsonify(sub_schema.dump(item)), 201
 
 @student_bp.route('/report', methods=['POST'])
 @inject
 def report(service: StudentService = Provide[Container.student_service]):
+    """
+    Student reports an issue with a syllabus
+    ---
+    tags:
+      - Student Features
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StudentReport'
+    responses:
+      201:
+        description: Report created
+    """
     data = request.get_json() or {}
-    item = service.report_syllabus(data['student_id'], data['syllabus_id'], data['content'])
+    item = service.report_syllabus(data.get('student_id'), data.get('syllabus_id'), data.get('content'))
     return jsonify(rep_schema.dump(item)), 201
 
 @student_bp.route('/reports', methods=['GET'])
 @inject
 def list_reports(service: StudentService = Provide[Container.student_service]):
+    """
+    List all student reports (Admin)
+    ---
+    tags:
+      - Student Features
+    responses:
+      200:
+        description: List of reports
+    """
     items = service.list_reports()
     return jsonify(rep_schema.dump(items, many=True)), 200
