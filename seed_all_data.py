@@ -1,8 +1,8 @@
 import sys
 import os
-from werkzeug.security import generate_password_hash
-from datetime import datetime, date
 import json
+from datetime import datetime, date
+from werkzeug.security import generate_password_hash
 
 # --- CẤU HÌNH ĐƯỜNG DẪN IMPORT ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,10 +16,10 @@ try:
     from infrastructure.models import (
         User, Role, UserRole, Faculty, Department, Program, ProgramOutcome,
         Subject, AcademicYear, Syllabus, SyllabusClo, SyllabusMaterial,
-        TeachingPlan, AssessmentScheme, AssessmentComponent, Rubric
+        TeachingPlan, AssessmentScheme, AssessmentComponent, Rubric,
+        CloPloMapping, AssessmentClo, SubjectRelationship,
+        SystemSetting, StudentSubscription, StudentReport, Notification
     )
-    # Import thêm bảng phụ nếu cần
-    from infrastructure.models.workflow_state_model import WorkflowState
 except ImportError as e:
     print(f"❌ Lỗi Import: {e}")
     sys.exit(1)
@@ -27,232 +27,304 @@ except ImportError as e:
 # ----------------------------------------
 
 def hash_password(password: str) -> str:
-    """Hash password using werkzeug.generate_password_hash"""
     return generate_password_hash(password)
 
 def seed_all():
-    print("🌱 Bắt đầu nạp dữ liệu mẫu (Seeding)...")
+    print("🌱 Bắt đầu nạp dữ liệu mẫu (Full Enterprise Version)...")
     
-    # 1. Tạo Tables
+    # 1. Reset Database (Optional - cẩn thận khi dùng trên Prod)
+    # Base.metadata.drop_all(bind=engine)
     try:
         Base.metadata.create_all(bind=engine)
+        print("✅ Đã kiểm tra/tạo bảng Database.")
     except Exception as e:
         print(f"⚠️ Cảnh báo tạo bảng: {e}")
 
     try:
-        # --- 2. ROLES ---
-        print("... Seeding Roles")
-        roles_data = {
-            "Admin": "Quản trị hệ thống",
-            "Lecturer": "Giảng viên",
-            "Head of Dept": "Trưởng bộ môn",
-            "Academic Affairs": "Phòng đào tạo",
-            "Student": "Sinh viên"
-        }
-        role_objs = {}
-        for name, desc in roles_data.items():
-            role = session.query(Role).filter_by(name=name).first()
-            if not role:
-                role = Role(name=name, description=desc)
-                session.add(role)
-            role_objs[name] = role
+        # ==========================================
+        # PHẦN 1: HỆ THỐNG & CẤU HÌNH
+        # ==========================================
+        print("🔹 1. Seeding System Settings...")
+        settings = [
+            ("PASSING_GRADE", "4.0", "FLOAT", "Điểm sàn qua môn"),
+            ("MAX_FILE_SIZE", "10", "INT", "Kích thước file tối đa (MB)"),
+            ("CURRENT_TERM", "HK1_2025", "STRING", "Học kỳ hiện tại"),
+            ("ALLOW_STUDENT_COMMENT", "True", "BOOLEAN", "Cho phép sinh viên bình luận"),
+            ("AI_MODEL_VERSION", "gemini-2.5-flash", "STRING", "Model AI mặc định")
+        ]
+        for key, val, type_, desc in settings:
+            if not session.query(SystemSetting).filter_by(key=key).first():
+                session.add(SystemSetting(key=key, value=val, type=type_, description=desc))
         session.flush()
 
-        # --- 3. FACULTY & DEPARTMENT ---
-        print("... Seeding Faculty & Departments")
-        faculty = session.query(Faculty).filter_by(code="CNTT").first()
-        if not faculty:
-            faculty = Faculty(code="CNTT", name="Công nghệ thông tin")
-            session.add(faculty)
+        # ==========================================
+        # PHẦN 2: TỔ CHỨC & NGƯỜI DÙNG
+        # ==========================================
+        print("🔹 2. Seeding Roles, Faculties, Departments, Users...")
+        
+        # Roles
+        roles_data = ["Admin", "Lecturer", "Head of Dept", "Academic Affairs", "Student", "Dean"]
+        role_objs = {}
+        for r_name in roles_data:
+            role = session.query(Role).filter_by(name=r_name).first()
+            if not role:
+                role = Role(name=r_name, description=f"Vai trò {r_name}")
+                session.add(role)
+            role_objs[r_name] = role
+        session.flush()
+
+        # Faculty
+        fit = session.query(Faculty).filter_by(code="FIT").first()
+        if not fit:
+            fit = Faculty(code="FIT", name="Công nghệ Thông tin")
+            session.add(fit)
             session.flush()
 
-        depts_data = [
-            {"code": "CNPM", "name": "Kỹ thuật phần mềm"},
-            {"code": "KHMT", "name": "Khoa học máy tính"},
-            {"code": "HTTT", "name": "Hệ thống thông tin"}
+        # Departments
+        depts = [
+            ("SE", "Kỹ thuật Phần mềm"),
+            ("CS", "Khoa học Máy tính"),
+            ("IS", "Hệ thống Thông tin")
         ]
         dept_objs = {}
-        for d in depts_data:
-            dept = session.query(Department).filter_by(code=d["code"]).first()
-            if not dept:
-                dept = Department(code=d["code"], name=d["name"], faculty_id=faculty.id)
-                session.add(dept)
-            dept_objs[d["code"]] = dept
+        for code, name in depts:
+            d = session.query(Department).filter_by(code=code).first()
+            if not d:
+                d = Department(code=code, name=name, faculty_id=fit.id)
+                session.add(d)
+            dept_objs[code] = d
         session.flush()
 
-        # --- 4. USERS ---
-        print("... Seeding Users")
-        users_data = [
-            {"u": "admin", "n": "Quản Trị Viên", "r": "Admin", "d": None},
-            {"u": "gv1", "n": "Nguyễn Văn A", "r": "Lecturer", "d": "CNPM"},
-            {"u": "gv2", "n": "Trần Thị B", "r": "Lecturer", "d": "KHMT"},
-            {"u": "hod1", "n": "TS. Lê Văn C", "r": "Head of Dept", "d": "CNPM"},
-            {"u": "aa1", "n": "Phòng Đào Tạo", "r": "Academic Affairs", "d": None},
-            {"u": "sv1", "n": "Sinh Viên Test", "r": "Student", "d": "CNPM"},
+        # Users
+        users_config = [
+            # Username, Name, Role, Dept Code
+            ("admin", "Super Admin", "Admin", None),
+            ("gv_se", "Nguyễn Văn A (GV)", "Lecturer", "SE"),
+            ("gv_cs", "Trần Thị B (GV)", "Lecturer", "CS"),
+            ("hod_se", "TS. Lê Văn C (Trưởng BM)", "Head of Dept", "SE"),
+            ("aa_user", "Phòng Đào Tạo", "Academic Affairs", None),
+            ("sv_hcmut", "Nguyễn Sinh Viên", "Student", "SE"),
         ]
         
-        user_objs = {}
+        user_map = {}
         default_pass = hash_password("123456")
 
-        for u in users_data:
-            user = session.query(User).filter_by(username=u["u"]).first()
-            dept_id = dept_objs[u["d"]].id if u["d"] else None
-            if not user:
-                user = User(
-                    username=u["u"],
-                    email=f"{u['u']}@ut.edu.vn",
-                    full_name=u["n"],
-                    password_hash=default_pass,
-                    department_id=dept_id,
-                    is_active=True
-                )
-                session.add(user)
-                session.flush()
-
-                # Gán Role
-                if u["r"] in role_objs:
-                    user_role = UserRole(user_id=user.id, role_id=role_objs[u["r"]].id)
-                    session.add(user_role)
-            else:
-                # Ensure seeded test users have werkzeug-hashed passwords (migrate old bcrypt hashes)
-                user.password_hash = default_pass
-                # Ensure role assignment exists
-                existing_role = session.query(UserRole).filter_by(user_id=user.id).first()
-                if not existing_role and u["r"] in role_objs:
-                    user_role = UserRole(user_id=user.id, role_id=role_objs[u["r"]].id)
-                    session.add(user_role)
-
-            user_objs[u["u"]] = user
-        session.flush()
-
-        # --- 5. PROGRAMS ---
-        print("... Seeding Programs")
-        prog = session.query(Program).filter_by(name="Kỹ sư Phần mềm").first()
-        if not prog:
-            prog = Program(department_id=dept_objs["CNPM"].id, name="Kỹ sư Phần mềm", total_credits=150)
-            session.add(prog)
-            session.flush()
+        for uname, fullname, rname, dcode in users_config:
+            u = session.query(User).filter_by(username=uname).first()
+            dept_id = dept_objs[dcode].id if dcode else None
             
-            plos = [
-                ("PLO1", "Áp dụng kiến thức toán học"),
-                ("PLO2", "Phân tích và thiết kế hệ thống"),
-                ("PLO3", "Kỹ năng lập trình chuyên sâu")
-            ]
-            for code, desc in plos:
-                session.add(ProgramOutcome(program_id=prog.id, code=code, description=desc))
+            if not u:
+                u = User(
+                    username=uname, email=f"{uname}@hcmut.edu.vn",
+                    full_name=fullname, password_hash=default_pass,
+                    department_id=dept_id, is_active=True
+                )
+                session.add(u)
+                session.flush()
+                # Assign Role
+                session.add(UserRole(user_id=u.id, role_id=role_objs[rname].id))
+            user_map[uname] = u
         session.flush()
 
-        # --- 6. ACADEMIC YEAR ---
-        print("... Seeding Academic Years")
+        # ==========================================
+        # PHẦN 3: CẤU TRÚC ĐÀO TẠO (MASTER DATA)
+        # ==========================================
+        print("🔹 3. Seeding Academic Master Data...")
+
+        # Academic Year
         ay = session.query(AcademicYear).filter_by(code="2025-2026").first()
         if not ay:
-            ay = AcademicYear(
-                code="2025-2026", 
-                start_date=date(2025, 9, 1), 
-                end_date=date(2026, 6, 30)
-            )
+            ay = AcademicYear(code="2025-2026", start_date=date(2025,9,1), end_date=date(2026,6,30))
             session.add(ay)
-        session.flush()
+            session.flush()
 
-        # --- 7. SUBJECTS ---
-        print("... Seeding Subjects")
-        # Chú ý: Cấu trúc Subject đã thay đổi (name_vi, name_en, credit_theory...)
+        # Program (CTĐT)
+        prog = session.query(Program).filter_by(name="Kỹ sư PM K2025").first()
+        if not prog:
+            prog = Program(department_id=dept_objs["SE"].id, name="Kỹ sư PM K2025", total_credits=150)
+            session.add(prog)
+            session.flush()
+
+        # Program Outcomes (PLOs)
+        plo_objs = []
+        existing_plos = session.query(ProgramOutcome).filter_by(program_id=prog.id).count()
+        if existing_plos == 0:
+            plos_data = [
+                ("PLO1", "Áp dụng kiến thức toán học, khoa học và kỹ thuật"),
+                ("PLO2", "Thiết kế và hiện thực hóa giải pháp phần mềm"),
+                ("PLO3", "Kỹ năng giao tiếp và làm việc nhóm"),
+                ("PLO4", "Nhận thức về đạo đức nghề nghiệp"),
+                ("PLO5", "Khả năng học tập suốt đời")
+            ]
+            for c, d in plos_data:
+                p = ProgramOutcome(program_id=prog.id, code=c, description=d)
+                session.add(p)
+                plo_objs.append(p)
+            session.flush()
+        else:
+            plo_objs = session.query(ProgramOutcome).filter_by(program_id=prog.id).all()
+
+        # Subjects
         subjects_data = [
-            {"code": "IT001", "vi": "Nhập môn Lập trình", "en": "Intro to Programming", "cr": 3},
-            {"code": "SE101", "vi": "Công nghệ Phần mềm", "en": "Software Engineering", "cr": 4},
-            {"code": "WEB01", "vi": "Lập trình Web", "en": "Web Development", "cr": 3},
+            ("IT001", "Nhập môn Lập trình", 3),
+            ("SE104", "Nhập môn CNPM", 3),
+            ("SE301", "Kiểm thử phần mềm", 3),
+            ("SE401", "Đồ án chuyên ngành", 2)
         ]
-        subj_objs = {}
-        for s in subjects_data:
-            subj = session.query(Subject).filter_by(code=s["code"]).first()
-            if not subj:
-                subj = Subject(
-                    department_id=dept_objs["CNPM"].id,
-                    code=s["code"],
-                    name_vi=s["vi"],
-                    name_en=s["en"],
-                    credits=s["cr"],
-                    credit_theory=s["cr"],     # Mặc định lý thuyết = tổng tín chỉ (ví dụ đơn giản)
-                    credit_practice=0,
-                    credit_self_study=s["cr"] * 2
+        subj_map = {}
+        for code, name, cr in subjects_data:
+            s = session.query(Subject).filter_by(code=code).first()
+            if not s:
+                s = Subject(
+                    department_id=dept_objs["SE"].id,
+                    code=code, name_vi=name, name_en=name + " (En)",
+                    credits=cr, credit_theory=cr, credit_practice=0, credit_self_study=cr*2
                 )
-                session.add(subj)
-            subj_objs[s["code"]] = subj
+                session.add(s)
+            subj_map[code] = s
         session.flush()
 
-        # --- 8. SYLLABUS ---
-        print("... Seeding Syllabus")
+        # Subject Relationships (Môn tiên quyết)
+        # IT001 -> SE104
+        rel = session.query(SubjectRelationship).filter_by(subject_id=subj_map["SE104"].id, related_subject_id=subj_map["IT001"].id).first()
+        if not rel:
+            session.add(SubjectRelationship(
+                subject_id=subj_map["SE104"].id, 
+                related_subject_id=subj_map["IT001"].id, 
+                type="PREREQUISITE"
+            ))
+
+        # ==========================================
+        # PHẦN 4: ĐỀ CƯƠNG CHI TIẾT (SYLLABUS FULL)
+        # ==========================================
+        print("🔹 4. Seeding Full Syllabus (Header + Children)...")
         
-        if "WEB01" in subj_objs and "gv1" in user_objs:
-            web_subj = subj_objs["WEB01"]
-            lecturer = user_objs["gv1"]
+        # Tạo Syllabus cho môn SE104
+        target_sub = subj_map["SE104"]
+        lecturer = user_map["gv_se"]
+        
+        syl = session.query(Syllabus).filter_by(subject_id=target_sub.id, version="2.0").first()
+        if not syl:
+            syl = Syllabus(
+                subject_id=target_sub.id,
+                program_id=prog.id,
+                academic_year_id=ay.id,
+                lecturer_id=lecturer.id,
+                status="APPROVED", # Đã duyệt để SV thấy
+                version="2.0",
+                time_allocation=json.dumps({"theory": 30, "practice": 15, "self_study": 90}),
+                prerequisites="IT001 - Nhập môn lập trình",
+                publish_date=datetime.now(),
+                is_active=True
+            )
+            session.add(syl)
+            session.flush()
+
+            # 4.1 Syllabus CLOs
+            clo1 = SyllabusClo(syllabus_id=syl.id, code="CLO1", description="Hiểu các quy trình phát triển phần mềm (Waterfall, Agile)")
+            clo2 = SyllabusClo(syllabus_id=syl.id, code="CLO2", description="Vận dụng kỹ thuật lấy yêu cầu và phân tích")
+            clo3 = SyllabusClo(syllabus_id=syl.id, code="CLO3", description="Thiết kế kiến trúc hệ thống cơ bản")
+            session.add_all([clo1, clo2, clo3])
+            session.flush()
+
+            # 4.2 CLO-PLO Mapping
+            # Map CLO1 -> PLO1 (I), CLO2 -> PLO2 (R), CLO3 -> PLO2 (M)
+            if len(plo_objs) >= 2:
+                session.add(CloPloMapping(syllabus_clo_id=clo1.id, program_plo_id=plo_objs[0].id, level="I"))
+                session.add(CloPloMapping(syllabus_clo_id=clo2.id, program_plo_id=plo_objs[1].id, level="R"))
+                session.add(CloPloMapping(syllabus_clo_id=clo3.id, program_plo_id=plo_objs[1].id, level="M"))
+
+            # 4.3 Materials
+            mat1 = SyllabusMaterial(syllabus_id=syl.id, type="MAIN", title="Software Engineering (10th Edition)", author="Ian Sommerville")
+            mat2 = SyllabusMaterial(syllabus_id=syl.id, type="REFERENCE", title="Clean Code", author="Robert C. Martin")
+            session.add_all([mat1, mat2])
+
+            # 4.4 Teaching Plan
+            plans = [
+                TeachingPlan(syllabus_id=syl.id, week=1, topic="Tổng quan CNPM", activity="Giảng lý thuyết", assessment="Điểm danh"),
+                TeachingPlan(syllabus_id=syl.id, week=2, topic="Quy trình phần mềm", activity="Thảo luận nhóm", assessment="Quiz 1"),
+                TeachingPlan(syllabus_id=syl.id, week=3, topic="Thu thập yêu cầu", activity="Thực hành Lab", assessment="Bài tập 1"),
+            ]
+            session.add_all(plans)
+
+            # 4.5 Assessment Scheme -> Component -> Rubric
+            # Scheme: Quá trình (50%)
+            scheme1 = AssessmentScheme(syllabus_id=syl.id, name="Đánh giá quá trình", weight=50)
+            session.add(scheme1)
+            session.flush()
+
+            comp1 = AssessmentComponent(scheme_id=scheme1.id, name="Đồ án nhóm", weight=30)
+            comp2 = AssessmentComponent(scheme_id=scheme1.id, name="Kiểm tra trắc nghiệm", weight=20)
+            session.add_all([comp1, comp2])
+            session.flush()
+
+            # Mapping Assessment -> CLO
+            # Đồ án nhóm đánh giá CLO2 và CLO3
+            session.add(AssessmentClo(assessment_component_id=comp1.id, syllabus_clo_id=clo2.id))
+            session.add(AssessmentClo(assessment_component_id=comp1.id, syllabus_clo_id=clo3.id))
             
-            existing_syl = session.query(Syllabus).filter_by(subject_id=web_subj.id).first()
-            if not existing_syl:
-                # FIX LỖI: Không truyền 'description' vì model không có cột này
-                syl = Syllabus(
-                    subject_id=web_subj.id,
-                    program_id=prog.id,
-                    academic_year_id=ay.id,
-                    lecturer_id=lecturer.id,
-                    status="Approved",
-                    version="1.0",
-                    # Lưu JSON vào cột Text
-                    time_allocation=json.dumps({"theory": 30, "practice": 15, "self_study": 90}), 
-                    prerequisites="Tin học đại cương",
-                    publish_date=datetime.now(),
-                    is_active=True
-                )
-                session.add(syl)
-                session.flush()
+            # Rubric cho Đồ án nhóm
+            rubric1 = Rubric(component_id=comp1.id, criteria="Tài liệu SRS", max_score=5, description_level_pass="Đầy đủ use case", description_level_fail="Thiếu diagram")
+            rubric2 = Rubric(component_id=comp1.id, criteria="Thiết kế DB", max_score=5, description_level_pass="Chuẩn hóa 3NF", description_level_fail="Sai quan hệ")
+            session.add_all([rubric1, rubric2])
 
-                # 8.1 CLOs (SyllabusClo CÓ cột description)
-                clos = [
-                    SyllabusClo(syllabus_id=syl.id, code="CLO1", description="Hiểu kiến thức cơ bản về Web"),
-                    SyllabusClo(syllabus_id=syl.id, code="CLO2", description="Vận dụng ReactJS xây dựng UI"),
-                    SyllabusClo(syllabus_id=syl.id, code="CLO3", description="Triển khai ứng dụng lên Vercel")
-                ]
-                session.add_all(clos)
-                session.flush()
+            # Scheme: Cuối kỳ (50%)
+            scheme2 = AssessmentScheme(syllabus_id=syl.id, name="Thi cuối kỳ", weight=50)
+            session.add(scheme2)
+            session.flush()
+            
+            comp3 = AssessmentComponent(scheme_id=scheme2.id, name="Bài thi tự luận", weight=50)
+            session.add(comp3)
+            session.flush()
+            # Thi cuối kỳ đánh giá hết
+            session.add(AssessmentClo(assessment_component_id=comp3.id, syllabus_clo_id=clo1.id))
+            session.add(AssessmentClo(assessment_component_id=comp3.id, syllabus_clo_id=clo2.id))
+            session.add(AssessmentClo(assessment_component_id=comp3.id, syllabus_clo_id=clo3.id))
 
-                # 8.2 Teaching Plan
-                plans = [
-                    TeachingPlan(syllabus_id=syl.id, week=1, topic="Tổng quan Web", activity="Giảng lý thuyết", assessment="Điểm danh"),
-                    TeachingPlan(syllabus_id=syl.id, week=2, topic="HTML & CSS", activity="Code demo", assessment="Bài tập về nhà"),
-                ]
-                session.add_all(plans)
+        # ==========================================
+        # PHẦN 5: TÍNH NĂNG SINH VIÊN & THÔNG BÁO
+        # ==========================================
+        print("🔹 5. Seeding Student Features & Notifications...")
+        
+        student = user_map["sv_hcmut"]
+        
+        # Student Subscription (SV đăng ký theo dõi môn SE104)
+        sub = session.query(StudentSubscription).filter_by(student_id=student.id, subject_id=subj_map["SE104"].id).first()
+        if not sub:
+            session.add(StudentSubscription(student_id=student.id, subject_id=subj_map["SE104"].id))
 
-                # 8.3 Materials
-                materials = [
-                    SyllabusMaterial(syllabus_id=syl.id, type="Main", title="Giáo trình Lập trình Web", author="Nguyễn Văn A"),
-                ]
-                session.add_all(materials)
+        # Student Report (SV báo lỗi đề cương)
+        # Chỉ tạo nếu syllabus đã tồn tại
+        if syl:
+            rep = session.query(StudentReport).filter_by(student_id=student.id, syllabus_id=syl.id).first()
+            if not rep:
+                session.add(StudentReport(
+                    student_id=student.id, 
+                    syllabus_id=syl.id, 
+                    content="Mục tài liệu tham khảo link bị hỏng ạ.",
+                    status="PENDING"
+                ))
 
-                # 8.4 Assessment Scheme
-                scheme = AssessmentScheme(syllabus_id=syl.id, name="Đánh giá quá trình", weight=50)
-                session.add(scheme)
-                session.flush()
-
-                comp = AssessmentComponent(scheme_id=scheme.id, name="Đồ án giữa kỳ", weight=50)
-                session.add(comp)
-                session.flush()
-                
-                # Rubric
-                rubric = Rubric(
-                    component_id=comp.id, 
-                    criteria="Giao diện đẹp", 
-                    max_score=10, 
-                    description_level_pass="Đẹp", 
-                    description_level_fail="Xấu"
-                )
-                session.add(rubric)
+        # Notification (Thông báo cho GV)
+        note = session.query(Notification).filter_by(user_id=lecturer.id, title="Hệ thống đã sẵn sàng").first()
+        if not note:
+            session.add(Notification(
+                user_id=lecturer.id,
+                title="Hệ thống đã sẵn sàng",
+                message="Chào mừng bạn đến với hệ thống quản lý đề cương v2.0",
+                type="SYSTEM",
+                is_read=False
+            ))
 
         session.commit()
-        print("✅ Đã nạp dữ liệu thành công! (Seed Completed)")
+        print("\n✅✅✅ SEEDING HOÀN TẤT THÀNH CÔNG! (ALL SYSTEMS GO) ✅✅✅")
+        print(f"👉 Admin: admin / 123456")
+        print(f"👉 Lecturer: gv_se / 123456")
+        print(f"👉 Student: sv_hcmut / 123456")
 
     except Exception as e:
         session.rollback()
-        print(f"❌ Có lỗi xảy ra: {e}")
+        print(f"\n❌ CÓ LỖI XẢY RA: {e}")
         import traceback
         traceback.print_exc()
     finally:

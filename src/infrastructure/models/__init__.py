@@ -15,11 +15,25 @@ from .assessment_scheme_model import AssessmentScheme
 from .assessment_component_model import AssessmentComponent
 from .rubric_model import Rubric
 from .clo_plo_mapping_model import CloPloMapping
+from .assessment_clo_model import AssessmentClo
+from .subject_relationship_model import SubjectRelationship
+from .system_setting_model import SystemSetting
+from .student_subscription_model import StudentSubscription
+from .student_report_model import StudentReport
+from .notification_model import Notification
+from .syllabus_comment_model import SyllabusComment
+from .workflow_log_model import WorkflowLog
+from .workflow_state_model import WorkflowState
+from .workflow_transition_model import WorkflowTransition
+from .syllabus_current_workflow import SyllabusCurrentWorkflow
+from .ai_auditlog_model import AiAuditLog
 
 __all__ = [
     "User", "UserRole", "Role", "Faculty", "Department", "Program",
     "ProgramOutcome", "Subject", "AcademicYear", "Syllabus", "SyllabusClo",
     "SyllabusMaterial", "TeachingPlan", "AssessmentScheme", "AssessmentComponent", "Rubric",
-    "CloPloMapping"
+    "CloPloMapping", "AssessmentClo", "SubjectRelationship", "SystemSetting",
+    "StudentSubscription", "StudentReport", "Notification", "SyllabusComment",
+    "WorkflowLog", "WorkflowState", "WorkflowTransition", "SyllabusCurrentWorkflow",
+    "AiAuditLog"
 ]
- 
